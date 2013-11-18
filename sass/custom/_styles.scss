@@ -1,0 +1,336 @@
+// This File is imported last, and will override other styles in the cascade
+// Add styles here to make changes without digging in too much
+
+/* 自定义的样式 */
+p,blockquote,ul,ol{margin-bottom: 0.618em}  /* 调整行距*/
+/* ul p, ol p { margin-bottom: 0em} */
+
+blockquote{
+	font-family:Arial, 楷体_GB2312, sans-serif;
+}
+
+/* 提示框样式 */
+
+.abstract, .warning{
+	border:none;
+	padding:0.6em 1.25em 0.6em 1.25em;
+	margin-top:0.25em;
+	margin-bottom:0.5em;
+
+	-webkit-border-radius: 8px; 
+	-moz-border-radius: 8px; 
+	border-radius: 8px;
+	
+	-webkit-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.3); 
+	-moz-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.3); 
+	-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.3);  
+}
+
+.abstract{
+	background:#d5e9f6;
+}
+
+.abstract td {
+    vertical-align: baseline;
+}
+
+.warning{
+	background:#f9d9d8 no-repeat left top;
+}
+
+
+
+/* -----表格样式----- */
+
+.datalist{
+    border:1px solid #007eff;
+    border-collapse:collapse;
+	margin: 20px auto 20px auto;
+	
+}
+
+.datalist caption{
+	font-weight:bold;
+	text-align:center;
+}
+
+.datalist th{
+    border:1px solid #429fff;
+    background-color:#d2e8ff;
+    font-weight:bold;
+    padding-top:4px;
+    padding-bottom:4px;
+    padding-left:10px;
+    padding-right:10px;
+    text-align:center;
+}
+
+.datalist td{
+      border:1px solid #429fff;
+      text-align:left;
+      padding:4px;
+}
+
+.datalist tr:hover{
+    background-color:#c4e4fe;
+}
+
+/* -------------- */
+
+.none-left-margin{
+    padding-left: 0;
+}
+
+
+
+/* -----侧边栏样式----- */
+
+#blogroll a{
+    text-decoration:none;
+    
+}
+
+#copyleft a{
+    text-decoration:none;
+}
+
+#comment_sidebar a{
+    text-decoration:none;
+}
+
+#comment_sidebar ul{
+    padding-left:0;
+}
+
+#tag-clouds a{
+    text-decoration:none;
+    line-height: 110%;
+}
+
+#friends-links a{
+    text-decoration:none;
+}
+
+/* 引用 */
+#content blockquote.information {
+  border-left: 12px solid #080;
+  background-color: #bfb;
+  padding: 12px 12px 12px 0;
+  margin-left: -48px;
+  padding-left: 48px; 
+}
+
+#content blockquote.markdown-difference {
+  border-left: 12px solid #dc0;
+  background-color: #ffa;
+  padding: 12px 12px 12px 0;
+  margin-left: -48px;
+  padding-left: 48px; 
+}
+
+#content blockquote.markdown-difference:before {
+    content: "Difference";
+    display: block;
+    font-weight: bold; 
+}
+
+#content blockquote pre {
+  border: none; 
+}
+
+
+/* 表格 */
+#content table.mytable {
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  /*border: solid 1px black;*/
+ /* width: 100%; */
+}
+#content table.mytable td, #content table.mytable th {
+    padding: 3px 5px; 
+    border: solid 1px #070;
+}
+#content table.mytable th {
+    background-color: #080;
+    color: white; 
+}
+
+#content .entry-content > p {
+	text-indent: 2em;
+}
+
+#content .entry-content > p > code {
+	text-indent: 0em;
+}
+
+
+/*--- 关于脚注 ---*/
+div.footnotes{
+	border-top: 1px dashed grey;
+	font-size: 0.8em;
+	
+}
+
+div.footnotes > ol:before{
+	margin-left: -20px;
+	content: "脚注： ";
+}
+
+.footnotes blockquote{
+	font-size: 0.8em;
+}
+
+a[rel="footnote"]:after{
+	content: "]";
+}
+
+a[rel="footnote"]:before{
+	content: "[";
+}
+
+a[rev="footnote"]:after{
+	content: "]";
+}
+
+a[rev="footnote"]:before{
+	content: "[";
+}
+
+/*--- 关于脚注结束 ---*/
+
+
+pre code{
+	color:#DDD;
+}
+
+
+div.showbox{
+	margin: 15px auto 15px auto;
+	background-color: white;
+	border: solid 1px black;
+	padding: 10px 10px 5px 10px;
+
+}
+
+div.sharing{
+	margin-bottom: 25px;
+}
+
+
+// test
+#social-links {
+	left: 20px;
+	position: relative;
+	top: 10px;
+	padding-right: 10px;
+}
+
+#social-links a .github {
+	left: 2px;
+	top: 3px;
+}
+
+#social-links a .sina-weibo {
+    left: 6px;
+    top: 8px;
+}
+
+#social-links a .tencent-weibo {
+    left: 4px;
+    top: 6px;
+}
+
+#social-links a .twitter {
+    left: 3px;
+    top: 2px;
+}
+
+#social-links a svg {
+	position: relative;
+}
+
+#social-links li {
+	background-color: rgba(255, 255, 255, 0.7);
+	border-radius: 35px 35px 35px 35px;
+	height: 35px;
+	line-height: 35px;
+	margin-top: 0px;
+	overflow: hidden;
+	text-align: center;
+	transition: background-color 1s ease-in-out 0s;
+	width: 35px;
+	float: right;
+	margin-right: 10px;
+}
+
+#social-links a {
+    display: inline-block;
+    height: 100%;
+    position: relative;
+    width: 100%;
+}
+
+// share to weibo
+
+.share-to-weibo .sina-weibo {
+	background-position: 0 0;
+}
+
+.share-to-weibo .tencent-weibo {
+	background-position: 0 -16px;
+}
+
+.share-to-weibo .twitter {
+	background-position: 0 -32px;
+}
+
+.share-to-weibo a {
+	background: url("/tech/images/share-icon.png") no-repeat scroll 999px 999px transparent;
+	display: inline-block;
+	height: 16px;
+	margin-right: 4px;
+	width: 16px;
+}
+
+.share-to-weibo {
+	padding-left: 1em;
+	vertical-align: middle;
+}
+
+// toggle for to-do page
+.toggle-del {
+    text-decoration: line-through;
+}
+
+.toggle-title:hover {
+    cursor:pointer;
+    background: rgba(0, 0, 0, 0.75);
+    color: rgba(255,255,255,0.75);
+}
+
+.toggle-title {
+    background: silver;
+    transition: background-color 1s ease-in-out 0s, color 1.5s ease-in-out 0s;
+}
+
+.toggle-box p {
+    margin: 0;
+}
+
+.toggle-box blockquote {
+    color: #888888;
+    font-size: 0.875em;
+    padding-left: 1.8em;
+    padding-right: 2.8em;
+    line-height: 1.2em;
+    border-left: 0;
+    margin: 0 0 0.2em;
+}
+
+.toggle-box blockquote a {
+  color: #888888;
+  @include link-colors(#888888, $hover: $link-color-hover, $focus: $link-color-hover, $visited: $link-color-visited, $active: $link-color-active);
+}
+
+ul.toggle-box { &, ul { margin-left: 2em; }}

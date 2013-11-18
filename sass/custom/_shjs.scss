@@ -1,0 +1,53 @@
+/**
+
+* Highlight
+
+* Railscasts from Textmate
+
+* More: http://shjs.sourceforge.net/
+
+*/
+
+pre[class^='sh-'], .sh-sourcecode {
+    overflow-x: auto;
+    margin-top: 1em;
+    padding: 8px 12px;
+    border: 0px solid #923826;
+    border-left-width: 6px;
+    border-radius: 0 4px 4px 0;
+    background: #300A24;
+    text-shadow: 0 -1px rgba(0, 0, 0, .1);
+    font-size: 15px;
+}
+
+.sh-sourcecode {
+    .sh-type, .sh-keyword, .sh-selector, .sh-preproc {
+        color: #e8bf69;
+    }
+
+    .sh-string, .sh-regexp, .sh-number, .sh-specialchar {
+        color: #a5c160;
+    }
+
+    .sh-property, .sh-value {
+        color: #6e9cbd;
+    }
+
+    .sh-function {
+        color: #da4938;
+    }
+
+    .sh-comment {
+        color: #bc9357;
+        font-style: italic;
+        text-shadow: none;
+    }
+}
+
+.sh-commands code::before {
+
+margin-right: 10px;
+
+content: '$';
+
+}

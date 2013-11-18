@@ -1,0 +1,359 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en" xmlns:wb=“http://open.weibo.com/wb"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>下一代推荐系统 - 杨程的blog</title>
+  <meta name="author" content="杨程">
+
+  
+  <meta name="description" content="">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wxwidget.github.io/blog/2013/08/28/NextGenerationRecSys/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="杨程的blog" type="application/atom+xml">
+
+  <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+
+
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <div style="float:left; width: 500px">
+    <h1><a href="/">杨程的blog</a></h1>
+    
+      <h2>行万里路，读万卷书</h2>
+    
+  </div>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wxwidget.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">博客首页</a></li>
+  <li><a href="/blog/archives">文章列表</a></li>
+  <!--
+  <-li><a href="/categories">标签分类</a></li>
+  <li><a href="/todo">ToDo</a></li>
+  <li><a href="/about">关于</a></li>
+  --!>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">下一代推荐系统</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-28T00:00:00+08:00" pubdate data-updated="true">Aug 28<span>th</span>, 2013</time>
+        
+		
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=下一代推荐系统 - &amp;url=http://wxwidget.github.io/blog/2013/08/28/NextGenerationRecSys/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=下一代推荐系统 - &amp;url=http://wxwidget.github.io/blog/2013/08/28/NextGenerationRecSys/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text= 下一代推荐系统  - &amp;url=http://wxwidget.github.io/blog/2013/08/28/NextGenerationRecSys/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+<div class="entry-content">
+    
+    <h2 id="section">前言</h2>
+<p>讨论祖先和子孙的问题一向是比较困难的事情，
+什么是上一代，他们有什么特点？下一代推荐系统到底是什么？前后代有什么不一样，是什么关键特征定义了下一代？
+本文的重点是，讨论一些论文观点，旨在回答以上的一些疑问
+从Gediminas Adomavicius和Alexander Tuzhilin的Towards the Next Generation of Recommender Systems:A Survey of the State-of-the-Art and Possible Extensions( 这篇文章引用率非常高)来看，我的理解是：</p>
+
+<p>第一代推荐系统主分三类:</p>
+
+<ol>
+  <li>content-based,基于内容的推荐
+    <ul>
+      <li>collaborative,基于协同过滤的推荐</li>
+      <li>hybrid recommendation, 混合型推荐</li>
+    </ul>
+  </li>
+</ol>
+
+<p>第二代推荐系统的主要特点是：</p>
+
+<ol>
+  <li>user和item的理解
+    <ul>
+      <li>结合上下文信息</li>
+      <li>支持多维度的评价指标</li>
+      <li>提供更加有弹性和更少打扰的结果</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="section-1">其人</h2>
+<p><a href="http://ids.csom.umn.edu/faculty/gedas/">Gediminas Adomavicius</a>在推荐系统方面有很多研究, 有兴趣可以看看<a href="http://ids.csom.umn.edu/faculty/gedas/NSFCareer/">CAREER: Next Generation Personalization Technologies</a>,研究主题包括：</p>
+
+<ol>
+  <li>多准则推荐系统
+    <ul>
+      <li>推荐查询语言</li>
+      <li>推荐的多样性</li>
+      <li>时效数据的聚类</li>
+      <li>上下文感知推荐</li>
+      <li>用户偏好对推荐的影响</li>
+      <li>推荐算法的稳定性</li>
+      <li>数据特性对推荐的影响</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="section-2">相关讨论</h2>
+<p>###第一代推荐系统
+早期的推荐系统主要是“评分预测”和“TOPN”预测，不论是哪一种推荐方式，其核心的目标是找到最适合用户c的项集合s，从集合里挑选集合是一个非常复杂的问题优化方案，通常采用的方案是用贪婪的方式，而我们只需要定义一个的效用函数,选取TOPN。</p>
+
+<h4 id="section-3">基于内容的推荐</h4>
+<p>定义效用函数为：用户c和项s的内容上的”相似性”，比如商品推荐中，为了一个用户推荐一款合适的商品，会计算商品和用户历史上看过或者买过的某些特征上的相似性（比如：品牌的偏好，类目的偏好，商品的属性，商品标签等等）。很多推荐都会在有文本的实体上进行推荐，改进的主要思路是：</p>
+
+<ol>
+  <li>扩展实体的文本标记。比如：标签，语义树
+    <ul>
+      <li>用户的文本Profile。比如：taste，preferences,needs。</li>
+    </ul>
+  </li>
+</ol>
+
+<p>因此，基于内容的推荐算法的关键问题是建立，item的content profile和user的content profile。
+对于有问题内容的推荐实体，一般的方法是利用关键词抽取技术，抽取item中最重要的或者最有信息量的一些text。
+第一个任务是选择什么的文本，构建的text从来源上可以分成几个，如果来之item本身的内容，通常称为keywords；
+如果来自用户的标记，通常称为tags；如果来之外部的query，通常称为intents。
+第二个任务是如何在候选词里做weighting和selection。selection的方式一般是用贪心方法，选出topn weighting的词。</p>
+
+<p>构建user的content profile是比较困难的。因为user本生是没有标记的，通常是通过user从前看过的item和当前看过的item做
+标记。从时间的维度上，user的content profile可以分成历史和实时部分，历史部分通常是通过挖掘获取，而实时部分通常是
+通过巧妙的”average”或者model-based的方法发现用户content profile, 比较出名的content-based推荐系统是<a href="https://www.ischool.utexas.edu/~i385q-dt/readings/Balabanovic_Shoham-1997-Fab.pdf" title="Content-based, collaborative recommendation">Fab</a>,
+“adaptive filtering”是一种通过user的浏览记录不断提升精度的content profile构建方式</p>
+
+<h4 id="section-4">协同过滤推荐</h4>
+<p>是大家最为熟悉的推荐算法。算法只涉及到user-item的交互矩阵，推荐方式是Heuristic-based(memory-based)方法（item-based和user-based）和
+model-based的方法，后面发展的一批改进协同过滤算法的策略，比如：</p>
+
+<ol>
+  <li>Default Voting;
+    <ul>
+      <li>Inverse User Frequency;</li>
+      <li>Case Amplification;</li>
+      <li>Weighted-majority Prediction
+当然其他的协同过滤算法也非常多，下次讨论协同过滤算法的时候在仔细探讨</li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="section-5">混合方法，主要是混合基于内容和协同过滤的方法。变种非常多，这里暂不讨论</h4>
+
+<h3 id="section-6">第二代推荐系统</h3>
+
+<ol>
+  <li>model-based的一些变化。谈到第二代，论文提供了一些扩展，比如：model-based方法，通常是基于统计和机器学习的方法，
+后面有演化出一些基于数学近似的方法，我理解的数学近似方法其实很简单，
+就像我们在高中学习的展开式，或者泰勒公式等等，用无穷多的弱项组合成一个误差最小的结果。</li>
+  <li>多维度的推荐。其实目前多数的推荐是单维度的，就是对user进行item的推荐，但是有些应用场景，比如：对住在北京的男性用户进行品牌推荐，
+或者在妇女节给女性用户推荐优惠商品。这些场景下需要推荐从对个维度上考虑问题，所以在多维的推荐系统中需要一个受众定向的功能。</li>
+  <li>多准则的推荐。一般情况下，我们即需要推荐的准确，多样性，惊喜度，时效性，覆盖率等等指标；有时候，我们需要保证推荐的推荐的品质，
+比如高端的品牌推荐，不能给用户推荐一些低质量的品牌商。</li>
+  <li>不打扰。很多系统为了搜集用户的兴趣，有时候会强迫用户给商品打分，这样会干扰用户的行为。
+怎么在用打扰用户的情况下，搜集潜在的用户反馈；对新用户怎么增量的用户信息量最大item，也是快速构建用户profile的一种方式。</li>
+</ol>
+
+<p>当然还有很多推荐系统应该解决的问题和扩展，
+但是，就这样还不能是二代推荐系统的特征, 推荐系统的发展永远是围绕着“用户体验”来做的。</p>
+
+<h3 id="section-7">参考文献</h3>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">杨程</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-28T00:00:00+08:00" pubdate data-updated="true">Aug 28<span>th</span>, 2013</time>
+      
+
+
+      <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=下一代推荐系统 - &amp;url=http://wxwidget.github.io/blog/2013/08/28/NextGenerationRecSys/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=下一代推荐系统 - &amp;url=http://wxwidget.github.io/blog/2013/08/28/NextGenerationRecSys/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text= 下一代推荐系统  - &amp;url=http://wxwidget.github.io/blog/2013/08/28/NextGenerationRecSys/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/08/29/google-ctr/" title="Next Post: google ctr预估系统">google ctr预估系统 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>本人</h1>
+  <p><a href="/about/">更多介绍...</a></p>
+  <p>声明：本站使用的图片等，甚至部分文章都来自网络，原作者享有对著作的一切权利。</p>
+  <p>欢迎在新浪微博上关注我：<wb:follow-button uid="1797403463" type="gray_3" width="100%" height="24" ></wb:follow-button></p>
+</section>
+<section>
+  <h1>最新博文</h1>
+  <ul id="Recent Posts">
+    
+      <li class="post">
+        <a href="/blog/2013/11/14/svm-pegasos/">Pegasos算法</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/11/08/admm-and-large-scale-regression/">ADMM and Large Scale Regression</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/11/06/predictability-and-information-theory/">Predictability and Information Theory</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/21/selecting_contentbased_features/">selecting contentbased features</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/17/pair-wise-learning/">pairwise learning</a>
+      </li>
+    
+  </ul>
+</section>
+<section id="tag-clouds">
+  <h1>分类</h1>
+    <span class="tag-cloud"><a href='/blog/categories/machine-nbsp-learning' style='font-size: 160.0%'>Machine&nbsp;Learning(1)</a> </span>
+</section>
+<section>
+  <h1>友情链接</h1>
+  <ul id="friends-links">
+  </ul>
+</section>
+<section id="tag-clouds" style="text-decoration:none">
+<h1><a href="/recent-comment/">最新评论</a></h1>
+    <script type="text/javascript" src=""></script>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - 杨程 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  <span style="float:right">
+    Statistics by <script type="text/javascript" src="/javascripts/baidu-tongji.js"></script>
+  </span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

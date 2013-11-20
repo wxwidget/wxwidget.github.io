@@ -9,7 +9,8 @@
   <meta name="author" content="杨程">
 
   
-  <meta name="description" content="摘要： 本文介绍了svm的一种online learning算法pegasos，并基于pegasoso算法实现了一个数字手写识别脚本。 本文参考了博文Online Learning in Clojure和论文Pegasos: Primal Estimated sub-GrAdient &hellip;">
+  <meta name="description" content="摘要： 介绍实时推荐系统在电商领域的价值和实现 为什么要实时 每天新发布 每天修改的商品 各种换季、打折、促销、新款、活动 突发事件 新增加用户 用户兴趣漂移 长尾商品更多的曝光机会
+流量动态利用 TIP: 提供一些数据支持，iPV/IPV 用户需求 用户逛的调研 没有购物需求 2.2%, & &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -110,6 +111,106 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/18/realtime-recommender/">实时推荐</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-18T16:25:00+08:00" pubdate data-updated="true">Nov 18<span>th</span>, 2013</time>
+        
+		
+        
+        <span style="text-transform:none">
+		  | Tags: 
+          
+            <a class='category' href='/blog/categories/recommender-nbspsysterm/'>Recommender&nbspSysterm</a>
+          
+        </span>
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=实时推荐 - &amp;url=http://wxwidget.github.io/blog/2013/11/18/realtime-recommender/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=实时推荐 - &amp;url=http://wxwidget.github.io/blog/2013/11/18/realtime-recommender/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=实时推荐  - &amp;url=http://wxwidget.github.io/blog/2013/11/18/realtime-recommender/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <div class="abstract">
+            <table>
+                <tr>
+                    <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
+                    <td>介绍实时推荐系统在电商领域的价值和实现</td>
+                </tr>
+            </table>
+        </div>
+        
+        <h2 id="section">为什么要实时</h2>
+<ol>
+  <li>每天新发布</li>
+  <li>每天修改的商品</li>
+  <li>各种换季、打折、促销、新款、活动</li>
+  <li>突发事件</li>
+  <li>新增加用户</li>
+  <li>用户兴趣漂移</li>
+</ol>
+
+<p>长尾商品更多的曝光机会
+流量动态利用</p>
+
+<p>TIP: 提供一些数据支持，iPV/IPV</p>
+
+<h3 id="section-1">用户需求</h3>
+
+<p>用户逛的调研</p>
+
+<pre><code> 没有购物需求 2.2%, &lt;= 没事就逛逛
+ 想购物还不知道买什么  27.2% &lt;= 看看有没有什么划算的
+ 想买某类东西，还不明确  53.9% &lt;= 好像缺什么东西就逛逛
+ 有明确想买的商品 16.0%  &lt;=确定想买东西,先搜索
+</code></pre>
+
+<h2 id="section-2">多快才是实时</h2>
+
+<p>nextpage</p>
+
+<h2 id="section-3">实时推荐的作用</h2>
+
+<h2 id="section-4">系统架构</h2>
+
+<h2 id="section-5">算法实现</h2>
+
+<h3 id="section-6">分类</h3>
+<p>### 聚类
+### 频繁项集</p>
+
+    </div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -326,7 +427,7 @@ While there are more examples in S
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/10/21/selecting_contentbased_features/">Selecting Contentbased Features</a></h1>
+      <h1 class="entry-title"><a href="/blog/2013/10/21/selecting_contentbased_features/">选择content-based的特征</a></h1>
     
     
       <p class="meta">
@@ -347,9 +448,9 @@ While there are more examples in S
 		
         
         <span class="share-to-weibo">
-  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=selecting contentbased features - &amp;url=http://wxwidget.github.io/blog/2013/10/21/selecting_contentbased_features/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
-  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=selecting contentbased features - &amp;url=http://wxwidget.github.io/blog/2013/10/21/selecting_contentbased_features/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
-  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=selecting contentbased features  - &amp;url=http://wxwidget.github.io/blog/2013/10/21/selecting_contentbased_features/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=选择content-based的特征 - &amp;url=http://wxwidget.github.io/blog/2013/10/21/selecting_contentbased_features/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=选择content-based的特征 - &amp;url=http://wxwidget.github.io/blog/2013/10/21/selecting_contentbased_features/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=选择content-based的特征  - &amp;url=http://wxwidget.github.io/blog/2013/10/21/selecting_contentbased_features/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
 </span>
  
       </p>
@@ -421,9 +522,11 @@ While there are more examples in S
 
 <p><strong>常用方法</strong>：收集用户的profile和偏好， 计算用户和社区的相似程度</p>
 
-<p>\begin{aligned}
-Sim(u,y) = \sum_{i=1}^n(w_i f_u\^i f_y\^i)
-\end{aligned} </p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+Sim(u,y) = \sum_{i=1}^n(w_i f_u^i f_y^i)
+\end{aligned} 
+</script>
 
 <p>计算相识度的算法非常多，
 启发式方法: 利用启发式公式，计算用户和社区的相似程度。
@@ -519,6 +622,107 @@ pointwise的假设是用户的喜好是全局的，用户对候选的表现是�
 
 <ul>
   <li><a href="http://static.googleusercontent.com/external_content/untrusted_dlcp/research.google.com/zh-CN//pubs/archive/35662.pdf">Large Scale Learning to Rank at google</a></li>
+</ul>
+
+
+    </div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/14/cold_start_solution/">冷启动问题求解</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-14T10:49:00+08:00" pubdate data-updated="true">Oct 14<span>th</span>, 2013</time>
+        
+		
+        
+        <span style="text-transform:none">
+		  | Tags: 
+          
+            <a class='category' href='/blog/categories/recommender-nbspsysterm/'>Recommender&nbspSysterm</a>
+          
+        </span>
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=冷启动问题求解 - &amp;url=http://wxwidget.github.io/blog/2013/10/14/cold_start_solution/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=冷启动问题求解 - &amp;url=http://wxwidget.github.io/blog/2013/10/14/cold_start_solution/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=冷启动问题求解  - &amp;url=http://wxwidget.github.io/blog/2013/10/14/cold_start_solution/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <div class="abstract">
+            <table>
+                <tr>
+                    <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
+                    <td>本文介绍冷启动的问题以及常用的求解思路</td>
+                </tr>
+            </table>
+        </div>
+        
+        <h2 id="section">冷启动问题的解决</h2>
+
+<p>冷启动问题的分类：</p>
+
+<ol>
+  <li>用户冷启动（新用户来了）；</li>
+  <li>物品冷启动（新物品来了）；</li>
+  <li>系统冷启动（整个推荐系统都是新的，也可以认为，它和“用户冷启动”的区别是，所有用户对系统冷启动来讲都是新用户，都面临冷启动问题）</li>
+</ol>
+
+<p>冷启动是稀疏数据问题一种特殊形态。用户跟系统的交互非常少，导致可以利用的数据比较小,也很难为用户建立Profile和兴趣,因此会导致一般的推荐算法失效。</p>
+
+<p>冷启动问题的解决方案：说白了，就是尽可能利用信息给用户一个可以接受的物品列表，最常见的就是热门排行。</p>
+
+<p>有的是根据冷启动问题分类来的，有的是从解决方案（能利用用户什么类型信息）来的。</p>
+
+<h3 id="section-1">启发式方法</h3>
+
+<pre><code>Linear combination of regression and CF models
+Filterbot Add user features as psuedo users and do collaborative filtering
+Hybrid approaches Use content based to fill up entries, then use CF
+</code></pre>
+
+<p>http://grouplens.org/papers/pdf/filterbot-CSCW98.pdf</p>
+
+<h3 id="matrix-factorization">Matrix Factorization</h3>
+<p>Good performance on Netflix (Koren, 2009)</p>
+
+<h3 id="model-based-approaches">Model-based approaches</h3>
+
+<ul>
+  <li>Bilinear random-effects model (probabilistic matrix factorization)</li>
+  <li>Good on Netflix data [Ruslan et al ICML, 2009]</li>
+  <li>Add feature-based regression to matrix factorization 
+(Agarwal and Chen, 2009)</li>
+  <li>Add topic discovery (from textual items) to matrix factorization 
+(Agarwal and Chen, 2009; Chun and Blei, 2011)</li>
 </ul>
 
 
@@ -695,160 +899,9 @@ pointwise的假设是用户的喜好是全局的，用户对候选的表现是�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/28/NextGenerationRecSys/">下一代推荐系统</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-28T00:00:00+08:00" pubdate data-updated="true">Aug 28<span>th</span>, 2013</time>
-        
-		
-        
-        <span class="share-to-weibo">
-  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=下一代推荐系统 - &amp;url=http://wxwidget.github.io/blog/2013/08/28/NextGenerationRecSys/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
-  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=下一代推荐系统 - &amp;url=http://wxwidget.github.io/blog/2013/08/28/NextGenerationRecSys/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
-  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=下一代推荐系统  - &amp;url=http://wxwidget.github.io/blog/2013/08/28/NextGenerationRecSys/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
-</span>
- 
-      </p>
-    
-  </header>
-
-
-    <div class="entry-content">
-        
-        <h2 id="section">前言</h2>
-<p>讨论祖先和子孙的问题一向是比较困难的事情，
-什么是上一代，他们有什么特点？下一代推荐系统到底是什么？前后代有什么不一样，是什么关键特征定义了下一代？
-本文的重点是，讨论一些论文观点，旨在回答以上的一些疑问
-从Gediminas Adomavicius和Alexander Tuzhilin的Towards the Next Generation of Recommender Systems:A Survey of the State-of-the-Art and Possible Extensions( 这篇文章引用率非常高)来看，我的理解是：</p>
-
-<p>第一代推荐系统主分三类:</p>
-
-<ol>
-  <li>content-based,基于内容的推荐
-    <ul>
-      <li>collaborative,基于协同过滤的推荐</li>
-      <li>hybrid recommendation, 混合型推荐</li>
-    </ul>
-  </li>
-</ol>
-
-<p>第二代推荐系统的主要特点是：</p>
-
-<ol>
-  <li>user和item的理解
-    <ul>
-      <li>结合上下文信息</li>
-      <li>支持多维度的评价指标</li>
-      <li>提供更加有弹性和更少打扰的结果</li>
-    </ul>
-  </li>
-</ol>
-
-<h2 id="section-1">其人</h2>
-<p><a href="http://ids.csom.umn.edu/faculty/gedas/">Gediminas Adomavicius</a>在推荐系统方面有很多研究, 有兴趣可以看看<a href="http://ids.csom.umn.edu/faculty/gedas/NSFCareer/">CAREER: Next Generation Personalization Technologies</a>,研究主题包括：</p>
-
-<ol>
-  <li>多准则推荐系统
-    <ul>
-      <li>推荐查询语言</li>
-      <li>推荐的多样性</li>
-      <li>时效数据的聚类</li>
-      <li>上下文感知推荐</li>
-      <li>用户偏好对推荐的影响</li>
-      <li>推荐算法的稳定性</li>
-      <li>数据特性对推荐的影响</li>
-    </ul>
-  </li>
-</ol>
-
-<h2 id="section-2">相关讨论</h2>
-<p>###第一代推荐系统
-早期的推荐系统主要是“评分预测”和“TOPN”预测，不论是哪一种推荐方式，其核心的目标是找到最适合用户c的项集合s，从集合里挑选集合是一个非常复杂的问题优化方案，通常采用的方案是用贪婪的方式，而我们只需要定义一个的效用函数,选取TOPN。</p>
-
-<h4 id="section-3">基于内容的推荐</h4>
-<p>定义效用函数为：用户c和项s的内容上的”相似性”，比如商品推荐中，为了一个用户推荐一款合适的商品，会计算商品和用户历史上看过或者买过的某些特征上的相似性（比如：品牌的偏好，类目的偏好，商品的属性，商品标签等等）。很多推荐都会在有文本的实体上进行推荐，改进的主要思路是：</p>
-
-<ol>
-  <li>扩展实体的文本标记。比如：标签，语义树
-    <ul>
-      <li>用户的文本Profile。比如：taste，preferences,needs。</li>
-    </ul>
-  </li>
-</ol>
-
-<p>因此，基于内容的推荐算法的关键问题是建立，item的content profile和user的content profile。
-对于有问题内容的推荐实体，一般的方法是利用关键词抽取技术，抽取item中最重要的或者最有信息量的一些text。
-第一个任务是选择什么的文本，构建的text从来源上可以分成几个，如果来之item本身的内容，通常称为keywords；
-如果来自用户的标记，通常称为tags；如果来之外部的query，通常称为intents。
-第二个任务是如何在候选词里做weighting和selection。selection的方式一般是用贪心方法，选出topn weighting的词。</p>
-
-<p>构建user的content profile是比较困难的。因为user本生是没有标记的，通常是通过user从前看过的item和当前看过的item做
-标记。从时间的维度上，user的content profile可以分成历史和实时部分，历史部分通常是通过挖掘获取，而实时部分通常是
-通过巧妙的”average”或者model-based的方法发现用户content profile, 比较出名的content-based推荐系统是<a href="https://www.ischool.utexas.edu/~i385q-dt/readings/Balabanovic_Shoham-1997-Fab.pdf" title="Content-based, collaborative recommendation">Fab</a>,
-“adaptive filtering”是一种通过user的浏览记录不断提升精度的content profile构建方式</p>
-
-<h4 id="section-4">协同过滤推荐</h4>
-<p>是大家最为熟悉的推荐算法。算法只涉及到user-item的交互矩阵，推荐方式是Heuristic-based(memory-based)方法（item-based和user-based）和
-model-based的方法，后面发展的一批改进协同过滤算法的策略，比如：</p>
-
-<ol>
-  <li>Default Voting;
-    <ul>
-      <li>Inverse User Frequency;</li>
-      <li>Case Amplification;</li>
-      <li>Weighted-majority Prediction
-当然其他的协同过滤算法也非常多，下次讨论协同过滤算法的时候在仔细探讨</li>
-    </ul>
-  </li>
-</ol>
-
-<h4 id="section-5">混合方法，主要是混合基于内容和协同过滤的方法。变种非常多，这里暂不讨论</h4>
-
-<h3 id="section-6">第二代推荐系统</h3>
-
-<ol>
-  <li>model-based的一些变化。谈到第二代，论文提供了一些扩展，比如：model-based方法，通常是基于统计和机器学习的方法，
-后面有演化出一些基于数学近似的方法，我理解的数学近似方法其实很简单，
-就像我们在高中学习的展开式，或者泰勒公式等等，用无穷多的弱项组合成一个误差最小的结果。</li>
-  <li>多维度的推荐。其实目前多数的推荐是单维度的，就是对user进行item的推荐，但是有些应用场景，比如：对住在北京的男性用户进行品牌推荐，
-或者在妇女节给女性用户推荐优惠商品。这些场景下需要推荐从对个维度上考虑问题，所以在多维的推荐系统中需要一个受众定向的功能。</li>
-  <li>多准则的推荐。一般情况下，我们即需要推荐的准确，多样性，惊喜度，时效性，覆盖率等等指标；有时候，我们需要保证推荐的推荐的品质，
-比如高端的品牌推荐，不能给用户推荐一些低质量的品牌商。</li>
-  <li>不打扰。很多系统为了搜集用户的兴趣，有时候会强迫用户给商品打分，这样会干扰用户的行为。
-怎么在用打扰用户的情况下，搜集潜在的用户反馈；对新用户怎么增量的用户信息量最大item，也是快速构建用户profile的一种方式。</li>
-</ol>
-
-<p>当然还有很多推荐系统应该解决的问题和扩展，
-但是，就这样还不能是二代推荐系统的特征, 推荐系统的发展永远是围绕着“用户体验”来做的。</p>
-
-<h3 id="section-7">参考文献</h3>
-
-    </div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/2/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -867,6 +920,10 @@ model-based的方法，后面发展的一批改进协同过滤算法的策略，
   <ul id="Recent Posts">
     
       <li class="post">
+        <a href="/blog/2013/11/18/realtime-recommender/">实时推荐</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/11/14/svm-pegasos/">Pegasos算法</a>
       </li>
     
@@ -879,18 +936,14 @@ model-based的方法，后面发展的一批改进协同过滤算法的策略，
       </li>
     
       <li class="post">
-        <a href="/blog/2013/10/21/selecting_contentbased_features/">selecting contentbased features</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/10/17/pair-wise-learning/">pairwise learning</a>
+        <a href="/blog/2013/10/21/selecting_contentbased_features/">选择content-based的特征</a>
       </li>
     
   </ul>
 </section>
 <section id="tag-clouds">
   <h1>分类</h1>
-    <span class="tag-cloud"><a href='/blog/categories/machine-nbsp-learning' style='font-size: 160.0%'>Machine&nbsp;Learning(1)</a> </span>
+    <span class="tag-cloud"><a href='/blog/categories/machine-nbsp-learning' style='font-size: 130.0%'>Machine&nbsp;Learning(1)</a> <a href='/blog/categories/recommender-nbspsysterm' style='font-size: 160.0%'>Recommender&nbspSysterm(2)</a> </span>
 </section>
 <section>
   <h1>友情链接</h1>

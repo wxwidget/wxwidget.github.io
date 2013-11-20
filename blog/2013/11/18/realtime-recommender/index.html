@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en" xmlns:wb=“http://open.weibo.com/wb"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>google ctr预估系统 - 杨程的blog</title>
+  <title>实时推荐 - 杨程的blog</title>
   <meta name="author" content="杨程">
 
   
-  <meta name="description" content="">
+  <meta name="description" content="摘要： 介绍实时推荐系统在电商领域的价值和实现 为什么要实时 每天新发布 每天修改的商品 各种换季、打折、促销、新款、活动 突发事件 新增加用户 用户兴趣漂移 长尾商品更多的曝光机会
+流量动态利用 TIP: 提供一些数据支持，iPV/IPV 用户需求 用户逛的调研 没有购物需求 2.2%, & &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://wxwidget.github.io/blog/2013/08/29/google-ctr/">
+  <link rel="canonical" href="http://wxwidget.github.io/blog/2013/11/18/realtime-recommender/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -82,7 +83,7 @@
   
   <header>
     
-      <h1 class="entry-title">Google Ctr预估系统</h1>
+      <h1 class="entry-title">实时推荐</h1>
     
     
       <p class="meta">
@@ -98,14 +99,21 @@
   
 
 
-<time datetime="2013-08-29T00:00:00+08:00" pubdate data-updated="true">Aug 29<span>th</span>, 2013</time>
+<time datetime="2013-11-18T16:25:00+08:00" pubdate data-updated="true">Nov 18<span>th</span>, 2013</time>
         
 		
         
+        <span style="text-transform:none">
+		  | Tags: 
+          
+            <a class='category' href='/blog/categories/recommender-nbspsysterm/'>Recommender&nbspSysterm</a>
+          
+        </span>
+        
         <span class="share-to-weibo">
-  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=google ctr预估系统 - &amp;url=http://wxwidget.github.io/blog/2013/08/29/google-ctr/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
-  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=google ctr预估系统 - &amp;url=http://wxwidget.github.io/blog/2013/08/29/google-ctr/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
-  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text= google ctr预估系统  - &amp;url=http://wxwidget.github.io/blog/2013/08/29/google-ctr/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=实时推荐 - &amp;url=http://wxwidget.github.io/blog/2013/11/18/realtime-recommender/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=实时推荐 - &amp;url=http://wxwidget.github.io/blog/2013/11/18/realtime-recommender/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text= 实时推荐  - &amp;url=http://wxwidget.github.io/blog/2013/11/18/realtime-recommender/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
 </span>
  
       </p>
@@ -115,12 +123,53 @@
 
 <div class="entry-content">
     
-    <h2 id="section">简介</h2>
-<p>kdd2013 google的论文就像一枚重磅炸弹 Ad Click Prediction: a View from the Trenches</p>
+    <div class="abstract">
+        <table>
+            <tr>
+                <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
+                <td>介绍实时推荐系统在电商领域的价值和实现</td>
+            </tr>
+        </table>
+    </div>
+    
+    <h2 id="section">为什么要实时</h2>
+<ol>
+  <li>每天新发布</li>
+  <li>每天修改的商品</li>
+  <li>各种换季、打折、促销、新款、活动</li>
+  <li>突发事件</li>
+  <li>新增加用户</li>
+  <li>用户兴趣漂移</li>
+</ol>
 
-<h2 id="section-1">算法</h2>
-<p>##工程考虑
-##结语</p>
+<p>长尾商品更多的曝光机会
+流量动态利用</p>
+
+<p>TIP: 提供一些数据支持，iPV/IPV</p>
+
+<h3 id="section-1">用户需求</h3>
+
+<p>用户逛的调研</p>
+
+<pre><code> 没有购物需求 2.2%, &lt;= 没事就逛逛
+ 想购物还不知道买什么  27.2% &lt;= 看看有没有什么划算的
+ 想买某类东西，还不明确  53.9% &lt;= 好像缺什么东西就逛逛
+ 有明确想买的商品 16.0%  &lt;=确定想买东西,先搜索
+</code></pre>
+
+<h2 id="section-2">多快才是实时</h2>
+
+<p>nextpage</p>
+
+<h2 id="section-3">实时推荐的作用</h2>
+
+<h2 id="section-4">系统架构</h2>
+
+<h2 id="section-5">算法实现</h2>
+
+<h3 id="section-6">分类</h3>
+<p>### 聚类
+### 频繁项集</p>
 </div>
 
 
@@ -143,14 +192,20 @@
   
 
 
-<time datetime="2013-08-29T00:00:00+08:00" pubdate data-updated="true">Aug 29<span>th</span>, 2013</time>
+<time datetime="2013-11-18T16:25:00+08:00" pubdate data-updated="true">Nov 18<span>th</span>, 2013</time>
       
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/recommender-nbspsysterm/'>Recommender&nbspSysterm</a>
+  
+</span>
 
 
       <span class="share-to-weibo">
-  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=google ctr预估系统 - &amp;url=http://wxwidget.github.io/blog/2013/08/29/google-ctr/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
-  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=google ctr预估系统 - &amp;url=http://wxwidget.github.io/blog/2013/08/29/google-ctr/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
-  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text= google ctr预估系统  - &amp;url=http://wxwidget.github.io/blog/2013/08/29/google-ctr/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=实时推荐 - &amp;url=http://wxwidget.github.io/blog/2013/11/18/realtime-recommender/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=实时推荐 - &amp;url=http://wxwidget.github.io/blog/2013/11/18/realtime-recommender/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text= 实时推荐  - &amp;url=http://wxwidget.github.io/blog/2013/11/18/realtime-recommender/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
 </span>
 
     </p>
@@ -164,10 +219,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/08/28/NextGenerationRecSys/" title="Previous Post: 下一代推荐系统">&laquo; 下一代推荐系统</a>
+        <a class="basic-alignment left" href="/blog/2013/11/14/svm-pegasos/" title="Previous Post: Pegasos算法">&laquo; Pegasos算法</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/09/10/challenge_of_recsys/" title="Next Post: 推荐系统的挑战">推荐系统的挑战 &raquo;</a>
       
     </p>
   </footer>

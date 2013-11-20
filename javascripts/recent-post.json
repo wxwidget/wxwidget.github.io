@@ -1,6 +1,12 @@
 [
 
 {
+    "title":"实时推荐", 
+    "url":"http://wxwidget.github.io/blog/2013/11/18/realtime-recommender/", 
+    "date":"2013-11-18"
+}
+,
+{
     "title":"Pegasos算法", 
     "url":"http://wxwidget.github.io/blog/2013/11/14/svm-pegasos/", 
     "date":"2013-11-14"
@@ -19,15 +25,9 @@
 }
 ,
 {
-    "title":"selecting contentbased features", 
+    "title":"选择content-based的特征", 
     "url":"http://wxwidget.github.io/blog/2013/10/21/selecting_contentbased_features/", 
     "date":"2013-10-21"
-}
-,
-{
-    "title":"pairwise learning", 
-    "url":"http://wxwidget.github.io/blog/2013/10/17/pair-wise-learning/", 
-    "date":"2013-10-17"
 }
 
 ]

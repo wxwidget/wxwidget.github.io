@@ -17,12 +17,16 @@
         <lastmod>2013-11-18T10:49:37+08:00</lastmod>
     </url>
     <url>
+        <loc>http://wxwidget.github.io/blog/2013/10/14/cold_start_solution/</loc>
+        <lastmod>2013-11-18T17:00:00+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://wxwidget.github.io/blog/2013/10/17/pair-wise-learning/</loc>
-        <lastmod>2013-11-18T10:49:37+08:00</lastmod>
+        <lastmod>2013-11-18T16:51:23+08:00</lastmod>
     </url>
     <url>
         <loc>http://wxwidget.github.io/blog/2013/10/21/selecting_contentbased_features/</loc>
-        <lastmod>2013-11-18T10:49:37+08:00</lastmod>
+        <lastmod>2013-11-18T17:02:49+08:00</lastmod>
     </url>
     <url>
         <loc>
@@ -36,7 +40,11 @@
     </url>
     <url>
         <loc>http://wxwidget.github.io/blog/2013/11/14/svm-pegasos/</loc>
-        <lastmod>2013-11-18T10:51:33+08:00</lastmod>
+        <lastmod>2013-11-18T16:51:24+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://wxwidget.github.io/blog/2013/11/18/realtime-recommender/</loc>
+        <lastmod>2013-11-19T15:14:24+08:00</lastmod>
     </url>
     <url>
         <loc>http://wxwidget.github.io/javascripts/recent-post.json</loc>
@@ -56,11 +64,11 @@
     </url>
     <url>
         <loc>http://wxwidget.github.io/</loc>
-        <lastmod>2013-11-18T10:51:33+08:00</lastmod>
+        <lastmod>2013-11-19T15:14:24+08:00</lastmod>
     </url>
     <url>
         <loc>http://wxwidget.github.io/blog/archives/</loc>
-        <lastmod>2013-11-18T10:51:33+08:00</lastmod>
+        <lastmod>2013-11-19T15:14:24+08:00</lastmod>
     </url>
     <url>
         <loc>http://wxwidget.github.io/recent-comment/</loc>

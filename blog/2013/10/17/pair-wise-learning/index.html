@@ -33,6 +33,37 @@
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
 
+<!--JS for show math symbols -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
 
 
 
@@ -125,9 +156,11 @@
 
 <p><strong>常用方法</strong>：收集用户的profile和偏好， 计算用户和社区的相似程度</p>
 
-<p>\begin{aligned}
-Sim(u,y) = \sum_{i=1}^n(w_i f_u\^i f_y\^i)
-\end{aligned} </p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+Sim(u,y) = \sum_{i=1}^n(w_i f_u^i f_y^i)
+\end{aligned} 
+</script>
 
 <p>计算相识度的算法非常多，
 启发式方法: 利用启发式公式，计算用户和社区的相似程度。
@@ -268,10 +301,10 @@ pointwise的假设是用户的喜好是全局的，用户对候选的表现是�
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/09/10/diversity_similarity/" title="Previous Post: 推荐系统多样性的问题">&laquo; 推荐系统多样性的问题</a>
+        <a class="basic-alignment left" href="/blog/2013/10/14/cold_start_solution/" title="Previous Post: 冷启动问题求解">&laquo; 冷启动问题求解</a>
       
       
-        <a class="basic-alignment right" href="/blog/2013/10/21/selecting_contentbased_features/" title="Next Post: selecting contentbased features">selecting contentbased features &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2013/10/21/selecting_contentbased_features/" title="Next Post: 选择content-based的特征">选择content-based的特征 &raquo;</a>
       
     </p>
   </footer>
@@ -292,6 +325,10 @@ pointwise的假设是用户的喜好是全局的，用户对候选的表现是�
   <ul id="Recent Posts">
     
       <li class="post">
+        <a href="/blog/2013/11/18/realtime-recommender/">实时推荐</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/11/14/svm-pegasos/">Pegasos算法</a>
       </li>
     
@@ -304,18 +341,14 @@ pointwise的假设是用户的喜好是全局的，用户对候选的表现是�
       </li>
     
       <li class="post">
-        <a href="/blog/2013/10/21/selecting_contentbased_features/">selecting contentbased features</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/10/17/pair-wise-learning/">pairwise learning</a>
+        <a href="/blog/2013/10/21/selecting_contentbased_features/">选择content-based的特征</a>
       </li>
     
   </ul>
 </section>
 <section id="tag-clouds">
   <h1>分类</h1>
-    <span class="tag-cloud"><a href='/blog/categories/machine-nbsp-learning' style='font-size: 160.0%'>Machine&nbsp;Learning(1)</a> </span>
+    <span class="tag-cloud"><a href='/blog/categories/machine-nbsp-learning' style='font-size: 130.0%'>Machine&nbsp;Learning(1)</a> <a href='/blog/categories/recommender-nbspsysterm' style='font-size: 160.0%'>Recommender&nbspSysterm(2)</a> </span>
 </section>
 <section>
   <h1>友情链接</h1>

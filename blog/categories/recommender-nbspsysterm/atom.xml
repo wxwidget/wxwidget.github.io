@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[分类: Recommender&nbspSysterm | 杨程的blog]]></title>
+  <link href="http://wxwidget.github.io/blog/categories/recommender-nbspsysterm/atom.xml" rel="self"/>
+  <link href="http://wxwidget.github.io/"/>
+  <updated>2013-11-19T15:14:24+08:00</updated>
+  <id>http://wxwidget.github.io/</id>
+  <author>
+    <name><![CDATA[杨程]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[实时推荐]]></title>
+    <link href="http://wxwidget.github.io/blog/2013/11/18/realtime-recommender/"/>
+    <updated>2013-11-18T16:25:00+08:00</updated>
+    <id>http://wxwidget.github.io/blog/2013/11/18/realtime-recommender</id>
+    <content type="html"><![CDATA[<h2 id="section">为什么要实时</h2>
+<ol>
+  <li>每天新发布</li>
+  <li>每天修改的商品</li>
+  <li>各种换季、打折、促销、新款、活动</li>
+  <li>突发事件</li>
+  <li>新增加用户</li>
+  <li>用户兴趣漂移</li>
+</ol>
+
+<p>长尾商品更多的曝光机会
+流量动态利用</p>
+
+<p>TIP: 提供一些数据支持，iPV/IPV</p>
+
+<h3 id="section-1">用户需求</h3>
+
+<p>用户逛的调研</p>
+
+<pre><code> 没有购物需求 2.2%, &lt;= 没事就逛逛
+ 想购物还不知道买什么  27.2% &lt;= 看看有没有什么划算的
+ 想买某类东西，还不明确  53.9% &lt;= 好像缺什么东西就逛逛
+ 有明确想买的商品 16.0%  &lt;=确定想买东西,先搜索
+</code></pre>
+
+<h2 id="section-2">多快才是实时</h2>
+
+<p>nextpage</p>
+
+<h2 id="section-3">实时推荐的作用</h2>
+
+<h2 id="section-4">系统架构</h2>
+
+<h2 id="section-5">算法实现</h2>
+
+<h3 id="section-6">分类</h3>
+<p>### 聚类
+### 频繁项集</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[冷启动问题求解]]></title>
+    <link href="http://wxwidget.github.io/blog/2013/10/14/cold_start_solution/"/>
+    <updated>2013-10-14T10:49:00+08:00</updated>
+    <id>http://wxwidget.github.io/blog/2013/10/14/cold_start_solution</id>
+    <content type="html"><![CDATA[<h2 id="section">冷启动问题的解决</h2>
+
+<p>冷启动问题的分类：</p>
+
+<ol>
+  <li>用户冷启动（新用户来了）；</li>
+  <li>物品冷启动（新物品来了）；</li>
+  <li>系统冷启动（整个推荐系统都是新的，也可以认为，它和“用户冷启动”的区别是，所有用户对系统冷启动来讲都是新用户，都面临冷启动问题）</li>
+</ol>
+
+<p>冷启动是稀疏数据问题一种特殊形态。用户跟系统的交互非常少，导致可以利用的数据比较小,也很难为用户建立Profile和兴趣,因此会导致一般的推荐算法失效。</p>
+
+<p>冷启动问题的解决方案：说白了，就是尽可能利用信息给用户一个可以接受的物品列表，最常见的就是热门排行。</p>
+
+<p>有的是根据冷启动问题分类来的，有的是从解决方案（能利用用户什么类型信息）来的。</p>
+
+<h3 id="section-1">启发式方法</h3>
+
+<pre><code>Linear combination of regression and CF models
+Filterbot Add user features as psuedo users and do collaborative filtering
+Hybrid approaches Use content based to fill up entries, then use CF
+</code></pre>
+
+<p>http://grouplens.org/papers/pdf/filterbot-CSCW98.pdf</p>
+
+<h3 id="matrix-factorization">Matrix Factorization</h3>
+<p>Good performance on Netflix (Koren, 2009)</p>
+
+<h3 id="model-based-approaches">Model-based approaches</h3>
+
+<ul>
+  <li>Bilinear random-effects model (probabilistic matrix factorization)</li>
+  <li>Good on Netflix data [Ruslan et al ICML, 2009]</li>
+  <li>Add feature-based regression to matrix factorization 
+(Agarwal and Chen, 2009)</li>
+  <li>Add topic discovery (from textual items) to matrix factorization 
+(Agarwal and Chen, 2009; Chun and Blei, 2011)</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

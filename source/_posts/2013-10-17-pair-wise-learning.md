@@ -3,6 +3,7 @@ layout: post
 title: "pairwise learning"
 description: ""
 category: 
+math: true 
 tags: []
 ---
 
@@ -16,9 +17,11 @@ tags: []
 
 **常用方法**：收集用户的profile和偏好， 计算用户和社区的相似程度
 
+$$
 \begin{aligned}
-Sim(u,y) = \sum_{i=1}^n(w_i f_u\^i f_y\^i)
+Sim(u,y) = \sum_{i=1}^n(w_i f_u^i f_y^i)
 \end{aligned} 
+$$
 
 计算相识度的算法非常多，
 启发式方法: 利用启发式公式，计算用户和社区的相似程度。

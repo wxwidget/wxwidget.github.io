@@ -1,4 +1,14 @@
-##冷启动问题的解决
+---
+layout: post
+title: "冷启动问题求解"
+date: 2013-10-14 10:49
+comments: true
+categories: Recommender&nbspSysterm
+math: true 
+abstract: 本文介绍冷启动的问题以及常用的求解思路
+---
+
+## 冷启动问题的解决
 
 冷启动问题的分类：
 
@@ -12,7 +22,7 @@
 
 有的是根据冷启动问题分类来的，有的是从解决方案（能利用用户什么类型信息）来的。
 
-####启发式方法
+###启发式方法
 
     Linear combination of regression and CF models
     Filterbot Add user features as psuedo users and do collaborative filtering
@@ -20,10 +30,10 @@
 
 http://grouplens.org/papers/pdf/filterbot-CSCW98.pdf
 
-####Matrix Factorization
+###Matrix Factorization
 Good performance on Netflix (Koren, 2009)
 
-####Model-based approaches
+###Model-based approaches
 
 - Bilinear random-effects model (probabilistic matrix factorization)
 - Good on Netflix data [Ruslan et al ICML, 2009]

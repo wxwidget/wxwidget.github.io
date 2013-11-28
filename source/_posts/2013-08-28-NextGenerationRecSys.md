@@ -1,51 +1,54 @@
 ---
 layout: post
 title: "下一代推荐系统"
-description: ""
-category:
-tags: []
+date: 2013-08-08 10:47
+categories: Recommender&nbspSysterm
+abstract: "主要围绕Gediminas等的论文，讨论下一代推荐系统的形态"
 ---
 
 ##前言
-讨论祖先和子孙的问题一向是比较困难的事情，
-什么是上一代，他们有什么特点？下一代推荐系统到底是什么？前后代有什么不一样，是什么关键特征定义了下一代？
+
+讨论祖先和子孙的问题一向是比较困难的事情，什么是上一代，他们有什么特点？下一代推荐系统到底是什么？前后代有什么不一样，是什么关键特征定义了下一代？
 本文的重点是，讨论一些论文观点，旨在回答以上的一些疑问
-从Gediminas Adomavicius和Alexander Tuzhilin的Towards the Next Generation of Recommender Systems:A Survey of the State-of-the-Art and Possible Extensions( 这篇文章引用率非常高)来看，我的理解是：
+从Gediminas Adomavicius和Alexander Tuzhilin的Towards the Next Generation of Recommender Systems:
+A Survey of the State-of-the-Art and Possible Extensions来看(这篇文章引用率非常高)，我的理解是：
 
 第一代推荐系统主分三类:
 
 1. content-based,基于内容的推荐
-- collaborative,基于协同过滤的推荐
-- hybrid recommendation, 混合型推荐
+2. collaborative,基于协同过滤的推荐
+3. hybrid recommendation, 混合型推荐
 
 第二代推荐系统的主要特点是：
 
 1. user和item的理解
-- 结合上下文信息
-- 支持多维度的评价指标
-- 提供更加有弹性和更少打扰的结果
+2. 结合上下文信息
+3. 支持多维度的评价指标
+4. 提供更加有弹性和更少打扰的结果
 
 ##其人
 [Gediminas Adomavicius](http://ids.csom.umn.edu/faculty/gedas/)在推荐系统方面有很多研究, 有兴趣可以看看[CAREER: Next Generation Personalization Technologies](http://ids.csom.umn.edu/faculty/gedas/NSFCareer/),研究主题包括：
 
 1. 多准则推荐系统
--  推荐查询语言
--  推荐的多样性
--  时效数据的聚类
--  上下文感知推荐
--  用户偏好对推荐的影响
--  推荐算法的稳定性
--  数据特性对推荐的影响
+2.  推荐查询语言
+3.  推荐的多样性
+4.  时效数据的聚类
+5.  上下文感知推荐
+6.  用户偏好对推荐的影响
+7.  推荐算法的稳定性
+8.  数据特性对推荐的影响
 
 ##相关讨论
+
 ###第一代推荐系统
+
 早期的推荐系统主要是“评分预测”和“TOPN”预测，不论是哪一种推荐方式，其核心的目标是找到最适合用户c的项集合s，从集合里挑选集合是一个非常复杂的问题优化方案，通常采用的方案是用贪婪的方式，而我们只需要定义一个的效用函数,选取TOPN。
 
 ####基于内容的推荐
 定义效用函数为：用户c和项s的内容上的"相似性"，比如商品推荐中，为了一个用户推荐一款合适的商品，会计算商品和用户历史上看过或者买过的某些特征上的相似性（比如：品牌的偏好，类目的偏好，商品的属性，商品标签等等）。很多推荐都会在有文本的实体上进行推荐，改进的主要思路是：
 
 1. 扩展实体的文本标记。比如：标签，语义树
--  用户的文本Profile。比如：taste，preferences,needs。
+2. 用户的文本Profile。比如：taste，preferences,needs。
 
 因此，基于内容的推荐算法的关键问题是建立，item的content profile和user的content profile。
 对于有问题内容的推荐实体，一般的方法是利用关键词抽取技术，抽取item中最重要的或者最有信息量的一些text。
@@ -63,9 +66,9 @@ tags: []
 model-based的方法，后面发展的一批改进协同过滤算法的策略，比如：
 
 1. Default Voting;
-- Inverse User Frequency;
-- Case Amplification;
-- Weighted-majority Prediction
+2. Inverse User Frequency;
+3. Case Amplification;
+4. Weighted-majority Prediction
 当然其他的协同过滤算法也非常多，下次讨论协同过滤算法的时候在仔细探讨
 
 ####混合方法，主要是混合基于内容和协同过滤的方法。变种非常多，这里暂不讨论

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "selecting contentbased features"
+title: "选择content-based的特征"
 description: ""
 category: 
 tags: [collaborative filtering]

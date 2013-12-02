@@ -3,7 +3,7 @@ layout: post
 title: "CTR Prediction 3.0"
 date: 2013-11-22 10:47
 comments: true
-categories: Recommender&nbspSysterm,CTR&nbspPrediction
+categories: Recommender&nbspSysterm CTR&nbspPrediction
 abstract: "点击预估现状分析和提升计划，目标是提供稳定的,统一的CTR预估服务"
 ---
 

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "30天学30种技术"
+title: "30天学30种技术[转]"
 date: 2013-12-03 13:31
 comments: true
 categories: "新技术"

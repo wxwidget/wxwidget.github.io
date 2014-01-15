@@ -24,7 +24,7 @@
     $ gem install bundle 
     $ bundle install 
     ```
-5.Install the default theme:
+5. Install the default theme:
 
     ```bash
     $ rake install
@@ -41,7 +41,7 @@
     ```bash
     $ rake preview
     ```
-8.写文章 
+8. 写文章 
 
     ```bash
     $ rake 'new_post["title"]'

@@ -1,0 +1,27 @@
+---
+layout: post
+title: "广告基础"
+date: 2013-12-12 14:20
+comments: true
+categories: "广告技术"
+abstract: 涉及精准广告投放的基础知识，比如：定向技术，基础模型等。会不断补充。
+---
+### 技术层面
+
+1. Paper
+    - 雅虎研究院的publication。
+    - Google的publication： [Ad Click Prediction: a View from the Trenches](http://research.google.com/pubs/pub41159.html)。该文探讨既有online训练特性，又能获得sparse模型的FTRL-Proximal算法。论文还阐述了很多实用技巧，包括给各个维度用上不同的学习率，用更少的bits去存储参数等。这个算法不单适用于对CTR问题的LR建模，也适合于其他使用online gradient descent方法的场景。
+
+### 业务层面
+
+- 精准广告定向
+    一篇[总结](http://www.iamniu.com/2012/05/26/summary-internet-precise-ad-targeting-technology/?hmsr=top%20main%20content&hmmd=&hmpl=&hmkw=&hmci=)，该文介绍了User-Agent、Cookie、各种定向技术和网络广告反作弊，并侧重在业务介绍。该文博主的[首页](http://www.iamniu.com/)
+- 在线展示广告
+    在线展示广告的[进化](http://wayinwayout.com/%E5%9C%A8%E7%BA%BF%E5%B1%95%E7%A4%BA%E5%B9%BF%E5%91%8A%E7%9A%84%E8%BF%9B%E5%8C%96-evolution-online-display-advertising/)，从Ad network谈到Ad Exchange（RTB）。
+
+### 技术课程
+
+1. [刘鹏计算广告学（video）](http://study.163.com/course/courseMain.htm?courseId=321007#/courseMain)
+2. [斯坦福大学的计算广告学（slide）](https://www.stanford.edu/class/msande239/)
+3. [百度的计算广告学（video）](http://guanggaoxue.csdn.net/module/zone/baidu_data/index#video_course)
+4. [百度在清华大学开的计算广告学（slide）](http://ctech.baidu.com/?r=courses/content&c_id=203&qq-pf-to=pcqq.c2c)

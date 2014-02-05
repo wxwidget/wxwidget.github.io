@@ -1,0 +1,492 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en" xmlns:wb=“http://open.weibo.com/wb"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>机器学习在个性化推荐中的应用 - Yang Cheng</title>
+  <meta name="author" content="杨程">
+
+  
+  <meta name="description" content="摘要： 以两个典型案例说明机器学习作为生产力, 如何适应需求, 推动业务发展 引子 受众: 技术杂志的读者，受过计算机教育但是领域比较泛。要求有简单的数学基础和机器学习的背景知识。 主题：不讲机器学习算法是什么,讲学习算法如何和应用场景结合的问题 逻辑: 发现问题-分析问题-解决问题 正篇 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wxwidget.github.io/blog/2013/12/04/learning-to-recommendation/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Yang Cheng" type="application/atom+xml">
+
+  <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
+
+  <link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <!--link href="/stylesheets/bootstrap.min.css" media="screen, projection" rel="stylesheet" type="text/css" /-->
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+
+<!--JS for show math symbols -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <div style="float:left; width: 500px">
+    <h1><a href="/">Yang Cheng</a></h1>
+    
+      <h2>行万里路，读万卷书</h2>
+    
+  </div>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wxwidget.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">博客首页</a></li>
+  <li><a href="/blog/archives">文章列表</a></li>
+  <li><a href="/todo">ToDo</a></li>
+  <li><a href="/paper/">论文阅读</a></li>
+  <li><a href="/project/index.html">推荐项目</a></li>
+
+  <!--
+  <-li><a href="/categories">标签分类</a></li>
+
+  <li><a href="/about">关于</a></li>
+  --!>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">机器学习在个性化推荐中的应用</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-04T11:38:00+08:00" pubdate data-updated="true">Dec 4<span>th</span>, 2013</time>
+        
+		
+        
+        <span style="text-transform:none">
+		  | Tags: 
+          
+            <a class='category' href='/blog/categories/machine-nbsp-learning/'>Machine&nbsp;Learning</a>, <a class='category' href='/blog/categories/recommender-nbspsysterm/'>Recommender&nbspSysterm</a>
+          
+        </span>
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=机器学习在个性化推荐中的应用 - &amp;url=http://wxwidget.github.io/blog/2013/12/04/learning-to-recommendation/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=机器学习在个性化推荐中的应用 - &amp;url=http://wxwidget.github.io/blog/2013/12/04/learning-to-recommendation/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text= 机器学习在个性化推荐中的应用  - &amp;url=http://wxwidget.github.io/blog/2013/12/04/learning-to-recommendation/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+<div class="entry-content">
+    
+    <div class="abstract">
+        <table>
+            <tr>
+                <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
+                <td>以两个典型案例说明机器学习作为生产力, 如何适应需求, 推动业务发展</td>
+            </tr>
+        </table>
+    </div>
+    
+    <h2 id="section">引子</h2>
+
+<ul>
+  <li>受众: 技术杂志的读者，受过计算机教育但是领域比较泛。要求有简单的数学基础和机器学习的背景知识。</li>
+  <li>主题：不讲机器学习算法是什么,讲学习算法如何和应用场景结合的问题</li>
+  <li>逻辑: 发现问题-分析问题-解决问题</li>
+</ul>
+
+<h2 id="section-1">正篇</h2>
+
+<p>双11对消费者来说是一场空前的购物狂欢，对技术人员来说更像一场盛大的技术嘉年华。</p>
+
+<p>2013年以前，天猫的推荐一直采用传统的协同过滤的启发式公式方法，特别是item based 方法，item based 算法在描述商品与商品相似度方面是非常优秀的，但是当我们遇到如下两个问题时，便捉襟见肘了：1) 当商品之间的关系可以由多个维度来描述，比如用户行为和文本相似性，如何来融合这些维度算法的权重？2) 当需要基于用户的实时数据（通常有数十个维度），预测用户的偏好，如何确定这些特征的权重？</p>
+
+<p>今年，我们大量的采用了机器学习算法提升用户体验，有效的改善了当前的业务现状, 同时利用大数据的优势，产生了新的生产力。</p>
+
+<p>在典型的业务场景中，机器学习主要用于购物链路的导购：</p>
+
+<ul>
+  <li>交易前类目品牌购买预测</li>
+  <li>交易中相似和搭配购买推荐</li>
+  <li>交易后回路引流</li>
+</ul>
+
+<p>在双11场景中,机器学习在预热期、活动中、活动结束后3个时间段发挥不同的作用。</p>
+
+<ul>
+  <li>在预热期主要用于引导用户关注品牌定制双11;引导将商品加入购物车和收藏夹加快购物效率;同时搜集用户购买意向，预测用户在类目和品牌的购买倾向。</li>
+  <li>在活动中对用户进行个性化引导，一方面利用历史数据，算法学习出用户的偏好和意图，使得一进入天猫页面给与最直接的个性化冲击。比如在首页的个性化品牌，我的双11页面的品牌活动，无线会场的个性化等等。 另一方面，发挥集体智慧优势挖掘商品、品牌或者类目之间的关联关系，帮助用户寻找更合适的相似替换商品、提供更加合理的购买搭配。比如：在下架页的相似推荐，加入购物车后的搭配推荐。</li>
+  <li>活动结束后，调整算法模型，平衡日常模型和活动模型的效果。即要剔除异常数据使得日常推荐体验不下降, 又要起到清尾货保证活动部分延续性的作用。</li>
+</ul>
+
+<p>可以看到机器学习应用的业务场景繁多, 业务目标不一样，算法的设计也会千差万别, 
+因此，下面的内容不会涉及到全部的应用场景，而是通过两个基本的机器学习案例来讨论天猫是如何根据业务场景来设计机器学习算法的。
+以下的文章结构安排如下：先讨论用户的偏好预测和在线点击率预估两个案例，然后综合两个案例介绍天猫如何应对大规模的机器学习的挑战。</p>
+
+<h2 id="section-2">机器学习是如何工作的</h2>
+
+<p>如何在复杂的场景中抓住算法设计的核心，是机器学习应用的主要挑战。 在应用层面上，业务目标决定算法形态。
+比如当业务强调浏览深度的时候，算法上目标上就需要偏向与高质量的集合形式候选的推荐, 定义多维度的质量或者抽取提炼体现质量维度的特征等；
+如果业务强调召回降低基尼系数，算法上要控制流量，在准确率和召回率之间找到业务平衡点，融入尾部优势的特征,调整正负样本比率和样本的权重等。</p>
+
+<p>尽管业务变幻莫测, 我们还是能抽丝剥茧, 找到机器学习算法上的是抽象一致的本质。
+天猫推荐在机器学习实践中使用的主要技术是：</p>
+
+<ul>
+  <li>分类/回归模型</li>
+  <li>自动化参数</li>
+  <li>多模型融合</li>
+  <li>海量数据和分布式</li>
+</ul>
+
+<p>以例为证：</p>
+
+<h3 id="section-3">用户的偏好预测</h3>
+
+<p>电商领域的偏好一般是指用户长期积累起来的购物行为惯性。所以在预测偏好时，通常会选用大粒度,更抽象的维度去预测，
+我们会在离线预测用户品牌和类目的购买偏好。类目偏好和品牌偏好类似，所以这里只以品牌偏好为例子。</p>
+
+<ul>
+  <li><strong>问题1</strong>：给定用户U和品牌列表L，从中选择N个品牌作为列表候选。 </li>
+  <li><strong>问题2</strong>：给定用户U和品牌列表L，预测当天用户U对品牌B的产生行为的可能性。通常行为指的是点击、购买、收藏等</li>
+</ul>
+
+<p>如果假设用户对品牌的感知是独立的，那么<strong>问题1</strong>可以简化成TOPN的问题，<strong>问题2</strong>的TOPN解可以作为<strong>问题1</strong>的答案。
+我们通过构造分类模型来预测用户对品牌的偏好程度，求解问题。</p>
+
+<ul>
+  <li>
+    <p>数据。数据的真实性和充分性决定了算法的效果, 如何挑选数据是机器学习算法最重要的第一步。
+在Netflix影视推荐中，可以用用户电影评分做预测。 在天猫业务中这种常用的显式表达的数据是缺失的,
+我们只能利用隐式的用户行为推测偏好。一种方法是以用户对品牌产生行为的类型、次数和时间衰变映射到得分，然后再转化成评分预测问题。
+另一种是直接预估行为(如:点击)的可能性，直接预测法在此场景中效果更好。</p>
+  </li>
+  <li>
+    <p>模型。模型是算法的计算核心。对某个样例，如果X表示&lt;用户，品牌&gt;对，Y表示用户是否点击品牌。我们的基础模型是通过逻辑回归预测
+用户对品牌的点击可能性，<a href="http://en.wikipedia.org/wiki/Logistic_regression">逻辑回归</a>的基本假设是：</p>
+  </li>
+</ul>
+
+<script type="math/tex; mode=display"> 
+p = P(Y=1 | X=x)= \frac{1}{1+e^{-(w_0 + w x)}}
+</script>
+
+<p>其中w是的模型的参数，它的解是：</p>
+
+<script type="math/tex; mode=display">
+w = \arg {\max _w}P(Y|X;w) = \arg {\max _w}\prod\limits_{i = 1}^N {P({y_i}|{x_i};w)} 
+</script>
+
+<p>实际过程中我们转化成标准型，加入L1，L2正则化之后求解。
+考虑到逻辑回归归根结底是广义的线性模型，而实际的数据分布是非常复杂的非线性关系。我们采用了一些非线性的方法，
+比如对特征非线性离散化，条件组合, 有限核变换等等，这些方法需要对数据有正确的认识才能取得好的效果。
+同时也会采用非线性模型的方法，在阿里集团中混合逻辑回归是最常见的方法，该方法是Mixture of expert的一种简单变种，
+这方面的资料非常丰富，这里就不再展开。</p>
+
+<ul>
+  <li>特征。在特征层面，按用途上分成两种，一种是warm-start特征，解决数据充分时候准确的问题。主要是品牌id，用户id。
+另一种cold-start特征，解决用户数据缺失、品牌数据缺失的问题。这些特征通常是集合性特征，比如品牌的主题内容，类目, 用户等级等等。
+从从属上看，特征分析全局特征，用户特征，品牌特征，用户品牌关联特征, 其中用户品牌关联特征起关键的作用。有一些特征是专门设计过的，比如正对用户等级比较高，购买能力比较强的用户会和品牌的档次结合组合成特征；对冲着折扣找便宜的用户，折扣力度和热门程度一起也会形成组合特征;考虑业务本身的特征，我们不希望热门的品牌局部过热导致基尼系数过高和客服服务质量的下降, 此时我们会更突出个性化, 引入用户权重和品牌权重。</li>
+</ul>
+
+<p>当然,没有万能的模型，不论是朴素逻辑回归模型还是混合逻辑归回模型，都会有它的缺点。
+逻辑回归对高维非线性数据不理想，混合逻辑回归区域划分参数过度敏感容易过拟合。
+在个性化实践中也Learning To Rank也应用比较广泛。在品牌偏好计算中，通常不关心具体的数值大小，
+更加关心的是相对的偏好关系。Pairwise的学习方式，把浏览，点击，收藏，加入购车，购买等用户行为用偏序关系连接在一起，个性化程度也更强;
+同时，为了是算法即拟合双11的突变性又延续日常的模型, 我们以日常模型为先验, 训练双11的模型，采用了双模型加权的方法。</p>
+
+<p>品牌偏好对应的业务场景非常多, 但是大致分成情感化连接和新颖性发现两个部分。用户品牌偏好只解决了情感化连接的部分，我们同样也会通过挖掘品牌和品牌之间的联系, 让用户发现新品牌，算法会预测用户对新品牌的偏好程度，提高惊喜度。</p>
+
+<h3 id="section-4">在线点击率预估</h3>
+
+<p>通常用户对推荐结果的点击行为是衡量推荐结果质量的重要指标之一, 在推荐中会直接预估用户的对推荐候选的点击率。
+我们根据应用场景，把点击率预估可以分成两个部分。</p>
+
+<ul>
+  <li>离线点击率预估。离线部分是数据层面上的复用, 可用于快速业务接入和系统低延时的响应。</li>
+  <li>在线点击率预估。在线部分是模型层面上的复用, 用于更精准的用户个性化。</li>
+</ul>
+
+<p>核心算法和<strong>用户偏好预测</strong>基本上一致，不同的是在线点击率预估结合实时和历史的数据，
+机器学习已经不是纯算法问题，已经演变成算法系统。本节将忽略算法的细节，重点是讲述商品在线点击率预估的算法架构。</p>
+
+<p><img src="/images/recommender.png" alt="推荐系统结构图" /></p>
+
+<p>(这张图重新画下，注意只要一个框架图，不能太过具体)</p>
+
+<p>系统流程是：</p>
+
+<ol>
+  <li>用户通过业务层发送请求</li>
+  <li>推荐服务请求用户引擎获取用户特征。包括一下几件事：
+    <ul>
+      <li>计算实时意图, 计算用户实时类目、品牌、标签等偏好等等</li>
+      <li>页面场景分析，来源页和当前页的上下文情景等等</li>
+      <li>获取用户历史偏好：包括人物画像，历史行为记录，内容标签等等</li>
+      <li>预测用户心智和状态</li>
+    </ul>
+  </li>
+  <li>推荐引擎合成检索请求并获取推荐候选列表, 此时候选列表通过离线计算粗排基本有序</li>
+  <li>获取候选用户特征和商品特征，按需做组合和变换等操作, 生成最终模型特征</li>
+  <li>计算引擎根据模型预估点击率，对结果排序。模型分两个部分：
+    <ul>
+      <li>离线学习的模型, 按天更新模型,适用相对稳定的场景。 </li>
+      <li>在线学习在研发阶段, 实时更新,适用变化比较快的场景。</li>
+    </ul>
+  </li>
+  <li>推荐引擎对结果再加工，投送到目标资源位。主要的加工包括：
+    <ul>
+      <li>低质量候选过滤。</li>
+      <li>多样性控制</li>
+      <li>时效性混新</li>
+      <li>探索和开发</li>
+      <li>业务逻辑混入等等</li>
+    </ul>
+  </li>
+</ol>
+
+<p>可以看到机器学习算法作为一个算法系统在整个推荐系统发挥重要的作用。
+从理解用户意图、预测用户的行为、实体关联网络挖掘到
+综合所有因子给用户推荐最合适的候选的排序,
+再到不同质候选混合，多逻辑混排, 跨终端推荐,…, 
+机器学习深入各各环节。</p>
+
+<h2 id="section-5">总结</h2>
+
+<p>通过以上两个案例，大致了解和算法计算框架和系统骨架, 但是绝对不是机器学习应用的全部。
+在个性化推荐实践中面临巨大的挑战, 还需要不断的实践和探索. 比如：</p>
+
+<ul>
+  <li>目标上：提供多准则推荐算法, 支持多维度的评价指标; 实质性提升用户体验，提供更加有弹性和甚至不打扰的结果。</li>
+  <li>特征上：结合上下文信息, 深化对用户和候选的理解;利用更多的外围数据，建立实体知识体系;面对动态数据，捕捉用户意图漂移和商品的生命演化。</li>
+  <li>模型上：尝试新的非线性算法模型，从不同的维度训练算法模型，利用各模型的优点组合新算法。</li>
+  <li>规模上：面对的是不断增长的海量数据，亿级的特征，开发快速高效的大规模和伸缩性并发算法。</li>
+  <li>工程上: 推荐系统是一个非常复杂的系统，机器学习算法需要结合复杂系统, 融入到系统中提供高效稳定的结果。</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">杨程</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-04T11:38:00+08:00" pubdate data-updated="true">Dec 4<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/machine-nbsp-learning/'>Machine&nbsp;Learning</a>, <a class='category' href='/blog/categories/recommender-nbspsysterm/'>Recommender&nbspSysterm</a>
+  
+</span>
+
+
+      <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=机器学习在个性化推荐中的应用 - &amp;url=http://wxwidget.github.io/blog/2013/12/04/learning-to-recommendation/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=机器学习在个性化推荐中的应用 - &amp;url=http://wxwidget.github.io/blog/2013/12/04/learning-to-recommendation/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text= 机器学习在个性化推荐中的应用  - &amp;url=http://wxwidget.github.io/blog/2013/12/04/learning-to-recommendation/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/12/03/guaranteed-delivery/" title="Previous Post: 合约投放系统-介绍">&laquo; 合约投放系统-介绍</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/12/12/ad-tech/" title="Next Post: 广告基础">广告基础 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>本人</h1>
+  <p><a href="/about/">更多介绍...</a></p>
+  <p>声明：本站使用的图片等，甚至部分文章都来自网络，原作者享有对著作的一切权利。</p>
+  <p>欢迎在新浪微博上关注我：<wb:follow-button uid="1797403463" type="gray_3" width="100%" height="24" ></wb:follow-button></p>
+</section>
+<section>
+  <h1>最新博文</h1>
+  <ul id="Recent Posts">
+    
+      <li class="post">
+        <a href="/blog/2014/01/24/online-learning-survey/">在线学习</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/12/30/spare-classification-rbm/">Spare Classification RBM系统</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/12/12/ad-tech/">广告基础</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/12/04/learning-to-recommendation/">机器学习在个性化推荐中的应用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/12/03/guaranteed-delivery/">合约投放系统-介绍</a>
+      </li>
+    
+  </ul>
+</section>
+<section id="tag-clouds">
+  <h1>分类</h1>
+    <span class="tag-cloud"><a href='/blog/categories/ctr-nbspprediction' style='font-size: 112.0%'>CTR&nbspPrediction(1)</a> <a href='/blog/categories/machine-nbsp-learning' style='font-size: 112.0%'>Machine&nbsp;Learning(1)</a> <a href='/blog/categories/machine-nbsplearning' style='font-size: 124.0%'>Machine&nbspLearning(2)</a> <a href='/blog/categories/online-nbsplearning' style='font-size: 124.0%'>Online&nbspLearning(2)</a> <a href='/blog/categories/recommender-nbspsysterm' style='font-size: 160.0%'>Recommender&nbspSysterm(5)</a> <a href='/blog/categories/广告技术' style='font-size: 124.0%'>广告技术(2)</a> <a href='/blog/categories/新技术' style='font-size: 112.0%'>新技术(1)</a> <a href='/blog/categories/机器学习' style='font-size: 112.0%'>机器学习(1)</a> </span>
+</section>
+<section>
+  <h1>友情链接</h1>
+  <ul id="friends-links">
+  </ul>
+</section>
+<section id="tag-clouds" style="text-decoration:none">
+<h1><a href="/recent-comment/">最新评论</a></h1>
+    <script type="text/javascript" src=""></script>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - 杨程 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  <span style="float:right">
+      <!- 
+      Statistics by <script type="text/javascript" src="/javascripts/baidu-tongji.js"></script>
+      -->
+  </span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

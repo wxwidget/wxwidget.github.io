@@ -1,33 +1,33 @@
 [
 
 {
-    "title":"实时推荐", 
-    "url":"http://wxwidget.github.io/blog/2013/11/18/realtime-recommender/", 
-    "date":"2013-11-18"
+    "title":"在线学习", 
+    "url":"http://wxwidget.github.io/blog/2014/01/24/online-learning-survey/", 
+    "date":"2014-01-24"
 }
 ,
 {
-    "title":"Pegasos算法", 
-    "url":"http://wxwidget.github.io/blog/2013/11/14/svm-pegasos/", 
-    "date":"2013-11-14"
+    "title":"Spare Classification RBM系统", 
+    "url":"http://wxwidget.github.io/blog/2013/12/30/spare-classification-rbm/", 
+    "date":"2013-12-30"
 }
 ,
 {
-    "title":"ADMM and Large Scale Regression", 
-    "url":"http://wxwidget.github.io/blog/2013/11/08/admm-and-large-scale-regression/", 
-    "date":"2013-11-08"
+    "title":"广告基础", 
+    "url":"http://wxwidget.github.io/blog/2013/12/12/ad-tech/", 
+    "date":"2013-12-12"
 }
 ,
 {
-    "title":"Predictability and Information Theory", 
-    "url":"http://wxwidget.github.io/blog/2013/11/06/predictability-and-information-theory/", 
-    "date":"2013-11-06"
+    "title":"机器学习在个性化推荐中的应用", 
+    "url":"http://wxwidget.github.io/blog/2013/12/04/learning-to-recommendation/", 
+    "date":"2013-12-04"
 }
 ,
 {
-    "title":"选择content-based的特征", 
-    "url":"http://wxwidget.github.io/blog/2013/10/21/selecting_contentbased_features/", 
-    "date":"2013-10-21"
+    "title":"合约投放系统-介绍", 
+    "url":"http://wxwidget.github.io/blog/2013/12/03/guaranteed-delivery/", 
+    "date":"2013-12-03"
 }
 
 ]

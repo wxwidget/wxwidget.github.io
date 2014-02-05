@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en" xmlns:wb=“http://open.weibo.com/wb"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>杨程的blog</title>
+  <title>Yang Cheng</title>
   <meta name="author" content="杨程">
 
   
-  <meta name="description" content="摘要： 介绍实时推荐系统在电商领域的价值和实现 为什么要实时 每天新发布 每天修改的商品 各种换季、打折、促销、新款、活动 突发事件 新增加用户 用户兴趣漂移 长尾商品更多的曝光机会
-流量动态利用 TIP: 提供一些数据支持，iPV/IPV 用户需求 用户逛的调研 没有购物需求 2.2%, & &hellip;">
+  <meta name="description" content="摘要： 很久很久以前有一老师和一学生，每天老师让学生回答一个问题，然后老师告诉学生正确答案，学生则比较正确答案来更新自己的知识。就这样学生终成大师，与老师幸福的生活了下去。 故事 在现实的世界里，故事是另外一个版本：在网络的一头住着一挨踢男，另一头住着一小编。每天小编写一封垃圾邮件给挨踢男。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -25,10 +24,12 @@
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="杨程的blog" type="application/atom+xml">
+  <link href="/atom.xml" rel="alternate" title="Yang Cheng" type="application/atom+xml">
 
   <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
 
+  <link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <!--link href="/stylesheets/bootstrap.min.css" media="screen, projection" rel="stylesheet" type="text/css" /-->
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -75,7 +76,7 @@
 <body   >
   <header role="banner"><hgroup>
   <div style="float:left; width: 500px">
-    <h1><a href="/">杨程的blog</a></h1>
+    <h1><a href="/">Yang Cheng</a></h1>
     
       <h2>行万里路，读万卷书</h2>
     
@@ -99,9 +100,13 @@
 <ul class="main-navigation">
   <li><a href="/">博客首页</a></li>
   <li><a href="/blog/archives">文章列表</a></li>
+  <li><a href="/todo">ToDo</a></li>
+  <li><a href="/paper/">论文阅读</a></li>
+  <li><a href="/project/index.html">推荐项目</a></li>
+
   <!--
   <-li><a href="/categories">标签分类</a></li>
-  <li><a href="/todo">ToDo</a></li>
+
   <li><a href="/about">关于</a></li>
   --!>
 </ul>
@@ -111,6 +116,1205 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/01/24/online-learning-survey/">在线学习</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-24T11:53:00+08:00" pubdate data-updated="true">Jan 24<span>th</span>, 2014</time>
+        
+		
+        
+        <span style="text-transform:none">
+		  | Tags: 
+          
+            <a class='category' href='/blog/categories/machine-nbsplearning/'>Machine&nbspLearning</a>, <a class='category' href='/blog/categories/online-nbsplearning/'>Online&nbspLearning</a>
+          
+        </span>
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=在线学习 - &amp;url=http://wxwidget.github.io/blog/2014/01/24/online-learning-survey/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=在线学习 - &amp;url=http://wxwidget.github.io/blog/2014/01/24/online-learning-survey/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=在线学习  - &amp;url=http://wxwidget.github.io/blog/2014/01/24/online-learning-survey/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <div class="abstract">
+            <table>
+                <tr>
+                    <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
+                    <td>很久很久以前有一老师和一学生，每天老师让学生回答一个问题，然后老师告诉学生正确答案，学生则比较正确答案来更新自己的知识。就这样学生终成大师，与老师幸福的生活了下去。</td>
+                </tr>
+            </table>
+        </div>
+        
+        <h2 id="section">故事</h2>
+
+<p>在现实的世界里，故事是另外一个版本：在网络的一头住着一挨踢男，另一头住着一小编。每天小编写一封垃圾邮件给挨踢男。苦命的挨踢男日日分析邮件设计过滤器来过滤小编的垃圾邮件。但聪明的小编如果一发现邮件没有成功的被寄送，那么就会在下一封里加上更多的甜言蜜语来忽悠挨踢男。较量一直进行下去，挨踢男是否能摆脱小编的骚扰呢？</p>
+
+<p>以上故事都属于博弈论里的重复游戏（repeated game），它是对在线学习（online learning）最贴切的刻画：数据不断前来，我们需根据当前所能得到的来调整自己的最优策略。</p>
+
+<p>熟悉机器学习的可能注意到了在线学习与离线学习的区别。前者认为数据的分布是可以任意的，甚至是为了破坏我们的策略而精心设计的，而后者则通常假定数据是服从独立同分布。这两种不同的假设带来不一样的设计理念和理论。</p>
+
+<p>统计学习考虑算法所求得到的模型与真实模型的差距。数据由真实模型产生，如果能有无限数据、并在包含有真实模型的空间里求解，也许我们能算出真是模型。但实际上我们只有有限的有噪音的数据，这又限制我们只能使用相对简单的模型。所以，理想的算法是能够用不多的数据来得到一个不错的模型。</p>
+
+<p>在线学习的一个主要限制是当前只能看到当前的和过去的数据，未来是未知，有可能完全颠覆现在的认知。因此，对在线学习而言，它追求的是知道所有数据时所能设计的最优策略。同这个最优策略的差异称之为后悔（regret）：后悔没能一开始就选定最优策略。我们的希望是，时间一久，数据一多，这个差异就会变得很小。因为不对数据做任何假设，最优策略是否完美我们不关心（例如回答正确所有问题）。我们追求的是，没有后悔（no-regret）。</p>
+
+<p>如果与统计学习一样对数据做独立同分布假设，那么在线学习里的最优策略就是在得知所有数据的离线学习所能得到最优解。因此在线学习可以看成是一种优化方法：随着对数据的不断访问来逐步逼近这个最优解。</p>
+
+<p>很早以前优化界都在追求收敛很快的优化算法，例如牛顿迭代法。而最近一些年，learning的人发现，这类算法虽然迭代几下就能迭出一个精度很高的解，但每一步都很贵，而且数据一大根本迭不动。而向来被优化界抛弃的在线学习、随机优化算法（例如stochastic gradient descent），虽然收敛不快，不过迭代代价很低，更考虑到learning算法的解的精度要求不高，所以在实际应用中这些方法通常比传统的优化算法快很多，而且可以处理非常大的数据。</p>
+
+<p>当然，相对于老地主online learning，stochastic绝对是新贵。我会接下来谈这类算法，以及他们动辄数页的convergence rate的证明</p>
+
+<p>下面是有公式的正文。</p>
+
+<h2 id="section-1">准确定义</h2>
+
+<p>我们把学生定义为Learning，老师定义为Environment。Online Learning的过程就是，learner不停的回答Environment提出的问题。
+在$t$时刻，learner接收到一个领域问题$x_t$，learner提供一个答案$h_t$，同时environment会给出正确答案 $y_t$。
+此时，learner就会有一个惩罚(loss) $l(h_t,y_t)$。当learner经过有无数这样的训练后，learner会学习到领域知识。
+过程如下：</p>
+
+<ol>
+  <li>enviroment提出问题$x_t$ </li>
+  <li>learner从策略集合$\mathcal{H}$中选着一个策略$h_t$,做出判断$h_t(x)$</li>
+  <li>learner根据$loss(h_t(x),y_t)$学习</li>
+  <li>repeat 1 如果有更多的问题</li>
+</ol>
+
+<p>那么如何衡量一个learner过程的好坏呢？这就引入了后悔值的概念：</p>
+
+<script type="math/tex; mode=display">
+\displaystyle R(T)=\sum_{t=1}^T\ell_t(h_t)-\min_{h\in\mathcal{H}}\sum_{t=1}^T\ell_t(h).
+</script>
+
+<p>h为最优策略</p>
+
+<p>learner的目标就是每次挑不错的<script type="math/tex">h_t</script>来使得<script type="math/tex">R(T)</script>最小。<script type="math/tex">R(T)</script>是可以小于0的。毕竟最优策略是要固定h，而如果我们每次都能选择很好的<script type="math/tex">h_t</script>来适应问题<script type="math/tex">(x_t,y_t)</script>，可能总损失会更小。但这非常难。因为我们是要定好策略<script type="math/tex">h_t</script>，才能知道正确答案<script type="math/tex">y_t</script>。如果这个问题和以前的很不一样，答案也匪夷所思，那么猜对它而且一直都猜对的概率很小。而对于最优策略来说，它能事先知道所有问题和答案，所以它选择的最优策略的总损失较小的可能性更大。所以，我们一般只是关心平均$regretR(T)/T$是不是随着T变大而变小。</p>
+
+<div class="mark">
+    mark:1
+</div>
+
+<div class="definition">
+    我们称一个online算法是不是no-regret，或者说online learnable的，意味着:
+    $$\displaystyle \lim_{T\rightarrow\infty}\frac{R(T)}{T}\rightarrow 0.$$
+</div>
+
+<h2 id="section-2">算法</h2>
+<p>摘录自libol</p>
+
+<p><img src="/images/online_learning_alg.png" alt="online_learner" /></p>
+
+<h3 id="plaperceptron-learning-algorithm">感知学习算法PLA(Perceptron Learning Algorithm)</h3>
+
+<p><a href="https://class.coursera.org/ntumlone-001/lecture">PLA</a>，可以简单理解成“知错就改”算法。当遇到一个错误的时候，
+就修正算法。
+当然PLA有很多限定条件:
+假设机器要回答的问题是yes/no，目标<script type="math/tex">y \in \{-1,+1\}</script>,策略<script type="math/tex">h_t</script>是线性模型：<script type="math/tex">h_t=w_t^tx</script>。</p>
+
+<p>PLA算法以如下两步不断循环：</p>
+
+<ol>
+  <li>
+    <p>find a <strong>misstake</strong> of <script type="math/tex">w_t</script> call <script type="math/tex">(x_{n(t)},y_{n(t)})</script></p>
+
+<script type="math/tex; mode=display">sign(w_t^T x_{n(t)}) \neq y_{n(t)}</script>
+  </li>
+  <li>
+    <p>(try to) correct the misstake by:</p>
+
+<script type="math/tex; mode=display">w_{t+1} = w_{t} + y_{n(t)} x_{n(t)}</script>
+  </li>
+</ol>
+
+<p>当问题是线性可分的时候，PLA可以保证算法收敛到一条合适的线,详细的证明可以参考video。当问题线性不可分时，需要对算法进行适当的修改，找到一条“合适”的曲线即可。</p>
+
+<p>直观上理解PLA：如果机器犯了错误，当$y$实际上是+1, 说明$w_t$ 和 $x$的夹角超过90度，偏大。需要讲$w_t$向x的方向移动一个角度。
+<script type="math/tex">w_{t+1}=w_t + x</script>, 反之$y$实际上是-1, 说明$w_t$ 和 $x$的夹角小于90度，偏小。需要讲$w_t$向x的反方向移动一个角度。 <script type="math/tex">w_{t+1}=w_t - x</script></p>
+
+<p>线性分类器，是一个利用超平面来进行二分类的分类器，每次利用新的数据实例，预测，比对，更新，来调整超平面的位置。
+相对于SVM，感知器不要每类数据与分类面的间隔最大化。</p>
+
+<h3 id="average-perceptron">平均感知器(Average Perceptron)</h3>
+
+<p>线性分类器，其学习的过程，与Perceptron感知器的基本相同，只不过，它将所有的训练过程中的权值都保留下来，然后，求均值。</p>
+
+<p>优点：克服由于学习速率过大，所引起的训练过程中出现的震荡现象。即超平面围着一个中心，忽左忽右之类.</p>
+
+<ol>
+  <li>For t = 1,2,…n
+    <ol>
+      <li>对<script type="math/tex">(x_t,y_t)</script>,如果<script type="math/tex">sign(w_t^T x_{t}) \neq y_{t}</script>，计算<script type="math/tex">w_{t+1} = w_{t} + y_{t} x_{t}</script></li>
+    </ol>
+  </li>
+  <li>输出 $\sum\limits_{i = 1}^n {\frac{w_i}{n}} $</li>
+</ol>
+
+<h3 id="passive-aggressive-perceptron">Passive Aggressive Perceptron:</h3>
+
+<p>修正权值时，增加了一个参数$T_t$，预测正确时，不需要调整权值，预测错误时，主动调整权值。并可以加入松弛变量的概念，形成其算法的变种。</p>
+
+<p>优点：能减少错误分类的数目，而且适用于不可分的噪声情况。</p>
+
+<ol>
+  <li>For t = 1,2,…n
+    <ul>
+      <li>对<script type="math/tex">(x_t,y_t)</script>,如果<script type="math/tex">sign(w_t^T x_{t}) \neq y_{t}</script></li>
+      <li>$l_t = max \{0,1-y_t(w_t x_t) \}$</li>
+      <li>计算<script type="math/tex">w_{t+1} = w_{t} + \tau_t y_{t} x_{t}</script></li>
+    </ul>
+  </li>
+  <li>输出$w_n$</li>
+</ol>
+
+<p>根据 <script type="math/tex">\tau_t</script>的不同PAP变种为：</p>
+
+<p>1.<script type="math/tex">\tau_t = \frac{l_t}{\|X_t\|^2}</script></p>
+
+<p>2.<script type="math/tex">\tau_t =  min\{C, l_t / \|X_t\|^2\}</script></p>
+
+<p>3.<script type="math/tex">\tau_t =  \frac{l_t}{\|X_t\|^2 + 1/(2C)}</script></p>
+
+<h3 id="voted-perceptron">Voted Perceptron:</h3>
+
+<p>存储和使用所有的错误的预测向量。</p>
+
+<p>优点：实现对高维数据的分类，克服训练过程中的震荡，训练时间比SVM要好。</p>
+
+<p>缺点：不能保证收敛</p>
+
+<p><img src="/images/VotedPerceptron.png" alt="vp" /></p>
+
+<h3 id="confidence-weight">Confidence Weight：</h3>
+
+<p>线性分类器，来之google ICML2008的论文.<a href="http://static.googleusercontent.com/media/research.google.com/zh-CN//pubs/archive/34667.pdf">Conﬁdence-Weighted Linear Classiﬁcation</a>,[videolectures]相关视频介绍(http://videolectures.net/icml08_pereira_cwl/)</p>
+
+<p>每个学习参数都有个信任度（概率），信任度小的参数更应该学习，所以会得到更频繁的修改机会。信任度，用参数向量的高斯分布表示。</p>
+
+<p>权值w符合高斯分布N(u, 离差阵)，而 由w*x的结果，可以预测其分类的结果。</p>
+
+<p>并对高斯分布（的参数）进行更新。
+<img src="/images/cw.png" alt="cw" /></p>
+
+<p>这种方法能提供分类的准确性，并加快学习速度。其理论依据在在于算法正确的预测概率不小于高斯分布的一个值。</p>
+
+<h3 id="arow-adaptive-regularition-of-weighted-vector">AROW： adaptive regularition of weighted vector</h3>
+
+<p>NIPS2009的论文<a href="http://books.nips.cc/papers/files/nips22/NIPS2009_0611.pdf">Adaptive Regularization of Weights</a>
+<a href="https://code.google.com/p/arowpp/">code</a></p>
+
+<p>具有的属性：大间隔训练large margin training，置信度权值confidence weight，处理不可分数据（噪声）non-separable</p>
+
+<p>相对于SOP(second of Perceptron)，PA, CW, 在噪声情况下，其效果会更好.</p>
+
+<p><img src="/images/arow.png" alt="arow" /></p>
+
+<h3 id="normal-herding">Normal herding：</h3>
+
+<p>线性分类器</p>
+
+<p>NHerd算法在计算全协方差阵和对角协方差阵时，比AROW更加的积极。</p>
+
+<p><img src="/images/nherd.png" alt="nherd" /></p>
+
+<h3 id="ogd-">OGD 梯度法</h3>
+<p><img src="/images/ogd.png" alt="OGD" /></p>
+
+<h3 id="weight-majority">Weight Majority:</h3>
+<p>每个维度都可以作为一个分类器，进行预测；然后，依据权值，综合所有结果，给出一个最终的预测。</p>
+
+<p>依据最终的预测和实际测量结果，调整各个维度的权值，即更新模型。</p>
+
+<p>易于实施，错误界比较小，可推导。</p>
+
+<p><img src="/images/wm.png" alt="wm" /></p>
+
+<h4 id="section-3">一点解释</h4>
+
+<p>no-regret是不是很难达到呢？事实证明很多简单的算法都是no-regret。举个最经典的例子，假设我们有m个专家，他们在每轮问题都会给出的答案，假设答案就两种。损失函数是0-1损失函数，答案正确损失为0，否则为1. 先考虑最简单的情况：假设至少有一个完美专家，她永远给出正确的答案。那么什么才是learner的好策略呢？最简单的很work：看多数专家怎么说罗。 learner在时刻t先挑出前t-1轮一直是给正确答案的专家们，然后采用他们中多数人给出的那个答案。</p>
+
+<p>记$C_t$是前t-1轮一直是给正确答案的专家们的集合，$|C_t|$是这些专家的个数。如果learner在时刻t给出了错误的答案，那么意味着$C_t$中大部分专家都给了错误答案，所以下一时刻learner参考的专家就会少一半。因为完美专家的存在，所以$|C_t|$不可能无限变小使得小于1，所以learner不能无限犯错。事实上，<script type="math/tex">C_t</script>至多有<script type="math/tex">\log_2(m)</script>次变小机会，所以learner最多有<script type="math/tex">\log_2(m)</script>的损失。另一方面，最优策略当然是一直选中一位完美专家，总损失为0，所以<script type="math/tex">R(T)\le \log_2(m)</script>，上界是个常数.</p>
+
+<p>现在考虑并没有传说中的完美专家存在的情况。这时维护<script type="math/tex">C_t</script>的做法就不行了，我们使用一个稍复杂些的策略。记第i个专家为<script type="math/tex">e^i</script> ，对其维护一个信任度<script type="math/tex">w^i\in[0,1]</script>，且使得满足<script type="math/tex">\sum_{i=1}^m w^i=1</script>。记t时刻这m个信任度组成的向量是<script type="math/tex">w_t</script>，可以将其看成是关于这m专家上的一个分布，于是learner可以按这个分布来随机挑选一个专家，并用她的答案来做作为t时刻的答案。这意味着信任度高的专家被挑中的概率越高。</p>
+
+<p>关键是在于如何调整<script type="math/tex">w_t</script>。直观上来说，对于在某一轮预测不正确的专家，我们需降低对她们的信任度，而对预测正确的，我们则可以更加的相信她们。一种常见的调整策略是基于指数的。我们先维护一个没有归一化（和不为1）的信任度u。一开始大家都为1，<script type="math/tex">u_0^i=1</script>. 在t时刻的一开始，我们根据i专家在上一轮的损失<script type="math/tex">\ell_{t-1}(e^i)</script>来做如下调整：</p>
+
+<script type="math/tex; mode=display">
+    u_{t}^i=u_{t-1}^i\exp(-\eta\ell_{t-1}(e^i))
+</script>
+
+<p><script type="math/tex">\eta</script>是学习率，越大则每次的调整幅度越大。然后再将<script type="math/tex">u_t</script>归一化来得到我们要的分布：<script type="math/tex">w_t^i=u_t^i/\sum_i u_t^i</script>。</p>
+
+<p>基于指数的调整的好处在于快速的收敛率（它是强凸的），以及分析的简单性。我们有如下结论：如果选择学习率<script type="math/tex">\eta=\sqrt{8\ln m/T}</script>，那么<script type="math/tex">R(T)\le \sqrt{T\ln m/2}</script>。</p>
+
+<p>一个值得讨论的问题是，设定最优学习率<script type="math/tex">\eta</script>需要知道数据的总个数T，而在实际的应用中也许不能知道样本到底会有多少。所以如果设定一个实际不错的参数很trick。在以后的算法中还会遇到这类需要上帝之手设定的参数，而如何使得算法对这类控制速率的参数不敏感，是当前研究的一个热点。这是后话了。</p>
+
+<p>另外一个值得注意的是，同前面存在完美专家的情况相比，平均regret的上界由<script type="math/tex">\frac{\log_2 m}{T}</script>增到了<script type="math/tex">\sqrt{\frac{\ln m}{2T}}</script>。 这两者在实际的应用中有着很大差别。例如我们的目标是要使得平均regret达到某个数值以下，假设前一种方法取1,000个样本（迭代1,000次）就能到了，那么后一种算法就可能需要1,000,000个样本和迭代。这样，在时间或样本的要求上，前者明显优于后者。类似的区别在后面还会更多的遇到，这类算法的一个主要研究热点就是如何降低regret，提高收敛速度。</p>
+
+<h2 id="section-4">在线凸优化</h2>
+
+<!--http://mli7.wordpress.com/2011/04/08/online_learning_2/ -->
+
+<h2 id="primal-dual">Primal-dual的观点</h2>
+
+<p>天地间都赋阴阳二气所生</p>
+
+<h2 id="section-5">算法举例</h2>
+
+<ul>
+  <li><a href="https://code.google.com/p/arowpp/">arowpp</a></li>
+  <li><a href="https://code.google.com/p/oll/">oll</a></li>
+  <li><a href="https://code.google.com/p/sofia-ml/">sofia-ml</a></li>
+  <li><a href="http://www.cais.ntu.edu.sg/~chhoi/libol/">libol</a></li>
+  <li><a href="https://github.com/jubatus/jubatus">jubatus</a></li>
+  <li><a href="http://moa.cms.waikato.ac.nz/">moa</a></li>
+</ul>
+
+<h2 id="section-6">参考文献：</h2>
+<ol>
+  <li>N. Cesa-Bianchi, A. Conconi, and C. Gentile. A second-order perceptron algorithm.
+SIAM J. Comput., 34(3):640–668, 2005</li>
+  <li>K. Crammer, O. Dekel, J. Keshet, S. Shalev-Shwartz, and Y. Singer. Online passiveaggressive
+algorithms. Journal of Machine Learning Research, 7:551–585, 2006.</li>
+  <li>K. Crammer, M. Dredze, and A. Kulesza. Multi-class confidence weighted algorithms.
+In EMNLP, pages 496–504, 2009.</li>
+  <li>K. Crammer, M. Dredze, and F. Pereira. Exact convex confidence-weighted learning.
+In NIPS, pages 345–352, 2008.</li>
+  <li>K. Crammer, A. Kulesza, and M. Dredze. Adaptive regularization of weight vectors.
+In NIPS, pages 414–422, 2009.</li>
+  <li>K. Crammer, A. Kulesza, and M. Dredze. Adaptive regularization of weight vectors.
+Machine Learning, 91(2):155–187, 2013.</li>
+  <li>K. Crammer and D. D. Lee. Learning via gaussian herding. In NIPS, pages 451–459,
+2010.</li>
+  <li>K. Crammer and Y. Singer. Ultraconservative online algorithms for multiclass problems.
+Journal of Machine Learning Research, 3:951–991, 2003.</li>
+  <li>M. Fink, S. Shalev-Shwartz, Y. Singer, and S. Ullman. Online multiclass learning by
+interclass hypothesis sharing. In Proceedings of the 25th International Conference
+on Machine learning (ICML’06), pages 313–320, 2006.</li>
+  <li>C. Gentile. A new approximate maximal margin classification algorithm. Journal
+of Machine Learning Research, 2:213–242, 2001.</li>
+  <li>Y. Li and P. M. Long. The relaxed online maximum margin algorithm. Machine
+Learning, 46(1-3):361–387, 2002.</li>
+  <li>F. Orabona and K. Crammer. New adaptive algorithms for online classification. In
+NIPS, pages 1840–1848, 2010.</li>
+  <li>F. Rosenblatt. The perceptron: A probabilistic model for information storage and
+organization in the brain. Psych. Rev., 7:551–585, 1958.</li>
+  <li>J. Wang, P. Zhao, and S. C. H. Hoi. Exact soft confidence-weighted learning. In
+ICML, 2012.</li>
+  <li>L. Yang, R. Jin, and J. Ye. Online learning by ellipsoid method. In ICML, page
+145, 2009.</li>
+  <li>P. Zhao, S. C. H. Hoi, and R. Jin. Double updating online learning. Journal of
+Machine Learning Research, 12:1587–1615, 2011.</li>
+  <li>P. Zhao, S. C. H. Hoi, R. Jin, and T. Yang. Online auc maximization. In ICML,
+pages 233–240, 2011.</li>
+  <li>M. Zinkevich. Online convex programming and generalized infinitesimal gradient
+ascent. In ICML, pages 928–936, 2003.</li>
+</ol>
+
+    </div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/30/spare-classification-rbm/">Spare Classification RBM系统</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-30T11:21:00+08:00" pubdate data-updated="true">Dec 30<span>th</span>, 2013</time>
+        
+		
+        
+        <span style="text-transform:none">
+		  | Tags: 
+          
+            <a class='category' href='/blog/categories/机器学习/'>机器学习</a>
+          
+        </span>
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=Spare Classification RBM系统 - &amp;url=http://wxwidget.github.io/blog/2013/12/30/spare-classification-rbm/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=Spare Classification RBM系统 - &amp;url=http://wxwidget.github.io/blog/2013/12/30/spare-classification-rbm/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=Spare Classification RBM系统  - &amp;url=http://wxwidget.github.io/blog/2013/12/30/spare-classification-rbm/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <div class="abstract">
+            <table>
+                <tr>
+                    <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
+                    <td>本文的目标是设计一个可扩展的分布式Sparse Classification RBM</td>
+                </tr>
+            </table>
+        </div>
+        
+        <h2 id="section">简介</h2>
+
+<p>该系统通过对检索查询的相关特征进行有监督的学习从而得到在线广告推荐业务
+的CTR预估模型。由于在线系统的训练数据量巨大（通常为数亿条），特征的维
+度高，所以必须要考虑构建分布式的训练系统以降低大规模训练所需要的时间。
+本文第二节介绍单进程Sparse Classification RBM的基本算法；第三节探讨采用
+DownPour优化算法做多进程RBM Training开发的思路；第四节讨论要训练更大规
+模的模型，进行优化的方向和基本实现方法；第四节讨论实现该系统所涉及到的
+工程技术，包括开发语言，开发库等等。
+TR预估模型。由于在线系统的训练数据量巨大（通常为数亿条），特征的维
+度高，所以必须要考虑构建分布式的训练系统以降低大规模训练所需要的时间。
+本文第二节介绍单进程Sparse Classification RBM的基本算法；第三节探讨采用
+DownPour优化算法做多进程RBM Training开发的思路；第四节讨论要训练更大规
+模的模型，进行优化的方向和基本实现方法；第四节讨论实现该系统所涉及到的
+工程技术，包括开发语言，开发库等等。</p>
+
+
+    </div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/12/ad-tech/">广告基础</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-12T14:20:00+08:00" pubdate data-updated="true">Dec 12<span>th</span>, 2013</time>
+        
+		
+        
+        <span style="text-transform:none">
+		  | Tags: 
+          
+            <a class='category' href='/blog/categories/广告技术/'>广告技术</a>
+          
+        </span>
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=广告基础 - &amp;url=http://wxwidget.github.io/blog/2013/12/12/ad-tech/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=广告基础 - &amp;url=http://wxwidget.github.io/blog/2013/12/12/ad-tech/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=广告基础  - &amp;url=http://wxwidget.github.io/blog/2013/12/12/ad-tech/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <div class="abstract">
+            <table>
+                <tr>
+                    <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
+                    <td>涉及精准广告投放的基础知识，比如：定向技术，基础模型等。会不断补充。</td>
+                </tr>
+            </table>
+        </div>
+        
+        <h3 id="section">技术层面</h3>
+
+<ol>
+  <li>Paper
+    <ul>
+      <li>雅虎研究院的publication。</li>
+      <li>Google的publication： <a href="http://research.google.com/pubs/pub41159.html">Ad Click Prediction: a View from the Trenches</a>。该文探讨既有online训练特性，又能获得sparse模型的FTRL-Proximal算法。论文还阐述了很多实用技巧，包括给各个维度用上不同的学习率，用更少的bits去存储参数等。这个算法不单适用于对CTR问题的LR建模，也适合于其他使用online gradient descent方法的场景。</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="section-1">业务层面</h3>
+
+<ul>
+  <li>精准广告定向
+  一篇<a href="http://www.iamniu.com/2012/05/26/summary-internet-precise-ad-targeting-technology/?hmsr=top%20main%20content&amp;hmmd=&amp;hmpl=&amp;hmkw=&amp;hmci=">总结</a>，该文介绍了User-Agent、Cookie、各种定向技术和网络广告反作弊，并侧重在业务介绍。该文博主的<a href="http://www.iamniu.com/">首页</a></li>
+  <li>在线展示广告
+  在线展示广告的<a href="http://wayinwayout.com/%E5%9C%A8%E7%BA%BF%E5%B1%95%E7%A4%BA%E5%B9%BF%E5%91%8A%E7%9A%84%E8%BF%9B%E5%8C%96-evolution-online-display-advertising/">进化</a>，从Ad network谈到Ad Exchange（RTB）。</li>
+</ul>
+
+<h3 id="section-2">技术课程</h3>
+
+<ol>
+  <li><a href="http://study.163.com/course/courseMain.htm?courseId=321007#/courseMain">刘鹏计算广告学（video）</a></li>
+  <li><a href="https://www.stanford.edu/class/msande239/">斯坦福大学的计算广告学（slide）</a></li>
+  <li><a href="http://guanggaoxue.csdn.net/module/zone/baidu_data/index#video_course">百度的计算广告学（video）</a></li>
+  <li><a href="http://ctech.baidu.com/?r=courses/content&amp;c_id=203&amp;qq-pf-to=pcqq.c2c">百度在清华大学开的计算广告学（slide）</a></li>
+</ol>
+
+    </div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/04/learning-to-recommendation/">机器学习在个性化推荐中的应用</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-04T11:38:00+08:00" pubdate data-updated="true">Dec 4<span>th</span>, 2013</time>
+        
+		
+        
+        <span style="text-transform:none">
+		  | Tags: 
+          
+            <a class='category' href='/blog/categories/machine-nbsp-learning/'>Machine&nbsp;Learning</a>, <a class='category' href='/blog/categories/recommender-nbspsysterm/'>Recommender&nbspSysterm</a>
+          
+        </span>
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=机器学习在个性化推荐中的应用 - &amp;url=http://wxwidget.github.io/blog/2013/12/04/learning-to-recommendation/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=机器学习在个性化推荐中的应用 - &amp;url=http://wxwidget.github.io/blog/2013/12/04/learning-to-recommendation/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=机器学习在个性化推荐中的应用  - &amp;url=http://wxwidget.github.io/blog/2013/12/04/learning-to-recommendation/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <div class="abstract">
+            <table>
+                <tr>
+                    <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
+                    <td>以两个典型案例说明机器学习作为生产力, 如何适应需求, 推动业务发展</td>
+                </tr>
+            </table>
+        </div>
+        
+        <h2 id="section">引子</h2>
+
+<ul>
+  <li>受众: 技术杂志的读者，受过计算机教育但是领域比较泛。要求有简单的数学基础和机器学习的背景知识。</li>
+  <li>主题：不讲机器学习算法是什么,讲学习算法如何和应用场景结合的问题</li>
+  <li>逻辑: 发现问题-分析问题-解决问题</li>
+</ul>
+
+<h2 id="section-1">正篇</h2>
+
+<p>双11对消费者来说是一场空前的购物狂欢，对技术人员来说更像一场盛大的技术嘉年华。</p>
+
+<p>2013年以前，天猫的推荐一直采用传统的协同过滤的启发式公式方法，特别是item based 方法，item based 算法在描述商品与商品相似度方面是非常优秀的，但是当我们遇到如下两个问题时，便捉襟见肘了：1) 当商品之间的关系可以由多个维度来描述，比如用户行为和文本相似性，如何来融合这些维度算法的权重？2) 当需要基于用户的实时数据（通常有数十个维度），预测用户的偏好，如何确定这些特征的权重？</p>
+
+<p>今年，我们大量的采用了机器学习算法提升用户体验，有效的改善了当前的业务现状, 同时利用大数据的优势，产生了新的生产力。</p>
+
+<p>在典型的业务场景中，机器学习主要用于购物链路的导购：</p>
+
+<ul>
+  <li>交易前类目品牌购买预测</li>
+  <li>交易中相似和搭配购买推荐</li>
+  <li>交易后回路引流</li>
+</ul>
+
+<p>在双11场景中,机器学习在预热期、活动中、活动结束后3个时间段发挥不同的作用。</p>
+
+<ul>
+  <li>在预热期主要用于引导用户关注品牌定制双11;引导将商品加入购物车和收藏夹加快购物效率;同时搜集用户购买意向，预测用户在类目和品牌的购买倾向。</li>
+  <li>在活动中对用户进行个性化引导，一方面利用历史数据，算法学习出用户的偏好和意图，使得一进入天猫页面给与最直接的个性化冲击。比如在首页的个性化品牌，我的双11页面的品牌活动，无线会场的个性化等等。 另一方面，发挥集体智慧优势挖掘商品、品牌或者类目之间的关联关系，帮助用户寻找更合适的相似替换商品、提供更加合理的购买搭配。比如：在下架页的相似推荐，加入购物车后的搭配推荐。</li>
+  <li>活动结束后，调整算法模型，平衡日常模型和活动模型的效果。即要剔除异常数据使得日常推荐体验不下降, 又要起到清尾货保证活动部分延续性的作用。</li>
+</ul>
+
+<p>可以看到机器学习应用的业务场景繁多, 业务目标不一样，算法的设计也会千差万别, 
+因此，下面的内容不会涉及到全部的应用场景，而是通过两个基本的机器学习案例来讨论天猫是如何根据业务场景来设计机器学习算法的。
+以下的文章结构安排如下：先讨论用户的偏好预测和在线点击率预估两个案例，然后综合两个案例介绍天猫如何应对大规模的机器学习的挑战。</p>
+
+<h2 id="section-2">机器学习是如何工作的</h2>
+
+<p>如何在复杂的场景中抓住算法设计的核心，是机器学习应用的主要挑战。 在应用层面上，业务目标决定算法形态。
+比如当业务强调浏览深度的时候，算法上目标上就需要偏向与高质量的集合形式候选的推荐, 定义多维度的质量或者抽取提炼体现质量维度的特征等；
+如果业务强调召回降低基尼系数，算法上要控制流量，在准确率和召回率之间找到业务平衡点，融入尾部优势的特征,调整正负样本比率和样本的权重等。</p>
+
+<p>尽管业务变幻莫测, 我们还是能抽丝剥茧, 找到机器学习算法上的是抽象一致的本质。
+天猫推荐在机器学习实践中使用的主要技术是：</p>
+
+<ul>
+  <li>分类/回归模型</li>
+  <li>自动化参数</li>
+  <li>多模型融合</li>
+  <li>海量数据和分布式</li>
+</ul>
+
+<p>以例为证：</p>
+
+<h3 id="section-3">用户的偏好预测</h3>
+
+<p>电商领域的偏好一般是指用户长期积累起来的购物行为惯性。所以在预测偏好时，通常会选用大粒度,更抽象的维度去预测，
+我们会在离线预测用户品牌和类目的购买偏好。类目偏好和品牌偏好类似，所以这里只以品牌偏好为例子。</p>
+
+<ul>
+  <li><strong>问题1</strong>：给定用户U和品牌列表L，从中选择N个品牌作为列表候选。 </li>
+  <li><strong>问题2</strong>：给定用户U和品牌列表L，预测当天用户U对品牌B的产生行为的可能性。通常行为指的是点击、购买、收藏等</li>
+</ul>
+
+<p>如果假设用户对品牌的感知是独立的，那么<strong>问题1</strong>可以简化成TOPN的问题，<strong>问题2</strong>的TOPN解可以作为<strong>问题1</strong>的答案。
+我们通过构造分类模型来预测用户对品牌的偏好程度，求解问题。</p>
+
+<ul>
+  <li>
+    <p>数据。数据的真实性和充分性决定了算法的效果, 如何挑选数据是机器学习算法最重要的第一步。
+在Netflix影视推荐中，可以用用户电影评分做预测。 在天猫业务中这种常用的显式表达的数据是缺失的,
+我们只能利用隐式的用户行为推测偏好。一种方法是以用户对品牌产生行为的类型、次数和时间衰变映射到得分，然后再转化成评分预测问题。
+另一种是直接预估行为(如:点击)的可能性，直接预测法在此场景中效果更好。</p>
+  </li>
+  <li>
+    <p>模型。模型是算法的计算核心。对某个样例，如果X表示&lt;用户，品牌&gt;对，Y表示用户是否点击品牌。我们的基础模型是通过逻辑回归预测
+用户对品牌的点击可能性，<a href="http://en.wikipedia.org/wiki/Logistic_regression">逻辑回归</a>的基本假设是：</p>
+  </li>
+</ul>
+
+<script type="math/tex; mode=display"> 
+p = P(Y=1 | X=x)= \frac{1}{1+e^{-(w_0 + w x)}}
+</script>
+
+<p>其中w是的模型的参数，它的解是：</p>
+
+<script type="math/tex; mode=display">
+w = \arg {\max _w}P(Y|X;w) = \arg {\max _w}\prod\limits_{i = 1}^N {P({y_i}|{x_i};w)} 
+</script>
+
+<p>实际过程中我们转化成标准型，加入L1，L2正则化之后求解。
+考虑到逻辑回归归根结底是广义的线性模型，而实际的数据分布是非常复杂的非线性关系。我们采用了一些非线性的方法，
+比如对特征非线性离散化，条件组合, 有限核变换等等，这些方法需要对数据有正确的认识才能取得好的效果。
+同时也会采用非线性模型的方法，在阿里集团中混合逻辑回归是最常见的方法，该方法是Mixture of expert的一种简单变种，
+这方面的资料非常丰富，这里就不再展开。</p>
+
+<ul>
+  <li>特征。在特征层面，按用途上分成两种，一种是warm-start特征，解决数据充分时候准确的问题。主要是品牌id，用户id。
+另一种cold-start特征，解决用户数据缺失、品牌数据缺失的问题。这些特征通常是集合性特征，比如品牌的主题内容，类目, 用户等级等等。
+从从属上看，特征分析全局特征，用户特征，品牌特征，用户品牌关联特征, 其中用户品牌关联特征起关键的作用。有一些特征是专门设计过的，比如正对用户等级比较高，购买能力比较强的用户会和品牌的档次结合组合成特征；对冲着折扣找便宜的用户，折扣力度和热门程度一起也会形成组合特征;考虑业务本身的特征，我们不希望热门的品牌局部过热导致基尼系数过高和客服服务质量的下降, 此时我们会更突出个性化, 引入用户权重和品牌权重。</li>
+</ul>
+
+<p>当然,没有万能的模型，不论是朴素逻辑回归模型还是混合逻辑归回模型，都会有它的缺点。
+逻辑回归对高维非线性数据不理想，混合逻辑回归区域划分参数过度敏感容易过拟合。
+在个性化实践中也Learning To Rank也应用比较广泛。在品牌偏好计算中，通常不关心具体的数值大小，
+更加关心的是相对的偏好关系。Pairwise的学习方式，把浏览，点击，收藏，加入购车，购买等用户行为用偏序关系连接在一起，个性化程度也更强;
+同时，为了是算法即拟合双11的突变性又延续日常的模型, 我们以日常模型为先验, 训练双11的模型，采用了双模型加权的方法。</p>
+
+<p>品牌偏好对应的业务场景非常多, 但是大致分成情感化连接和新颖性发现两个部分。用户品牌偏好只解决了情感化连接的部分，我们同样也会通过挖掘品牌和品牌之间的联系, 让用户发现新品牌，算法会预测用户对新品牌的偏好程度，提高惊喜度。</p>
+
+<h3 id="section-4">在线点击率预估</h3>
+
+<p>通常用户对推荐结果的点击行为是衡量推荐结果质量的重要指标之一, 在推荐中会直接预估用户的对推荐候选的点击率。
+我们根据应用场景，把点击率预估可以分成两个部分。</p>
+
+<ul>
+  <li>离线点击率预估。离线部分是数据层面上的复用, 可用于快速业务接入和系统低延时的响应。</li>
+  <li>在线点击率预估。在线部分是模型层面上的复用, 用于更精准的用户个性化。</li>
+</ul>
+
+<p>核心算法和<strong>用户偏好预测</strong>基本上一致，不同的是在线点击率预估结合实时和历史的数据，
+机器学习已经不是纯算法问题，已经演变成算法系统。本节将忽略算法的细节，重点是讲述商品在线点击率预估的算法架构。</p>
+
+<p><img src="/images/recommender.png" alt="推荐系统结构图" /></p>
+
+<p>(这张图重新画下，注意只要一个框架图，不能太过具体)</p>
+
+<p>系统流程是：</p>
+
+<ol>
+  <li>用户通过业务层发送请求</li>
+  <li>推荐服务请求用户引擎获取用户特征。包括一下几件事：
+    <ul>
+      <li>计算实时意图, 计算用户实时类目、品牌、标签等偏好等等</li>
+      <li>页面场景分析，来源页和当前页的上下文情景等等</li>
+      <li>获取用户历史偏好：包括人物画像，历史行为记录，内容标签等等</li>
+      <li>预测用户心智和状态</li>
+    </ul>
+  </li>
+  <li>推荐引擎合成检索请求并获取推荐候选列表, 此时候选列表通过离线计算粗排基本有序</li>
+  <li>获取候选用户特征和商品特征，按需做组合和变换等操作, 生成最终模型特征</li>
+  <li>计算引擎根据模型预估点击率，对结果排序。模型分两个部分：
+    <ul>
+      <li>离线学习的模型, 按天更新模型,适用相对稳定的场景。 </li>
+      <li>在线学习在研发阶段, 实时更新,适用变化比较快的场景。</li>
+    </ul>
+  </li>
+  <li>推荐引擎对结果再加工，投送到目标资源位。主要的加工包括：
+    <ul>
+      <li>低质量候选过滤。</li>
+      <li>多样性控制</li>
+      <li>时效性混新</li>
+      <li>探索和开发</li>
+      <li>业务逻辑混入等等</li>
+    </ul>
+  </li>
+</ol>
+
+<p>可以看到机器学习算法作为一个算法系统在整个推荐系统发挥重要的作用。
+从理解用户意图、预测用户的行为、实体关联网络挖掘到
+综合所有因子给用户推荐最合适的候选的排序,
+再到不同质候选混合，多逻辑混排, 跨终端推荐,…, 
+机器学习深入各各环节。</p>
+
+<h2 id="section-5">总结</h2>
+
+<p>通过以上两个案例，大致了解和算法计算框架和系统骨架, 但是绝对不是机器学习应用的全部。
+在个性化推荐实践中面临巨大的挑战, 还需要不断的实践和探索. 比如：</p>
+
+<ul>
+  <li>目标上：提供多准则推荐算法, 支持多维度的评价指标; 实质性提升用户体验，提供更加有弹性和甚至不打扰的结果。</li>
+  <li>特征上：结合上下文信息, 深化对用户和候选的理解;利用更多的外围数据，建立实体知识体系;面对动态数据，捕捉用户意图漂移和商品的生命演化。</li>
+  <li>模型上：尝试新的非线性算法模型，从不同的维度训练算法模型，利用各模型的优点组合新算法。</li>
+  <li>规模上：面对的是不断增长的海量数据，亿级的特征，开发快速高效的大规模和伸缩性并发算法。</li>
+  <li>工程上: 推荐系统是一个非常复杂的系统，机器学习算法需要结合复杂系统, 融入到系统中提供高效稳定的结果。</li>
+</ul>
+
+
+    </div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/03/guaranteed-delivery/">合约投放系统-介绍</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-03T17:28:00+08:00" pubdate data-updated="true">Dec 3<span>rd</span>, 2013</time>
+        
+		
+        
+        <span style="text-transform:none">
+		  | Tags: 
+          
+            <a class='category' href='/blog/categories/广告技术/'>广告技术</a>
+          
+        </span>
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=合约投放系统-介绍 - &amp;url=http://wxwidget.github.io/blog/2013/12/03/guaranteed-delivery/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=合约投放系统-介绍 - &amp;url=http://wxwidget.github.io/blog/2013/12/03/guaranteed-delivery/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=合约投放系统-介绍  - &amp;url=http://wxwidget.github.io/blog/2013/12/03/guaranteed-delivery/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <h2 id="section">合约投放系统</h2>
+
+<h3 id="section-1">直接媒体购买</h3>
+
+<p>合约广告英文是Agreement-based Advertising，它是一种基于合约(Agreement)的商业模式，大家会看到它与Network和Exchange有相当大的不同，我们当前最主要的是把合约广告要解决的问题理解清楚，具体的技术可以再理解。</p>
+
+<p>传统的广告媒体购买方式是称之为直接媒体购买方式(Direct Media Buy)。
+它是一种简单的购买方式，比如一个杂志可能有几个广告位，比如封二页，封底页，广告主可以直接购买这些广告位，这种方式没有任何的技术元素。在这种方式的运作中，Supply有一个广告排期系统，广告排期系统比较简单，用于对购买了的广告位，以及相应的时间的广告排期。不提供受众定向，它在展示时将广告素材直接插入页面，这样广告作为静态资源加载，它的response time就会比较短，这样用户看到广告也越早，效果也就也越好。这种方式的代表公司是4A。需求方，即广告代理商要做的是两件事情：</p>
+
+<ol>
+  <li>帮助广告商策划和执行排期，</li>
+  <li>用经验和人工满足广告商的质和量的需求。</li>
+</ol>
+
+<p>比如宝马公司今年要reach多少用户，通过什么要的媒体reach，4A公司就会帮宝马公司把创意做好，并分析在哪些媒体，哪些位置上投放广告，能达到效果。因为没有技术元素，所以都是要依赖经验和人工的方式来完成的。但令人惊讶的是，中国很多品牌广告仍然是以为种方式进行的。</p>
+
+<h3 id="section-2">担保式投送</h3>
+
+<p>在线广告的一种主流做法是担保式投送（Guaranteed Delivery, GD），这种方法与广告位的直接购买不同的是：<em>从媒体角度是它卖的不是广告位，而是广告位上的流量</em>。从Yahoo!来看，它的逻辑是这样的：最早开放出一个广告位，每隔一段时间会提高这个广告位的售价，但涨到一定的售价后，就很难再涨了，它就将广告位的流量拆开，比如分为男性用户流量和女性用户流量，比如一个广告位整体出售可能价值1万元，但男性用户流量可能最高能卖7000元，女性用户流量假设价值6000元，那么总售价是13000，比整体出售的售价10000元的收益要高。为什么说它还是一个合约机制呢？是因为广告主和媒体所签的协议中还有明确的量的需求，我们在讨论品牌广告和效果广告时提到过，量（Quantity）和质（Quality）是广告主的两个根本需求，这两个需求是固有的，只是可能侧重点有时候会不同。在GD广告中，量是在合约中明确写明的，比如合约中如果写了要对加州男性的用户进行100万次的展示，如果没有完成这100万次的展示，是需要广告平台根据所未完成的量进行较多的赔偿。</p>
+
+<p>GD是一个量优先于质的销售方式，后面所讲的AdNetwork和AdExchange是质优先于量的销售方式，竞价系统的方式不同于GD，比如广告出0.5元买加州男性的用户流量，系统只会把当你的出价在所有竞争对手中是最高的时候，才分配给你，所以没有办法保证提供给你的流量。GD广告多采用千次展示付费（CPM）方式结算，多是品牌广告主使用GD，广告主的数量不多，Yahoo!也仅有1000～2000的广告主，但这些广告主的所签的都是大订单，它是合约广告最主要的市场形状。</p>
+
+<p>不同于前面所提到的静态插入页面的方式，GD广告是在广告投放机（Ad server）上决策展示某个广告。受众定向，CTR预测，流量预测是GD广告投放机的基础。GD系统往往希望帮助广告商做一些优化，比如有的广告商买了加州男性用户，有的广告商买的财经类型用户，比如一个用户是加州男性财经用户，这个用户在访问时，Ad server会决定这次展示出什么广告。Ad Server的准则是希望把每个用户在满足多个合约的时候投给合适的广告商，以使得每个广告商的效果最好，这里相比AdNetwork有一个难点是GD必须满足合约里签定的给广告主的流量 。</p>
+
+<h4 id="section-3">特点</h4>
+
+<ul>
+  <li>基于合约的广告机制，约定的量未完成需要向需求方补偿</li>
+  <li>量优于质的销售模型</li>
+  <li>多采用千次展示付费(Cost Per Mile, CPM)方式结算</li>
+</ul>
+
+<h4 id="section-4">投放机</h4>
+
+<ul>
+  <li>CPM方式收费必要要求投放在服务器端完成</li>
+  <li>受众定向，CTR预估和浏览预测是投放机的基础</li>
+  <li>GD合约下，投放机满足各合约的量，并且尽可能的优化需求方的质</li>
+</ul>
+
+<h3 id="section-5">系统结构</h3>
+
+<p><img src="/images/ad_gd.jpg" alt="GD" /></p>
+
+<p>它有retrieval部分，retrieval部分是各个系统都存在的。
+ranking的部分，它可能不是真正的ranking，有可能是做CTR预测。
+上图没有画出来的部分是离线的forecasting，它对实际的GD系统非常重要，它会与Online Allocation模板配合。
+反作弊和计价这是必须有的模块。而Real Time Index概念就不同了，合约广告系统中，它是用来对流量实时反馈。</p>
+
+<h2 id="section-6">算法</h2>
+
+<p><a href="/paper/high_water_mark算法.pdf">High_Water_Mark算法</a></p>
+
+
+    </div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/03/learning-30-technologies-in-30-days-a-developer-challenge/">30天学30种技术[转]</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-03T13:31:00+08:00" pubdate data-updated="true">Dec 3<span>rd</span>, 2013</time>
+        
+		
+        
+        <span style="text-transform:none">
+		  | Tags: 
+          
+            <a class='category' href='/blog/categories/新技术/'>新技术</a>
+          
+        </span>
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=30天学30种技术[转] - &amp;url=http://wxwidget.github.io/blog/2013/12/03/learning-30-technologies-in-30-days-a-developer-challenge/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=30天学30种技术[转] - &amp;url=http://wxwidget.github.io/blog/2013/12/03/learning-30-technologies-in-30-days-a-developer-challenge/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=30天学30种技术[转]  - &amp;url=http://wxwidget.github.io/blog/2013/12/03/learning-30-technologies-in-30-days-a-developer-challenge/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <h3 id="httpgeekcsdnnetnewsdetail3740"><a href="http://geek.csdn.net/news/detail/3740">30天学30种技术</a></h3>
+
+<p>RedHat负责OpenShift技术推广的Shekhar Gulati从2013年10月29日开始，立下心愿要在<a href="https://www.openshift.com/blogs/learning-30-technologies-in-30-days-a-developer-challenge">30天内学习30种技术</a></p>
+
+<p>现在，他完成了。他自己的头衔也编程了“30天学30种技术”博客作者，比Evangelist感觉的确强不少。这个系列当然也为OpenShift网站带来了不少流量和关注度。国内做技术营销的同学，学着点吧。</p>
+
+<p>这30天里，他学习了从前端到服务器，还有一些算法库。应该说，他对技术的选择眼光不错，其中除了少数是为OpenShift做宣传之外，多是现在值得关注的技术新贵。如果其中哪种技术属于你的领域，你还没听说过的话，应该看一看了。Gulati为每种技术都写下了一些学习心得，虽然不是大深入，但对粗略了解还是有价值的。</p>
+
+<h3 id="section">这30种技术分别是：</h3>
+
+<ul>
+  <li>Bower：客户端依赖管理工具，由Twitter开源。</li>
+  <li>AngularJS：来自Google的单页Web应用框架。</li>
+  <li>Flask：近年来非常火的Python Web微框架。</li>
+  <li>PredictionIO：基于Apache Mahout的开源机器学习服务器，用Scala开发。</li>
+  <li>GruntJS：JavaScript世界里的命令行构建工具，类似make或者ant。</li>
+  <li>Grails：这个不算新了，Groovy语言的Rails。</li>
+  <li>GruntJS LiveReload：GruntJS的更高级应用。</li>
+  <li>Harp：内置预处理的静态Web服务器，无需配置。</li>
+  <li>TextBlob：开源Python文本处理库。</li>
+  <li>PhoneGap——Mobile Development for the Dummies</li>
+  <li>AeroGear Push Server——Push Notifications Made Easy</li>
+  <li>OpenCV——Face Detection for Java Developers</li>
+  <li>DropWizard——The Awesome Java REST Server Stack</li>
+  <li>Stanford NER——How To Setup Your Own Name, Entity, and Recognition Server in the Cloud</li>
+  <li>Meteor——Building a Web App From Scratch in Meteor</li>
+  <li>Goose Extractor——An Article Extractor That Just Works</li>
+  <li>JBoss Forge——Build and Deploy Java EE 6 AngularJS Applications using JBoss Forge and OpenShift</li>
+  <li>BoilerPipe——Article Extraction for Java Developers</li>
+  <li>Ember——The Missing EmberJS Tutorial</li>
+  <li>Stanford CoreNLP——Performing Sentiment Analysis of Twitter using Java</li>
+  <li>Docker——The Missing Tutorial</li>
+  <li>Developing Single Page Applications with Spring, MongoDB, and AngularJS</li>
+  <li>TimelineJS —— Build Beautiful Timelines</li>
+  <li>Yeoman Ember——The Missing Tutorial</li>
+  <li>Tornado——Combining Tornado, MongoDB, and AngularJS to Build an App</li>
+  <li>TogetherJS——Let’s Code Together</li>
+  <li>Restify——Build Correct REST Web Services in Node.js</li>
+  <li>OpenShift Eclipse Integration for Java Developers</li>
+  <li>Yeoman Chrome Generator——Write Your First Google Chrome Extension</li>
+  <li>Play Framework——A Java Developer Dream Framework</li>
+</ul>
+
+    </div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/28/mixture-of-expert/">Mixture-of-expert</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-28T16:59:00+08:00" pubdate data-updated="true">Nov 28<span>th</span>, 2013</time>
+        
+		
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=mixture-of-expert - &amp;url=http://wxwidget.github.io/blog/2013/11/28/mixture-of-expert/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=mixture-of-expert - &amp;url=http://wxwidget.github.io/blog/2013/11/28/mixture-of-expert/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=mixture-of-expert  - &amp;url=http://wxwidget.github.io/blog/2013/11/28/mixture-of-expert/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <div class="abstract">
+            <table>
+                <tr>
+                    <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
+                    <td>MOE是分片混合算法的集大成，阿里系所谓MLR并不是发明，而是取了MOE的一个特例，这里讨论MOE的博大精深</td>
+                </tr>
+            </table>
+        </div>
+        
+        <h2 id="section">算法描述</h2>
+
+<h2 id="section-1">应用场景</h2>
+
+<h2 id="section-2">优缺点</h2>
+
+    </div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/28/recommender-relevance-feedback/">相关性反馈-relevance Feedback</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-28T16:54:00+08:00" pubdate data-updated="true">Nov 28<span>th</span>, 2013</time>
+        
+		
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=相关性反馈-relevance feedback - &amp;url=http://wxwidget.github.io/blog/2013/11/28/recommender-relevance-feedback/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=相关性反馈-relevance feedback - &amp;url=http://wxwidget.github.io/blog/2013/11/28/recommender-relevance-feedback/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=相关性反馈-relevance feedback  - &amp;url=http://wxwidget.github.io/blog/2013/11/28/recommender-relevance-feedback/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <div class="abstract">
+            <table>
+                <tr>
+                    <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
+                    <td>主要讨论搜索相关性反馈的方法，以及在推荐场景中如何及时反馈用户的行为,从而提升推荐的效果</td>
+                </tr>
+            </table>
+        </div>
+        
+        <h2 id="section">问题</h2>
+
+<h3 id="section-1">场景</h3>
+
+<h2 id="section-2">相关反馈</h2>
+
+<h2 id="section-3">方法</h2>
+
+    </div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/22/ctr-prediction-v3/">CTR Prediction 3.0</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-22T10:47:00+08:00" pubdate data-updated="true">Nov 22<span>nd</span>, 2013</time>
+        
+		
+        
+        <span style="text-transform:none">
+		  | Tags: 
+          
+            <a class='category' href='/blog/categories/ctr-nbspprediction/'>CTR&nbspPrediction</a>, <a class='category' href='/blog/categories/recommender-nbspsysterm/'>Recommender&nbspSysterm</a>
+          
+        </span>
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=CTR Prediction 3.0 - &amp;url=http://wxwidget.github.io/blog/2013/11/22/ctr-prediction-v3/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=CTR Prediction 3.0 - &amp;url=http://wxwidget.github.io/blog/2013/11/22/ctr-prediction-v3/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=CTR Prediction 3.0  - &amp;url=http://wxwidget.github.io/blog/2013/11/22/ctr-prediction-v3/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <div class="abstract">
+            <table>
+                <tr>
+                    <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
+                    <td>点击预估现状分析和提升计划，目标是提供稳定的,统一的CTR预估服务</td>
+                </tr>
+            </table>
+        </div>
+        
+        <h2 id="section">现状</h2>
+
+<ul>
+  <li>1.0的版本解决了离线算法融合的问题，所用的特征全部是离线计算的特征，和用户没有任何关系。在“i2i”场景中，得到充分的利用；</li>
+  <li>2.0的版本解决了部分在线预估的问题,除了离线用户无关特征外，加入了用户画像特征，在线的用户意图分析和实时场景预测</li>
+</ul>
+
+<h2 id="section-1">算法模型</h2>
+
+<p>算法上采用LR直接预测用户对候选商品的点击可能性(或者rating)</p>
+
+<h3 id="section-2">特征列表</h3>
+
+<h4 id="section-3">相似特征</h4>
+
+<p>相似推荐中涉及到两个相似的实体：A，B。因此计算考虑点击特征的时候会使用商品的相似特征, 这些特征从单一维度上都可以作为
+推荐排序来使用，把这些特征合并在一起同时也起到了模型融合的作用。
+同时，在特征中加入了rank特征，即用当前相似性排序时的排序位置。这样可以保证在加入额外特征的时候AUC指标不下降</p>
+
+<ol>
+  <li>jacard同店看了看相似度和rank:, rank最大为20,排在20以外的丢弃</li>
+  <li>jacard同店买了买相似度和rank:</li>
+  <li>cos同店同类看了看和rank:</li>
+  <li>cos同店同类买了买和rank:</li>
+  <li>同店同类看了买:v1,v2中使用</li>
+  <li>同店同类买了看:未使用</li>
+  <li>主商品和推荐商品是否为同类目商品</li>
+</ol>
+
+<p>说明：数值类特征采用截断分位数后的归一化，(x-min)/(max-min); log后还未用转换为类目相对销量的方式</p>
+
+<h4 id="section-4">商品特征</h4>
+
+<ol>
+  <li>人气分： 属于销量预测模型，同时也是搜索的一个重要排序因子</li>
+  <li>listctr：统计在list页上的点击率</li>
+  <li>cvr：统计的商品pv转化率</li>
+  <li>ixx: 行业id</li>
+  <li>lxx：叶子类目</li>
+  <li>sxx: 店铺id</li>
+  <li>归一化推荐商品价格</li>
+  <li>归一化推荐商品和主商品价格差</li>
+  <li>log(1+周销量) //其中的一种power law的非线性变化方式</li>
+  <li>log(1+周成交额)</li>
+  <li>log(1+月销量)</li>
+  <li>log(1+月成交额)</li>
+</ol>
+
+<h4 id="section-5">用户特征</h4>
+
+<p>用户特征在这一期里还没有应用，后续其实可以加入更多的的用户画像、偏好、和意图的特征</p>
+
+<h4 id="section-6">场景特征</h4>
+
+<p>目前没有场景相关的特征，以后对页面的场景，比如在会场页，wap页、售后页，来源页等做适当特征分析
+时间、状态（wap和pc）、天气、地点</p>
+
+<h3 id="section-7">特征权重</h3>
+
+<p><img /></p>
+
+<h2 id="section-8">改进点</h2>
+
+<p>有一些改进的方向：</p>
+
+<ol>
+  <li>新特征的引入：在常用的i2i场景中，引入人的因素，可以使得推荐的结果效果千人千面</li>
+  <li>特征的变换：目前的模型特征线性的部分居多，如何能把特征从线性特征变成非线性的特征，比如对数化，离散化等等。类似svm的特征非线性变换方式</li>
+  <li>新模型的探索：LR模型有其天然的局限性，对MOE(mixture of expert)的方法：比如MLR,Tree LR,DT,都可以尝试</li>
+  <li>外围分析的方法的建设：
+    <ol>
+      <li>比如特征权重的分析</li>
+      <li>特征重要度的分析</li>
+      <li>交叉模型的回归分析</li>
+      <li>可视化体验等等</li>
+    </ol>
+  </li>
+  <li>L2R方法的探索：不需要准确预估值，直接预估偏好关系。(L2R方法比直接CTR的方法的优势不是特别明显，在什么业务场景适用L2R还需要进一步探索)</li>
+</ol>
+
+<h3 id="section-9">模型改进</h3>
+
+
+    </div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -183,17 +1387,41 @@
 
 <h3 id="section-1">用户需求</h3>
 
-<p>用户逛的调研</p>
+<p>用户逛的调研:</p>
 
-<pre><code> 没有购物需求 2.2%, &lt;= 没事就逛逛
- 想购物还不知道买什么  27.2% &lt;= 看看有没有什么划算的
- 想买某类东西，还不明确  53.9% &lt;= 好像缺什么东西就逛逛
- 有明确想买的商品 16.0%  &lt;=确定想买东西,先搜索
-</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">需求的强度</th>
+      <th style="text-align: left">占比</th>
+      <th style="text-align: left">解释</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">没有购物需求</td>
+      <td style="text-align: left">2.2%</td>
+      <td style="text-align: left">没事就逛逛</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">想购物还不知道买什么</td>
+      <td style="text-align: left">27.2%</td>
+      <td style="text-align: left">看看有没有什么划算的</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">想买某类东西，还不明确</td>
+      <td style="text-align: left">53.9%</td>
+      <td style="text-align: left">好像缺什么东西就逛逛</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">有明确想买的商品</td>
+      <td style="text-align: left">16.0%</td>
+      <td style="text-align: left">确定想买东西,先搜索</td>
+    </tr>
+  </tbody>
+</table>
 
 <h2 id="section-2">多快才是实时</h2>
-
-<p>nextpage</p>
 
 <h2 id="section-3">实时推荐的作用</h2>
 
@@ -202,695 +1430,10 @@
 <h2 id="section-5">算法实现</h2>
 
 <h3 id="section-6">分类</h3>
-<p>### 聚类
-### 频繁项集</p>
 
-    </div>
-  
-  
+<h3 id="section-7">聚类</h3>
 
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/11/14/svm-pegasos/">Pegasos算法</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-14T11:49:00+08:00" pubdate data-updated="true">Nov 14<span>th</span>, 2013</time>
-        
-		
-        
-        <span style="text-transform:none">
-		  | Tags: 
-          
-            <a class='category' href='/blog/categories/machine-nbsp-learning/'>Machine&nbsp;Learning</a>
-          
-        </span>
-        
-        <span class="share-to-weibo">
-  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=Pegasos算法 - &amp;url=http://wxwidget.github.io/blog/2013/11/14/svm-pegasos/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
-  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=Pegasos算法 - &amp;url=http://wxwidget.github.io/blog/2013/11/14/svm-pegasos/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
-  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=Pegasos算法  - &amp;url=http://wxwidget.github.io/blog/2013/11/14/svm-pegasos/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
-</span>
- 
-      </p>
-    
-  </header>
-
-
-    <div class="entry-content">
-        
-        <div class="abstract">
-            <table>
-                <tr>
-                    <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
-                    <td>本文介绍了svm的一种online learning算法pegasos，并基于pegasoso算法实现了一个数字手写识别脚本。</td>
-                </tr>
-            </table>
-        </div>
-        
-        <p>本文参考了博文<a href="http://mark.reid.name/sap/online-learning-in-clojure.html">Online Learning in Clojure</a>和论文<a href="http://www.machinelearning.org/proceedings/icml2007/abstracts/587.htm">Pegasos: Primal Estimated sub-GrAdient SOlver for SVM</a>(<a href="http://www.machinelearning.org/proceedings/icml2007/papers/587.pdf">PDF</a>)</p>
-
-<h2 id="online-learning">online learning</h2>
-
-<p>Online learning的算法结构是非常简单的，下面的描述是监督的online learning算法框架，其中有经验损失函数$L$，样本流$S$，样本的格式为$(x,y)$:</p>
-
-<pre><code>Initialise a starting model w
-While there are more examples in S
-    Get the next feature vector x
-    Predict the label y' for x using the model w
-    Get the true label y for x and incur a penaly L(y,y')
-    Update the model w if y ≠ y'
-</code></pre>
-
-<p>一般来是，训练出来的模型都是一个与样本相同维度的向量。对应二分的分类器，往往涉及到的是计算内积$\langle w,x \rangle$，模型的更新是沿着损失函数的梯度下降方向的。</p>
-
-<h2 id="pegasos">Pegasos</h2>
-
-<p>论文<a href="http://www.machinelearning.org/proceedings/icml2007/abstracts/587.htm">Pegasos: Primal Estimated sub-GrAdient SOlver for SVM</a>是一种svm的online learning算法。</p>
-
-
-    </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/11/14/svm-pegasos/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/11/08/admm-and-large-scale-regression/">ADMM and Large Scale Regression</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-08T00:00:00+08:00" pubdate data-updated="true">Nov 8<span>th</span>, 2013</time>
-        
-		
-        
-        <span class="share-to-weibo">
-  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=ADMM and Large Scale Regression - &amp;url=http://wxwidget.github.io/blog/2013/11/08/admm-and-large-scale-regression/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
-  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=ADMM and Large Scale Regression - &amp;url=http://wxwidget.github.io/blog/2013/11/08/admm-and-large-scale-regression/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
-  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=ADMM and Large Scale Regression  - &amp;url=http://wxwidget.github.io/blog/2013/11/08/admm-and-large-scale-regression/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
-</span>
- 
-      </p>
-    
-  </header>
-
-
-    <div class="entry-content">
-        
-        <h2 id="section">讨论主题</h2>
-
-<p>ADMM是一种通用的并行优化策略, 它可以非常方便的在分布式环境的迭代优化计算，ADMM的算法文档可参考:<a href="www.stanford.edu/~boyd/papers/pdf/admm_distr_stats.pdf">ADMM文档</a></p>
-
-<ul>
-  <li>
-    <p><a href="https://speakerdeck.com/pld/distributed-classification-with-admm">ADMM</a></p>
-  </li>
-  <li><a href="http://www.stanford.edu/~boyd/papers/admm/mpi/">MPI example for alternating direction method of multipliers</a></li>
-  <li><a href="http://www.stanford.edu/~boyd/papers/admm_distr_stats.html">Distributed Optimization and Statistical Learning via the Alternating Direction Method of Multipliers</a></li>
-</ul>
-
-<h2 id="section-1">算法</h2>
-<ol>
-  <li>paralled Dual-ADMM</li>
-  <li>FISTA</li>
-  <li>GRock</li>
-</ol>
-
-<h2 id="section-2">代码</h2>
-
-<ul>
-  <li><a href="https://github.com/intentmedia/admm">admm-hadoop</a></li>
-  <li><a href="https://github.com/brianmartin/admm-lasso-without-mpi">admm-lasso-without-mpi</a></li>
-  <li><a href="http://www.stanford.edu/~boyd/papers/admm/mpi/">admm-mpi</a></li>
-  <li><a href="http://www.caam.rice.edu/~optimization/disparse/">Parallel and Distributed Sparse Optimization</a></li>
-</ul>
-
-
-    </div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/11/06/predictability-and-information-theory/">Predictability and Information Theory</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-06T00:00:00+08:00" pubdate data-updated="true">Nov 6<span>th</span>, 2013</time>
-        
-		
-        
-        <span class="share-to-weibo">
-  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=Predictability and Information Theory - &amp;url=http://wxwidget.github.io/blog/2013/11/06/predictability-and-information-theory/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
-  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=Predictability and Information Theory - &amp;url=http://wxwidget.github.io/blog/2013/11/06/predictability-and-information-theory/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
-  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=Predictability and Information Theory  - &amp;url=http://wxwidget.github.io/blog/2013/11/06/predictability-and-information-theory/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
-</span>
- 
-      </p>
-    
-  </header>
-
-
-    <div class="entry-content">
-        
-        <h2 id="section">可预测性理论</h2>
-<p><a href="http://journals.ametsoc.org/doi/pdf/10.1175/1520-0469\(2004\)061%3C2425%3APAITPI%3E2.0.CO%3B2">Predictability and Information Theory. Part I: Measures of Predictability</a></p>
-
-<h3 id="section-1">如何度量</h3>
-
-    </div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/10/21/selecting_contentbased_features/">选择content-based的特征</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-21T00:00:00+08:00" pubdate data-updated="true">Oct 21<span>st</span>, 2013</time>
-        
-		
-        
-        <span class="share-to-weibo">
-  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=选择content-based的特征 - &amp;url=http://wxwidget.github.io/blog/2013/10/21/selecting_contentbased_features/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
-  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=选择content-based的特征 - &amp;url=http://wxwidget.github.io/blog/2013/10/21/selecting_contentbased_features/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
-  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=选择content-based的特征  - &amp;url=http://wxwidget.github.io/blog/2013/10/21/selecting_contentbased_features/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
-</span>
- 
-      </p>
-    
-  </header>
-
-
-    <div class="entry-content">
-        
-        <h2 id="section">论文</h2>
-<p>recsys2013的poster[selection content-based features for collaborative filtering recommenders] [p1]</p>
-
-<h3 id="section-1">八卦</h3>
-<pre><code>作者是 [p1]: http://www.eng.tau.ac.il/~noamk/papers/feature_selection_recsys_2013.pdf
-</code></pre>
-
-    </div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/10/17/pair-wise-learning/">Pairwise Learning</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2013</time>
-        
-		
-        
-        <span class="share-to-weibo">
-  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=pairwise learning - &amp;url=http://wxwidget.github.io/blog/2013/10/17/pair-wise-learning/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
-  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=pairwise learning - &amp;url=http://wxwidget.github.io/blog/2013/10/17/pair-wise-learning/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
-  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=pairwise learning  - &amp;url=http://wxwidget.github.io/blog/2013/10/17/pair-wise-learning/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
-</span>
- 
-      </p>
-    
-  </header>
-
-
-    <div class="entry-content">
-        
-        <h2 id="section">背景介绍</h2>
-
-<p><a href="http://www.slideshare.net/AmitSharma315/pairwise-learning-experiments-with-community-recommendation-on-linkedin">recsys2013 Linkedin pairwise learning的报告</a></p>
-
-<p><strong>观测数据</strong>：用户U产生行为Y(在linkedin场景行为是加入的社区)，形成一条数据(u,y)</p>
-
-<p><strong>推荐问题</strong>：给定一些（u，y）的元组，为一个用户u推荐用户可能产生的行为（加入社区），或者一个用户u是否会加入社区y</p>
-
-<p><strong>常用方法</strong>：收集用户的profile和偏好， 计算用户和社区的相似程度</p>
-
-<script type="math/tex; mode=display">
-\begin{aligned}
-Sim(u,y) = \sum_{i=1}^n(w_i f_u^i f_y^i)
-\end{aligned} 
-</script>
-
-<p>计算相识度的算法非常多，
-启发式方法: 利用启发式公式，计算用户和社区的相似程度。
-常用的计算相似度的方法包括：<a href="http://en.wikipedia.org/wiki/Jaccard_index">jaccard</a>，<a href="http://en.wikipedia.org/wiki/Cosine_similarity">余弦相似</a>, <a href="http://en.wikipedia.org/wiki/Euclidean_distance#Squared_Euclidean_distance">欧式距离</a>等:</p>
-
-<p>具体的方法和普通的协同过滤算法类似，定义了user * item的矩阵，计算
-item-base的方法是先把item表示成user的向量, </p>
-
-<pre><code>itemA : &lt;userA,userB,userC,userD&gt;
-itemB : &lt;userA,userB,userE,userF&gt;
-</code></pre>
-
-<p>用户以上的相似计算方法度量itemA和itemB的相似性，为了映射到itemA和user的相似性，把user表示成item的向量</p>
-
-<pre><code>userA: &lt;itemB, itemC, itemD&gt;
-</code></pre>
-
-<p>那么itemA和userA的相似性可以表示层：itemA和&lt;itemB,itemC,itemD&gt;的平均相似性,或者其他值</p>
-
-<p>基于模型的方法 直接通过数据特征和把目标，预测用户对目标的偏好程度，常见的机器学习方法比如<a href="http://en.wikipedia.org/wiki/Logistic_regression">Logistic Regression</a></p>
-
-<p><img src="http://upload.wikimedia.org/math/8/a/9/8a9c21e683de89ddb61f15262ee9fd3a.png" alt="LR" /></p>
-
-<p>这里的x指用户和社区的特征，比如用户的性别，年龄，兴趣，社区的主题，用户和社区的特征组合等等，而目标即用户是否加入社区</p>
-
-<h2 id="section-1">一些观察</h2>
-
-<p>通常pointwise的排序方法就够用了，但是很多场景下，我们很难度量用户对某个item的喜好程度，但是我们可以定义一些用户的偏好;
-另一方面，排序算法会利用点击日志来调整算法的效果，用户只能点击到我们投放给用户的item，用户行为表现更多的是偏向，而不是程度。</p>
-
-<p>比如：在搜索结果场景中，通常会给用户展示多个候选集合，用户浏览集合然后从中挑选出自己偏好的集合。这里的用户行为实际上表现了一些用户的喜好，
-pointwise的假设是用户的喜好是全局的，用户对候选的表现是独立，不会受到前后的影响。而实际情况确有不同，比如用户通常会对比候选，然后挑选出一个。
-因此用户的偏好常常是相对的，为了描述这种相对偏好，常常采用pairwise或者listwise的ranking方法。 </p>
-
-<p>对单次点击的pairwise样本:</p>
-
-<ul>
-  <li>Click &gt; Skip Above</li>
-  <li>Last Click &gt; Skip Above</li>
-  <li>Click &gt; Earlier Click</li>
-  <li>Last Click &gt; Skip Previous</li>
-  <li>Click &gt; No-Click Next</li>
-</ul>
-
-<h2 id="section-2">分析</h2>
-
-<p>如何结合整体点击率，在单次点击里抽样样本</p>
-
-<ul>
-  <li>同query下，每个item的统计CTR</li>
-  <li>可选择:消除position bias</li>
-  <li>选择CTR差值有一定置信度的Pair, 比如：A-&gt;B, E-&gt;C, C-&gt;E</li>
-  <li>对单次点击过滤掉行为噪音,满足购买&gt;点击&gt;无行为, 从每次pv中过滤掉不满足约束的Pair，剩下A-&gt;B, E-&gt;C</li>
-  <li>
-    <p>特征改进</p>
-
-    <ul>
-      <li>按照原始特征分布去筛选样本分布</li>
-      <li>没有区分度的特征通过样本选择的方式去改进</li>
-    </ul>
-  </li>
-  <li>负样本采样
-    <ul>
-      <li>没有最优的负样本采样策略</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="section-3">算法</h2>
-
-<ol>
-  <li><a href="http://www.cs.cornell.edu/people/tj/svm_light/svm_rank.html">rankSVM</a></li>
-  <li>PLSA</li>
-</ol>
-
-<h2 id="section-4">并行化</h2>
-
-<ol>
-  <li>GPU</li>
-  <li>并发</li>
-  <li>分布式
-    <ul>
-      <li>BSP on MPI:</li>
-      <li>Hadoop</li>
-      <li>Scala</li>
-    </ul>
-  </li>
-</ol>
-
-<h2 id="section-5">结果</h2>
-
-<h2 id="section-6">参考</h2>
-
-<ul>
-  <li><a href="http://static.googleusercontent.com/external_content/untrusted_dlcp/research.google.com/zh-CN//pubs/archive/35662.pdf">Large Scale Learning to Rank at google</a></li>
-</ul>
-
-
-    </div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/10/14/cold_start_solution/">冷启动问题求解</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-14T10:49:00+08:00" pubdate data-updated="true">Oct 14<span>th</span>, 2013</time>
-        
-		
-        
-        <span style="text-transform:none">
-		  | Tags: 
-          
-            <a class='category' href='/blog/categories/recommender-nbspsysterm/'>Recommender&nbspSysterm</a>
-          
-        </span>
-        
-        <span class="share-to-weibo">
-  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=冷启动问题求解 - &amp;url=http://wxwidget.github.io/blog/2013/10/14/cold_start_solution/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
-  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=冷启动问题求解 - &amp;url=http://wxwidget.github.io/blog/2013/10/14/cold_start_solution/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
-  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=冷启动问题求解  - &amp;url=http://wxwidget.github.io/blog/2013/10/14/cold_start_solution/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
-</span>
- 
-      </p>
-    
-  </header>
-
-
-    <div class="entry-content">
-        
-        <div class="abstract">
-            <table>
-                <tr>
-                    <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
-                    <td>本文介绍冷启动的问题以及常用的求解思路</td>
-                </tr>
-            </table>
-        </div>
-        
-        <h2 id="section">冷启动问题的解决</h2>
-
-<p>冷启动问题的分类：</p>
-
-<ol>
-  <li>用户冷启动（新用户来了）；</li>
-  <li>物品冷启动（新物品来了）；</li>
-  <li>系统冷启动（整个推荐系统都是新的，也可以认为，它和“用户冷启动”的区别是，所有用户对系统冷启动来讲都是新用户，都面临冷启动问题）</li>
-</ol>
-
-<p>冷启动是稀疏数据问题一种特殊形态。用户跟系统的交互非常少，导致可以利用的数据比较小,也很难为用户建立Profile和兴趣,因此会导致一般的推荐算法失效。</p>
-
-<p>冷启动问题的解决方案：说白了，就是尽可能利用信息给用户一个可以接受的物品列表，最常见的就是热门排行。</p>
-
-<p>有的是根据冷启动问题分类来的，有的是从解决方案（能利用用户什么类型信息）来的。</p>
-
-<h3 id="section-1">启发式方法</h3>
-
-<pre><code>Linear combination of regression and CF models
-Filterbot Add user features as psuedo users and do collaborative filtering
-Hybrid approaches Use content based to fill up entries, then use CF
-</code></pre>
-
-<p>http://grouplens.org/papers/pdf/filterbot-CSCW98.pdf</p>
-
-<h3 id="matrix-factorization">Matrix Factorization</h3>
-<p>Good performance on Netflix (Koren, 2009)</p>
-
-<h3 id="model-based-approaches">Model-based approaches</h3>
-
-<ul>
-  <li>Bilinear random-effects model (probabilistic matrix factorization)</li>
-  <li>Good on Netflix data [Ruslan et al ICML, 2009]</li>
-  <li>Add feature-based regression to matrix factorization 
-(Agarwal and Chen, 2009)</li>
-  <li>Add topic discovery (from textual items) to matrix factorization 
-(Agarwal and Chen, 2009; Chun and Blei, 2011)</li>
-</ul>
-
-
-    </div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/09/10/diversity_similarity/">推荐系统多样性的问题</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-10T00:00:00+08:00" pubdate data-updated="true">Sep 10<span>th</span>, 2013</time>
-        
-		
-        
-        <span class="share-to-weibo">
-  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=推荐系统多样性的问题 - &amp;url=http://wxwidget.github.io/blog/2013/09/10/diversity_similarity/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
-  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=推荐系统多样性的问题 - &amp;url=http://wxwidget.github.io/blog/2013/09/10/diversity_similarity/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
-  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=推荐系统多样性的问题  - &amp;url=http://wxwidget.github.io/blog/2013/09/10/diversity_similarity/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
-</span>
- 
-      </p>
-    
-  </header>
-
-
-    <div class="entry-content">
-        
-        <p>DIVERSITY方面的相关文章
-关于diversity方面的推荐系统论文，搜索了一下相关的文章，下面是一些比较著名的文章的列表</p>
-
-<ol>
-  <li>Similarity vs. Diversity</li>
-  <li>Avoiding monotony: improving the diversity of recommendation lists</li>
-  <li>Improving recommendation lists through topic diversification</li>
-  <li>
-    <p>Being accurate is not enough: how accuracy metrics have hurt recommender systems</p>
-
-    <p>其中第3篇是第一篇有关diversity的经典论文。第二篇是去年Resys08的一篇论文，主要贡献是用线性二次优化来找到整数二次优化问题的次优解。第4篇是一篇定性的文章，主要在于diversity背后哲学问题的讨论</p>
-  </li>
-</ol>
-
-<p>imrchen去年也整理过diversity方面的文章，因为他的博客大陆不能访问，不过可以访问他在CiteULike的链接：</p>
-
-<p>http://www.citeulike.org/user/imrchen/tag/diversity</p>
-
-<p>WI2009收录的两篇Diversity方面的论文
-1. Statistical Modeling of Diversity in Top-N Recommender Systems, Mi Zhang
-2. Novel Item Recommendation by User Profile Partitioning, Mi Zhang</p>
-
-    </div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/09/10/challenge_of_recsys/">推荐系统的挑战</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-10T00:00:00+08:00" pubdate data-updated="true">Sep 10<span>th</span>, 2013</time>
-        
-		
-        
-        <span class="share-to-weibo">
-  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=推荐系统的挑战 - &amp;url=http://wxwidget.github.io/blog/2013/09/10/challenge_of_recsys/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
-  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=推荐系统的挑战 - &amp;url=http://wxwidget.github.io/blog/2013/09/10/challenge_of_recsys/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
-  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=推荐系统的挑战  - &amp;url=http://wxwidget.github.io/blog/2013/09/10/challenge_of_recsys/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
-</span>
- 
-      </p>
-    
-  </header>
-
-
-    <div class="entry-content">
-        
-        
-
-    </div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/29/google-ctr/">Google Ctr预估系统</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-29T00:00:00+08:00" pubdate data-updated="true">Aug 29<span>th</span>, 2013</time>
-        
-		
-        
-        <span class="share-to-weibo">
-  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=google ctr预估系统 - &amp;url=http://wxwidget.github.io/blog/2013/08/29/google-ctr/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
-  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=google ctr预估系统 - &amp;url=http://wxwidget.github.io/blog/2013/08/29/google-ctr/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
-  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=google ctr预估系统  - &amp;url=http://wxwidget.github.io/blog/2013/08/29/google-ctr/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
-</span>
- 
-      </p>
-    
-  </header>
-
-
-    <div class="entry-content">
-        
-        <h2 id="section">简介</h2>
-<p>kdd2013 google的论文就像一枚重磅炸弹 Ad Click Prediction: a View from the Trenches</p>
-
-<h2 id="section-1">算法</h2>
-<p>##工程考虑
-##结语</p>
+<h3 id="section-8">频繁项集</h3>
 
     </div>
   
@@ -920,30 +1463,30 @@ Hybrid approaches Use content based to fill up entries, then use CF
   <ul id="Recent Posts">
     
       <li class="post">
-        <a href="/blog/2013/11/18/realtime-recommender/">实时推荐</a>
+        <a href="/blog/2014/01/24/online-learning-survey/">在线学习</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/11/14/svm-pegasos/">Pegasos算法</a>
+        <a href="/blog/2013/12/30/spare-classification-rbm/">Spare Classification RBM系统</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/11/08/admm-and-large-scale-regression/">ADMM and Large Scale Regression</a>
+        <a href="/blog/2013/12/12/ad-tech/">广告基础</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/11/06/predictability-and-information-theory/">Predictability and Information Theory</a>
+        <a href="/blog/2013/12/04/learning-to-recommendation/">机器学习在个性化推荐中的应用</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/10/21/selecting_contentbased_features/">选择content-based的特征</a>
+        <a href="/blog/2013/12/03/guaranteed-delivery/">合约投放系统-介绍</a>
       </li>
     
   </ul>
 </section>
 <section id="tag-clouds">
   <h1>分类</h1>
-    <span class="tag-cloud"><a href='/blog/categories/machine-nbsp-learning' style='font-size: 130.0%'>Machine&nbsp;Learning(1)</a> <a href='/blog/categories/recommender-nbspsysterm' style='font-size: 160.0%'>Recommender&nbspSysterm(2)</a> </span>
+    <span class="tag-cloud"><a href='/blog/categories/ctr-nbspprediction' style='font-size: 112.0%'>CTR&nbspPrediction(1)</a> <a href='/blog/categories/machine-nbsp-learning' style='font-size: 112.0%'>Machine&nbsp;Learning(1)</a> <a href='/blog/categories/machine-nbsplearning' style='font-size: 124.0%'>Machine&nbspLearning(2)</a> <a href='/blog/categories/online-nbsplearning' style='font-size: 124.0%'>Online&nbspLearning(2)</a> <a href='/blog/categories/recommender-nbspsysterm' style='font-size: 160.0%'>Recommender&nbspSysterm(5)</a> <a href='/blog/categories/广告技术' style='font-size: 124.0%'>广告技术(2)</a> <a href='/blog/categories/新技术' style='font-size: 112.0%'>新技术(1)</a> <a href='/blog/categories/机器学习' style='font-size: 112.0%'>机器学习(1)</a> </span>
 </section>
 <section>
   <h1>友情链接</h1>
@@ -966,10 +1509,12 @@ Hybrid approaches Use content based to fill up entries, then use CF
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - 杨程 -
+  Copyright &copy; 2014 - 杨程 -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
   <span style="float:right">
-    Statistics by <script type="text/javascript" src="/javascripts/baidu-tongji.js"></script>
+      <!- 
+      Statistics by <script type="text/javascript" src="/javascripts/baidu-tongji.js"></script>
+      -->
   </span>
 </p>
 

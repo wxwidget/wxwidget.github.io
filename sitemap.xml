@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://wxwidget.github.io/blog/2013/08/28/NextGenerationRecSys/</loc>
-        <lastmod>2013-11-18T10:49:37+08:00</lastmod>
+        <loc>http://wxwidget.github.io/blog/2013/08/08/NextGenerationRecSys/</loc>
+        <lastmod>2013-11-28T16:37:55+08:00</lastmod>
     </url>
     <url>
         <loc>http://wxwidget.github.io/blog/2013/08/29/google-ctr/</loc>
@@ -18,7 +18,7 @@
     </url>
     <url>
         <loc>http://wxwidget.github.io/blog/2013/10/14/cold_start_solution/</loc>
-        <lastmod>2013-11-18T17:00:00+08:00</lastmod>
+        <lastmod>2014-01-24T14:19:41+08:00</lastmod>
     </url>
     <url>
         <loc>http://wxwidget.github.io/blog/2013/10/17/pair-wise-learning/</loc>
@@ -36,23 +36,65 @@
     </url>
     <url>
         <loc>http://wxwidget.github.io/blog/2013/11/08/admm-and-large-scale-regression/</loc>
-        <lastmod>2013-11-18T10:49:37+08:00</lastmod>
+        <lastmod>2013-12-05T16:13:40+08:00</lastmod>
     </url>
     <url>
         <loc>http://wxwidget.github.io/blog/2013/11/14/svm-pegasos/</loc>
-        <lastmod>2013-11-18T16:51:24+08:00</lastmod>
+        <lastmod>2014-02-05T16:07:42+08:00</lastmod>
     </url>
     <url>
         <loc>http://wxwidget.github.io/blog/2013/11/18/realtime-recommender/</loc>
-        <lastmod>2013-11-19T15:14:24+08:00</lastmod>
+        <lastmod>2013-12-02T09:33:06+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://wxwidget.github.io/blog/2013/11/22/ctr-prediction-v3/</loc>
+        <lastmod>2013-12-04T11:45:46+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://wxwidget.github.io/blog/2013/11/28/recommender-relevance-feedback/</loc>
+        <lastmod>2013-11-28T16:59:00+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://wxwidget.github.io/blog/2013/11/28/mixture-of-expert/</loc>
+        <lastmod>2013-12-05T15:30:56+08:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://wxwidget.github.io/blog/2013/12/03/learning-30-technologies-in-30-days-a-developer-challenge/
+        </loc>
+        <lastmod>2013-12-05T15:28:54+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://wxwidget.github.io/blog/2013/12/03/guaranteed-delivery/</loc>
+        <lastmod>2013-12-06T12:56:01+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://wxwidget.github.io/blog/2013/12/04/learning-to-recommendation/</loc>
+        <lastmod>2013-12-09T13:10:07+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://wxwidget.github.io/blog/2013/12/12/ad-tech/</loc>
+        <lastmod>2013-12-12T14:42:36+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://wxwidget.github.io/blog/2013/12/30/spare-classification-rbm/</loc>
+        <lastmod>2013-12-30T16:09:25+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://wxwidget.github.io/blog/2014/01/24/online-learning-survey/</loc>
+        <lastmod>2014-02-05T16:13:31+08:00</lastmod>
     </url>
     <url>
         <loc>http://wxwidget.github.io/javascripts/recent-post.json</loc>
         <lastmod>2013-11-15T14:04:54+08:00</lastmod>
     </url>
     <url>
+        <loc>http://wxwidget.github.io/paper/</loc>
+        <lastmod>2014-01-15T16:18:17+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://wxwidget.github.io/todo/</loc>
-        <lastmod>2013-11-18T09:38:47+08:00</lastmod>
+        <lastmod>2013-11-28T17:24:34+08:00</lastmod>
     </url>
     <url>
         <loc>http://wxwidget.github.io/about/</loc>
@@ -63,12 +105,16 @@
         <lastmod>2013-11-18T09:38:47+08:00</lastmod>
     </url>
     <url>
+        <loc>http://wxwidget.github.io/project/</loc>
+        <lastmod>2014-01-15T17:24:13+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://wxwidget.github.io/</loc>
-        <lastmod>2013-11-19T15:14:24+08:00</lastmod>
+        <lastmod>2014-02-05T16:13:31+08:00</lastmod>
     </url>
     <url>
         <loc>http://wxwidget.github.io/blog/archives/</loc>
-        <lastmod>2013-11-19T15:14:24+08:00</lastmod>
+        <lastmod>2014-02-05T16:13:31+08:00</lastmod>
     </url>
     <url>
         <loc>http://wxwidget.github.io/recent-comment/</loc>

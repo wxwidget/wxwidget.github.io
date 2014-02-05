@@ -1,0 +1,674 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[杨程的blog]]></title>
+  <link href="http://wxwidget.github.io/atom.xml" rel="self"/>
+  <link href="http://wxwidget.github.io/"/>
+  <updated>2013-11-18T11:44:34+08:00</updated>
+  <id>http://wxwidget.github.io/</id>
+  <author>
+    <name><![CDATA[杨程]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Pegasos算法]]></title>
+    <link href="http://wxwidget.github.io/blog/2013/11/14/svm-pegasos/"/>
+    <updated>2013-11-14T11:49:00+08:00</updated>
+    <id>http://wxwidget.github.io/blog/2013/11/14/svm-pegasos</id>
+    <content type="html"><![CDATA[<p>本文参考了博文<a href="http://mark.reid.name/sap/online-learning-in-clojure.html">Online Learning in Clojure</a>和论文<a href="http://www.machinelearning.org/proceedings/icml2007/abstracts/587.htm">Pegasos: Primal Estimated sub-GrAdient SOlver for SVM</a>(<a href="http://www.machinelearning.org/proceedings/icml2007/papers/587.pdf">PDF</a>)</p>
+
+<h2 id="online-learning">online learning</h2>
+
+<p>Online learning的算法结构是非常简单的，下面的描述是监督的online learning算法框架，其中有经验损失函数$L$，样本流$S$，样本的格式为$(x,y)$:</p>
+
+<pre><code>Initialise a starting model w
+While there are more examples in S
+    Get the next feature vector x
+    Predict the label y' for x using the model w
+    Get the true label y for x and incur a penaly L(y,y')
+    Update the model w if y ≠ y'
+</code></pre>
+
+<p>一般来是，训练出来的模型都是一个与样本相同维度的向量。对应二分的分类器，往往涉及到的是计算内积$\langle w,x \rangle$，模型的更新是沿着损失函数的梯度下降方向的。</p>
+
+<h2 id="pegasos">Pegasos</h2>
+
+<p>论文<a href="http://www.machinelearning.org/proceedings/icml2007/abstracts/587.htm">Pegasos: Primal Estimated sub-GrAdient SOlver for SVM</a>是一种svm的online learning算法。</p>
+
+<!-- more -->
+
+<p>首先来看svm的经验合页损失函数：</p>
+
+<script type="math/tex; mode=display">
+\begin{array}{l}
+L(w,S) = \frac{\lambda }{2}{\left\| w \right\|^2} + \frac{1}{k}\sum\limits_{(x,y) \in S} {h(w;(x,y))} \\
+h(w;(x,y)) = \max \{ 0,1 - y \langle w,x \rangle \} 
+\end{array}
+</script>
+
+<p>上面式子中，$k$是训练集$S$的大小，$h()$是the hinge loss（合页损失函数），$\langle w, x\rangle$表示$w,x$的内积，$\lambda$是正则化项。</p>
+
+<p>在<a href="http://book.douban.com/subject/10590856/">《统计学习方法》</a>这本书的7.2.4证明了合页损失函数与引入松弛变量后的损失函数是等价的，并证明了$\lambda$与惩罚系数$C$是成反比的。引入松弛变量后的损失函数为:</p>
+
+<script type="math/tex; mode=display">
+\frac{1}{2}\left \| w \right \|^{2} + C\sum_{i=1}^{N}\xi _{i}
+</script>
+
+<p>训练过程中，如果遇到了一个预测错误的样本$(x,y)$, 对模型的更新方法如下：</p>
+
+<script type="math/tex; mode=display">
+{w_{t + \frac{1}{2}}} = (1 - \frac{1}{t}){w_t} + \frac{1} { {\lambda t} } yx
+</script>
+
+<p>其中$t$表示已经训练过的样本个数，$ {w_{t + \frac{1}{2}}}$表示训练过$t$个的样本后的模型，${w_{t + \frac{1}{2} }}$ 表示新模型。
+根据pegasos算法，新模型的$l_2$范数如果超出了以 $\frac{1}{ {\sqrt \lambda  } }$ 为半径的超球面，那么需要将新模型投射到这个超球面上。即：</p>
+
+<script type="math/tex; mode=display">
+{w_{t + 1}} = \min \{ 1,\frac{1}{ {\sqrt \lambda  \left\| { {w_{t + \frac{1}{2} } } } \right\|}}\} {w_{t + \frac{1}{2}}}
+</script>
+
+<p>为什么需要讲新的模型投射到以$\frac{1}{ {\sqrt \lambda  } }$为半径的超球面上呢？论文证明了svm的最优解是在下面这个集合中的：</p>
+
+<script type="math/tex; mode=display">
+B = \{ w:\left\| w \right\| \le \frac{1}{ {\sqrt \lambda  } }\} 
+</script>
+
+<p>而且在pegasos算法的推导，以及模型初始化$w$的时候，都使用了条件</p>
+
+<script type="math/tex; mode=display">
+\left\| w \right\| \le \frac{1}{ {\sqrt \lambda  } }
+</script>
+
+<p>由上面模型的更新公式可以简单分析一下正则化参数$\lambda$的作用，它决定了训练过程中，后面出现的预测错误的样本，对应模型的修正程度。$\lambda$越大，修正程度越小，$\lambda$越小，修正程度越大。同时$\lambda$与惩罚系数$C$是成反比的，所以也可理解为，在训练过称中，出现预测错误样本时，对模型的惩罚程度。$\lambda$越大，惩罚越小，$\lambda$越小，惩罚越大。</p>
+
+<p>Pegasos的算法描述在论文”Pegasos: Primal Estimated sub-GrAdient SOlver for SVM”也是给出了的，可以参考。</p>
+
+<p>但实际上pegasos是一个线性的svm，而且还是一个没有bias的svm，训练出来的线性函数是$y=\langle w,x \rangle$，在上面的论文中的Extensions小节中也讲到了，目前pegasos还没有证明可应用于线性模型$y=\langle w,x \rangle + b$或者是非线性svm模型。</p>
+
+<h2 id="pegasos-1">Pegasos的实现例子</h2>
+
+<p>实现了一个基于SMO算法的svm，今天就来基于Pegasos实现数字手写识别。svm用于多分类，还是一对多的方式，手写数据还是来自<a href="http://www.manning.com/pharrington/">“Machine Learning in Action”</a>的第二章的数据。下面是实现代码</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>基于pegasos的数字手写识别  (pegasos.py)</span> <a href="http://wxwidget.github.io/code/2013/pegasos/pegasos.py">download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+<span class="line-number">54</span>
+<span class="line-number">55</span>
+<span class="line-number">56</span>
+<span class="line-number">57</span>
+<span class="line-number">58</span>
+<span class="line-number">59</span>
+<span class="line-number">60</span>
+<span class="line-number">61</span>
+<span class="line-number">62</span>
+<span class="line-number">63</span>
+<span class="line-number">64</span>
+<span class="line-number">65</span>
+<span class="line-number">66</span>
+<span class="line-number">67</span>
+<span class="line-number">68</span>
+<span class="line-number">69</span>
+<span class="line-number">70</span>
+<span class="line-number">71</span>
+<span class="line-number">72</span>
+<span class="line-number">73</span>
+<span class="line-number">74</span>
+<span class="line-number">75</span>
+<span class="line-number">76</span>
+<span class="line-number">77</span>
+<span class="line-number">78</span>
+<span class="line-number">79</span>
+<span class="line-number">80</span>
+<span class="line-number">81</span>
+<span class="line-number">82</span>
+<span class="line-number">83</span>
+<span class="line-number">84</span>
+<span class="line-number">85</span>
+<span class="line-number">86</span>
+<span class="line-number">87</span>
+<span class="line-number">88</span>
+<span class="line-number">89</span>
+<span class="line-number">90</span>
+<span class="line-number">91</span>
+<span class="line-number">92</span>
+<span class="line-number">93</span>
+<span class="line-number">94</span>
+<span class="line-number">95</span>
+<span class="line-number">96</span>
+<span class="line-number">97</span>
+<span class="line-number">98</span>
+<span class="line-number">99</span>
+<span class="line-number">100</span>
+<span class="line-number">101</span>
+<span class="line-number">102</span>
+<span class="line-number">103</span>
+<span class="line-number">104</span>
+<span class="line-number">105</span>
+<span class="line-number">106</span>
+</pre></td><td class="code"><pre><code class="python"><span class="line"><span class="c">#!/usr/bin/env python</span>
+</span><span class="line"><span class="c"># -*- coding: utf-8 -*-</span>
+</span><span class="line">
+</span><span class="line"><span class="c"># Pegasos implemented in Python</span>
+</span><span class="line">
+</span><span class="line"><span class="kn">import</span> <span class="nn">os</span>
+</span><span class="line"><span class="kn">import</span> <span class="nn">sys</span>
+</span><span class="line"><span class="kn">import</span> <span class="nn">math</span>
+</span><span class="line">
+</span><span class="line"><span class="n">G_WEIGHT</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class="line">
+</span><span class="line"><span class="k">def</span> <span class="nf">parse_image</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+</span><span class="line">    <span class="n">img_map</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class="line">    <span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">)</span>
+</span><span class="line">    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fp</span><span class="p">:</span>
+</span><span class="line">        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+</span><span class="line">        <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+</span><span class="line">            <span class="n">img_map</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">ch</span><span class="p">))</span>
+</span><span class="line">    <span class="k">return</span> <span class="n">img_map</span>
+</span><span class="line">
+</span><span class="line"><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+</span><span class="line">    <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class="line">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">32</span><span class="o">*</span><span class="mi">32</span><span class="p">):</span>
+</span><span class="line">        <span class="n">ret</span> <span class="o">+=</span> <span class="n">model</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</span><span class="line">    <span class="k">return</span> <span class="n">ret</span>
+</span><span class="line">
+</span><span class="line"><span class="k">def</span> <span class="nf">train_one_model</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">sampleNum</span><span class="p">,</span> <span class="n">modelNum</span><span class="p">):</span>
+</span><span class="line">    <span class="n">pvalue</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">G_WEIGHT</span><span class="p">[</span><span class="n">modelNum</span><span class="p">],</span> <span class="n">data</span><span class="p">)</span>
+</span><span class="line">    <span class="c"># the hinge loss</span>
+</span><span class="line">    <span class="k">if</span> <span class="n">pvalue</span> <span class="o">*</span> <span class="n">label</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+</span><span class="line">        <span class="k">return</span>
+</span><span class="line">
+</span><span class="line">    <span class="c"># update model</span>
+</span><span class="line">    <span class="n">lambd</span> <span class="o">=</span> <span class="mf">0.5</span>
+</span><span class="line">    <span class="n">new_weight</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class="line">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">32</span><span class="o">*</span><span class="mi">32</span><span class="p">):</span>
+</span><span class="line">        <span class="c"># pegasos</span>
+</span><span class="line">        <span class="n">a</span> <span class="o">=</span> <span class="n">G_WEIGHT</span><span class="p">[</span><span class="n">modelNum</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span> <span class="mi">1</span> <span class="o">-</span> <span class="mf">1.0</span><span class="o">/</span><span class="n">sampleNum</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">lambd</span> <span class="o">*</span> <span class="n">sampleNum</span><span class="p">))</span><span class="o">*</span><span class="n">label</span><span class="o">*</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</span><span class="line">        <span class="n">new_weight</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span><span class="line">
+</span><span class="line">    <span class="c"># projection</span>
+</span><span class="line">    <span class="n">norm2</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class="line">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">32</span><span class="o">*</span><span class="mi">32</span><span class="p">):</span>
+</span><span class="line">        <span class="n">norm2</span> <span class="o">+=</span> <span class="n">math</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="n">new_weight</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class="line">    <span class="n">norm2</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">norm2</span><span class="p">)</span>
+</span><span class="line">    <span class="k">if</span> <span class="n">norm2</span> <span class="o">&gt;</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">lambd</span><span class="p">)):</span>
+</span><span class="line">        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">32</span><span class="o">*</span><span class="mi">32</span><span class="p">):</span>
+</span><span class="line">            <span class="n">G_WEIGHT</span><span class="p">[</span><span class="n">modelNum</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_weight</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="p">(</span><span class="n">norm2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">lambd</span><span class="p">))</span>
+</span><span class="line">    <span class="k">else</span><span class="p">:</span>
+</span><span class="line">        <span class="n">G_WEIGHT</span><span class="p">[</span><span class="n">modelNum</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_weight</span>
+</span><span class="line">
+</span><span class="line"><span class="k">def</span> <span class="nf">train_one_sample</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">sampleNum</span><span class="p">):</span>
+</span><span class="line">    <span class="k">for</span> <span class="n">modelNum</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+</span><span class="line">        <span class="n">label</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+</span><span class="line">        <span class="k">if</span> <span class="n">num</span> <span class="o">==</span> <span class="n">modelNum</span><span class="p">:</span>
+</span><span class="line">            <span class="n">label</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class="line">        <span class="n">train_one_model</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">sampleNum</span><span class="p">,</span> <span class="n">modelNum</span><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="k">if</span> <span class="n">__name__</span><span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+</span><span class="line">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+</span><span class="line">        <span class="n">G_WEIGHT</span><span class="o">.</span><span class="n">append</span><span class="p">([])</span>
+</span><span class="line">        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">32</span> <span class="o">*</span> <span class="mi">32</span><span class="p">):</span>
+</span><span class="line">            <span class="n">G_WEIGHT</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">dirpath</span> <span class="o">=</span> <span class="s">&quot;./trainingDigits/&quot;</span>
+</span><span class="line">    <span class="n">files</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">dirpath</span><span class="p">)</span>
+</span><span class="line">    <span class="n">sampleNum</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class="line">    <span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+</span><span class="line">        <span class="k">print</span> <span class="s">&quot;training:&quot;</span><span class="p">,</span> <span class="nb">file</span>
+</span><span class="line">        <span class="n">data</span> <span class="o">=</span> <span class="n">parse_image</span><span class="p">(</span><span class="n">dirpath</span> <span class="o">+</span> <span class="nb">file</span><span class="p">)</span>
+</span><span class="line">        <span class="n">num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">file</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</span><span class="line">        <span class="n">sampleNum</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class="line">        <span class="n">train_one_sample</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">sampleNum</span><span class="p">)</span>
+</span><span class="line">
+</span><span class="line">    <span class="c"># test</span>
+</span><span class="line">    <span class="n">testdir</span> <span class="o">=</span> <span class="s">&quot;./testDigits/&quot;</span>
+</span><span class="line">    <span class="n">files</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">testdir</span><span class="p">)</span>
+</span><span class="line">    <span class="n">right</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class="line">    <span class="n">wrong</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class="line">    <span class="n">can_not_classify</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class="line">    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class="line">    <span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+</span><span class="line">        <span class="n">total</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class="line">        <span class="n">data</span> <span class="o">=</span> <span class="n">parse_image</span><span class="p">(</span><span class="n">testdir</span> <span class="o">+</span> <span class="nb">file</span><span class="p">)</span>
+</span><span class="line">        <span class="k">print</span> <span class="s">&quot;testing:&quot;</span><span class="p">,</span> <span class="nb">file</span>
+</span><span class="line">        <span class="n">num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">file</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</span><span class="line">        <span class="n">classify_failed</span> <span class="o">=</span> <span class="bp">True</span>
+</span><span class="line">        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+</span><span class="line">            <span class="n">pvalue</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">G_WEIGHT</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">data</span><span class="p">)</span>
+</span><span class="line">            <span class="k">if</span> <span class="n">pvalue</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+</span><span class="line">                <span class="n">classify_failed</span> <span class="o">=</span> <span class="bp">False</span>
+</span><span class="line">                <span class="k">print</span> <span class="n">i</span><span class="p">,</span> <span class="s">&quot;prdict:&quot;</span><span class="p">,</span> <span class="mi">1</span>
+</span><span class="line">                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">num</span><span class="p">:</span>
+</span><span class="line">                    <span class="n">right</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class="line">                <span class="k">else</span><span class="p">:</span>
+</span><span class="line">                    <span class="n">wrong</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class="line">            <span class="k">else</span><span class="p">:</span>
+</span><span class="line">                <span class="k">print</span> <span class="n">i</span><span class="p">,</span> <span class="s">&quot;prdict:&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span>
+</span><span class="line">        <span class="k">if</span> <span class="n">classify_failed</span><span class="p">:</span>
+</span><span class="line">            <span class="n">can_not_classify</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class="line">
+</span><span class="line">    <span class="k">print</span> <span class="s">&quot;right=&quot;</span><span class="p">,</span> <span class="n">right</span>
+</span><span class="line">    <span class="k">print</span> <span class="s">&quot;wrong=&quot;</span><span class="p">,</span> <span class="n">wrong</span>
+</span><span class="line">    <span class="k">print</span> <span class="s">&quot;can_not_classify=&quot;</span><span class="p">,</span> <span class="n">can_not_classify</span>
+</span><span class="line">    <span class="k">print</span> <span class="s">&quot;total=&quot;</span><span class="p">,</span> <span class="n">total</span>
+</span><span class="line">
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>训练出来的模型测试结果如下：</p>
+
+<pre class="sh-bash"><code>right= 849
+</code><code>wrong= 46
+</code><code>can_not_classify= 72
+</code><code>total= 946</code></pre>
+
+<p>一共有946个测试样本，其中46个分类错误，72个没有找到分类，849个正确分类，正确分类率89.7%。$\lambda$取值为0.5。我也没有仔细调整$\lambda$的取值，不过看来结果还是慢不错的。但比起SMO算法实现的svm效果要差一些。但是pegasos的优势是快啊，同样的1934个训练样本，基于SMO的svm，花了3、4个小时训练，而pegasos算法只用了30多秒，逆天了。</p>
+
+<p>实现例子的代码和数据可以<a href="https://github.com/liuhongjiang/blog_projects/tree/master/pegasos">在github上下载</a>。pegasos有两个版本，pegasos2.py是pegasos.py的升级版，用了numpy库，使得代码更精简好看，同时运行效率更高。这个目录下还包含了论文的pdf文档Pegasos.pdf。</p>
+
+<p>PS：发现numpy和scipy、matplotlib真是好东西啊，python数学运算离不开。另外发现了一个讲numpy/scipy文档翻译为中文的网站<a href="http://pyscin.appspot.com/html/index.html">用Python做科学计算</a>，好东西啊。</p>
+
+<p>还发现了一个和机器学习相关的网站<a href="http://hunch.net/">http://hunch.net/</a>，有很不多不错的学术方面的东西。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ADMM and Large Scale Regression]]></title>
+    <link href="http://wxwidget.github.io/blog/2013/11/08/admm-and-large-scale-regression/"/>
+    <updated>2013-11-08T00:00:00+08:00</updated>
+    <id>http://wxwidget.github.io/blog/2013/11/08/admm-and-large-scale-regression</id>
+    <content type="html"><![CDATA[<h2 id="section">讨论主题</h2>
+
+<p>ADMM是一种通用的并行优化策略, 它可以非常方便的在分布式环境的迭代优化计算，ADMM的算法文档可参考:<a href="www.stanford.edu/~boyd/papers/pdf/admm_distr_stats.pdf">ADMM文档</a></p>
+
+<ul>
+  <li>
+    <p><a href="https://speakerdeck.com/pld/distributed-classification-with-admm">ADMM</a></p>
+  </li>
+  <li><a href="http://www.stanford.edu/~boyd/papers/admm/mpi/">MPI example for alternating direction method of multipliers</a></li>
+  <li><a href="http://www.stanford.edu/~boyd/papers/admm_distr_stats.html">Distributed Optimization and Statistical Learning via the Alternating Direction Method of Multipliers</a></li>
+</ul>
+
+<h2 id="section-1">算法</h2>
+<ol>
+  <li>paralled Dual-ADMM</li>
+  <li>FISTA</li>
+  <li>GRock</li>
+</ol>
+
+<h2 id="section-2">代码</h2>
+
+<ul>
+  <li><a href="https://github.com/intentmedia/admm">admm-hadoop</a></li>
+  <li><a href="https://github.com/brianmartin/admm-lasso-without-mpi">admm-lasso-without-mpi</a></li>
+  <li><a href="http://www.stanford.edu/~boyd/papers/admm/mpi/">admm-mpi</a></li>
+  <li><a href="http://www.caam.rice.edu/~optimization/disparse/">Parallel and Distributed Sparse Optimization</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Predictability and Information Theory]]></title>
+    <link href="http://wxwidget.github.io/blog/2013/11/06/predictability-and-information-theory/"/>
+    <updated>2013-11-06T00:00:00+08:00</updated>
+    <id>http://wxwidget.github.io/blog/2013/11/06/predictability-and-information-theory</id>
+    <content type="html"><![CDATA[<h2 id="section">可预测性理论</h2>
+<p><a href="http://journals.ametsoc.org/doi/pdf/10.1175/1520-0469\(2004\)061%3C2425%3APAITPI%3E2.0.CO%3B2">Predictability and Information Theory. Part I: Measures of Predictability</a></p>
+
+<h3 id="section-1">如何度量</h3>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[selecting contentbased features]]></title>
+    <link href="http://wxwidget.github.io/blog/2013/10/21/selecting_contentbased_features/"/>
+    <updated>2013-10-21T00:00:00+08:00</updated>
+    <id>http://wxwidget.github.io/blog/2013/10/21/selecting_contentbased_features</id>
+    <content type="html"><![CDATA[<h2 id="section">论文</h2>
+<p>recsys2013的poster[selection content-based features for collaborative filtering recommenders] [p1]</p>
+
+<h3 id="section-1">八卦</h3>
+<pre><code>作者是 [p1]: http://www.eng.tau.ac.il/~noamk/papers/feature_selection_recsys_2013.pdf
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[pairwise learning]]></title>
+    <link href="http://wxwidget.github.io/blog/2013/10/17/pair-wise-learning/"/>
+    <updated>2013-10-17T00:00:00+08:00</updated>
+    <id>http://wxwidget.github.io/blog/2013/10/17/pair-wise-learning</id>
+    <content type="html"><![CDATA[<h2 id="section">背景介绍</h2>
+
+<p><a href="http://www.slideshare.net/AmitSharma315/pairwise-learning-experiments-with-community-recommendation-on-linkedin">recsys2013 Linkedin pairwise learning的报告</a></p>
+
+<p><strong>观测数据</strong>：用户U产生行为Y(在linkedin场景行为是加入的社区)，形成一条数据(u,y)</p>
+
+<p><strong>推荐问题</strong>：给定一些（u，y）的元组，为一个用户u推荐用户可能产生的行为（加入社区），或者一个用户u是否会加入社区y</p>
+
+<p><strong>常用方法</strong>：收集用户的profile和偏好， 计算用户和社区的相似程度</p>
+
+<p>\begin{aligned}
+Sim(u,y) = \sum_{i=1}^n(w_i f_u\^i f_y\^i)
+\end{aligned} </p>
+
+<p>计算相识度的算法非常多，
+启发式方法: 利用启发式公式，计算用户和社区的相似程度。
+常用的计算相似度的方法包括：<a href="http://en.wikipedia.org/wiki/Jaccard_index">jaccard</a>，<a href="http://en.wikipedia.org/wiki/Cosine_similarity">余弦相似</a>, <a href="http://en.wikipedia.org/wiki/Euclidean_distance#Squared_Euclidean_distance">欧式距离</a>等:</p>
+
+<p>具体的方法和普通的协同过滤算法类似，定义了user * item的矩阵，计算
+item-base的方法是先把item表示成user的向量, </p>
+
+<pre><code>itemA : &lt;userA,userB,userC,userD&gt;
+itemB : &lt;userA,userB,userE,userF&gt;
+</code></pre>
+
+<p>用户以上的相似计算方法度量itemA和itemB的相似性，为了映射到itemA和user的相似性，把user表示成item的向量</p>
+
+<pre><code>userA: &lt;itemB, itemC, itemD&gt;
+</code></pre>
+
+<p>那么itemA和userA的相似性可以表示层：itemA和&lt;itemB,itemC,itemD&gt;的平均相似性,或者其他值</p>
+
+<p>基于模型的方法 直接通过数据特征和把目标，预测用户对目标的偏好程度，常见的机器学习方法比如<a href="http://en.wikipedia.org/wiki/Logistic_regression">Logistic Regression</a></p>
+
+<p><img src="http://upload.wikimedia.org/math/8/a/9/8a9c21e683de89ddb61f15262ee9fd3a.png" alt="LR" /></p>
+
+<p>这里的x指用户和社区的特征，比如用户的性别，年龄，兴趣，社区的主题，用户和社区的特征组合等等，而目标即用户是否加入社区</p>
+
+<h2 id="section-1">一些观察</h2>
+
+<p>通常pointwise的排序方法就够用了，但是很多场景下，我们很难度量用户对某个item的喜好程度，但是我们可以定义一些用户的偏好;
+另一方面，排序算法会利用点击日志来调整算法的效果，用户只能点击到我们投放给用户的item，用户行为表现更多的是偏向，而不是程度。</p>
+
+<p>比如：在搜索结果场景中，通常会给用户展示多个候选集合，用户浏览集合然后从中挑选出自己偏好的集合。这里的用户行为实际上表现了一些用户的喜好，
+pointwise的假设是用户的喜好是全局的，用户对候选的表现是独立，不会受到前后的影响。而实际情况确有不同，比如用户通常会对比候选，然后挑选出一个。
+因此用户的偏好常常是相对的，为了描述这种相对偏好，常常采用pairwise或者listwise的ranking方法。 </p>
+
+<p>对单次点击的pairwise样本:</p>
+
+<ul>
+  <li>Click &gt; Skip Above</li>
+  <li>Last Click &gt; Skip Above</li>
+  <li>Click &gt; Earlier Click</li>
+  <li>Last Click &gt; Skip Previous</li>
+  <li>Click &gt; No-Click Next</li>
+</ul>
+
+<h2 id="section-2">分析</h2>
+
+<p>如何结合整体点击率，在单次点击里抽样样本</p>
+
+<ul>
+  <li>同query下，每个item的统计CTR</li>
+  <li>可选择:消除position bias</li>
+  <li>选择CTR差值有一定置信度的Pair, 比如：A-&gt;B, E-&gt;C, C-&gt;E</li>
+  <li>对单次点击过滤掉行为噪音,满足购买&gt;点击&gt;无行为, 从每次pv中过滤掉不满足约束的Pair，剩下A-&gt;B, E-&gt;C</li>
+  <li>
+    <p>特征改进</p>
+
+    <ul>
+      <li>按照原始特征分布去筛选样本分布</li>
+      <li>没有区分度的特征通过样本选择的方式去改进</li>
+    </ul>
+  </li>
+  <li>负样本采样
+    <ul>
+      <li>没有最优的负样本采样策略</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="section-3">算法</h2>
+
+<ol>
+  <li><a href="http://www.cs.cornell.edu/people/tj/svm_light/svm_rank.html">rankSVM</a></li>
+  <li>PLSA</li>
+</ol>
+
+<h2 id="section-4">并行化</h2>
+
+<ol>
+  <li>GPU</li>
+  <li>并发</li>
+  <li>分布式
+    <ul>
+      <li>BSP on MPI:</li>
+      <li>Hadoop</li>
+      <li>Scala</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="section-5">结果</h2>
+
+<h2 id="section-6">参考</h2>
+
+<ul>
+  <li><a href="http://static.googleusercontent.com/external_content/untrusted_dlcp/research.google.com/zh-CN//pubs/archive/35662.pdf">Large Scale Learning to Rank at google</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[推荐系统多样性的问题]]></title>
+    <link href="http://wxwidget.github.io/blog/2013/09/10/diversity_similarity/"/>
+    <updated>2013-09-10T00:00:00+08:00</updated>
+    <id>http://wxwidget.github.io/blog/2013/09/10/diversity_similarity</id>
+    <content type="html"><![CDATA[<p>DIVERSITY方面的相关文章
+关于diversity方面的推荐系统论文，搜索了一下相关的文章，下面是一些比较著名的文章的列表</p>
+
+<ol>
+  <li>Similarity vs. Diversity</li>
+  <li>Avoiding monotony: improving the diversity of recommendation lists</li>
+  <li>Improving recommendation lists through topic diversification</li>
+  <li>
+    <p>Being accurate is not enough: how accuracy metrics have hurt recommender systems</p>
+
+    <p>其中第3篇是第一篇有关diversity的经典论文。第二篇是去年Resys08的一篇论文，主要贡献是用线性二次优化来找到整数二次优化问题的次优解。第4篇是一篇定性的文章，主要在于diversity背后哲学问题的讨论</p>
+  </li>
+</ol>
+
+<p>imrchen去年也整理过diversity方面的文章，因为他的博客大陆不能访问，不过可以访问他在CiteULike的链接：</p>
+
+<p>http://www.citeulike.org/user/imrchen/tag/diversity</p>
+
+<p>WI2009收录的两篇Diversity方面的论文
+1. Statistical Modeling of Diversity in Top-N Recommender Systems, Mi Zhang
+2. Novel Item Recommendation by User Profile Partitioning, Mi Zhang</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[推荐系统的挑战]]></title>
+    <link href="http://wxwidget.github.io/blog/2013/09/10/challenge_of_recsys/"/>
+    <updated>2013-09-10T00:00:00+08:00</updated>
+    <id>http://wxwidget.github.io/blog/2013/09/10/challenge_of_recsys</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[google ctr预估系统]]></title>
+    <link href="http://wxwidget.github.io/blog/2013/08/29/google-ctr/"/>
+    <updated>2013-08-29T00:00:00+08:00</updated>
+    <id>http://wxwidget.github.io/blog/2013/08/29/google-ctr</id>
+    <content type="html"><![CDATA[<h2 id="section">简介</h2>
+<p>kdd2013 google的论文就像一枚重磅炸弹 Ad Click Prediction: a View from the Trenches</p>
+
+<h2 id="section-1">算法</h2>
+<p>##工程考虑
+##结语</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[下一代推荐系统]]></title>
+    <link href="http://wxwidget.github.io/blog/2013/08/28/NextGenerationRecSys/"/>
+    <updated>2013-08-28T00:00:00+08:00</updated>
+    <id>http://wxwidget.github.io/blog/2013/08/28/NextGenerationRecSys</id>
+    <content type="html"><![CDATA[<h2 id="section">前言</h2>
+<p>讨论祖先和子孙的问题一向是比较困难的事情，
+什么是上一代，他们有什么特点？下一代推荐系统到底是什么？前后代有什么不一样，是什么关键特征定义了下一代？
+本文的重点是，讨论一些论文观点，旨在回答以上的一些疑问
+从Gediminas Adomavicius和Alexander Tuzhilin的Towards the Next Generation of Recommender Systems:A Survey of the State-of-the-Art and Possible Extensions( 这篇文章引用率非常高)来看，我的理解是：</p>
+
+<p>第一代推荐系统主分三类:</p>
+
+<ol>
+  <li>content-based,基于内容的推荐
+    <ul>
+      <li>collaborative,基于协同过滤的推荐</li>
+      <li>hybrid recommendation, 混合型推荐</li>
+    </ul>
+  </li>
+</ol>
+
+<p>第二代推荐系统的主要特点是：</p>
+
+<ol>
+  <li>user和item的理解
+    <ul>
+      <li>结合上下文信息</li>
+      <li>支持多维度的评价指标</li>
+      <li>提供更加有弹性和更少打扰的结果</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="section-1">其人</h2>
+<p><a href="http://ids.csom.umn.edu/faculty/gedas/">Gediminas Adomavicius</a>在推荐系统方面有很多研究, 有兴趣可以看看<a href="http://ids.csom.umn.edu/faculty/gedas/NSFCareer/">CAREER: Next Generation Personalization Technologies</a>,研究主题包括：</p>
+
+<ol>
+  <li>多准则推荐系统
+    <ul>
+      <li>推荐查询语言</li>
+      <li>推荐的多样性</li>
+      <li>时效数据的聚类</li>
+      <li>上下文感知推荐</li>
+      <li>用户偏好对推荐的影响</li>
+      <li>推荐算法的稳定性</li>
+      <li>数据特性对推荐的影响</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="section-2">相关讨论</h2>
+<p>###第一代推荐系统
+早期的推荐系统主要是“评分预测”和“TOPN”预测，不论是哪一种推荐方式，其核心的目标是找到最适合用户c的项集合s，从集合里挑选集合是一个非常复杂的问题优化方案，通常采用的方案是用贪婪的方式，而我们只需要定义一个的效用函数,选取TOPN。</p>
+
+<h4 id="section-3">基于内容的推荐</h4>
+<p>定义效用函数为：用户c和项s的内容上的”相似性”，比如商品推荐中，为了一个用户推荐一款合适的商品，会计算商品和用户历史上看过或者买过的某些特征上的相似性（比如：品牌的偏好，类目的偏好，商品的属性，商品标签等等）。很多推荐都会在有文本的实体上进行推荐，改进的主要思路是：</p>
+
+<ol>
+  <li>扩展实体的文本标记。比如：标签，语义树
+    <ul>
+      <li>用户的文本Profile。比如：taste，preferences,needs。</li>
+    </ul>
+  </li>
+</ol>
+
+<p>因此，基于内容的推荐算法的关键问题是建立，item的content profile和user的content profile。
+对于有问题内容的推荐实体，一般的方法是利用关键词抽取技术，抽取item中最重要的或者最有信息量的一些text。
+第一个任务是选择什么的文本，构建的text从来源上可以分成几个，如果来之item本身的内容，通常称为keywords；
+如果来自用户的标记，通常称为tags；如果来之外部的query，通常称为intents。
+第二个任务是如何在候选词里做weighting和selection。selection的方式一般是用贪心方法，选出topn weighting的词。</p>
+
+<p>构建user的content profile是比较困难的。因为user本生是没有标记的，通常是通过user从前看过的item和当前看过的item做
+标记。从时间的维度上，user的content profile可以分成历史和实时部分，历史部分通常是通过挖掘获取，而实时部分通常是
+通过巧妙的”average”或者model-based的方法发现用户content profile, 比较出名的content-based推荐系统是<a href="https://www.ischool.utexas.edu/~i385q-dt/readings/Balabanovic_Shoham-1997-Fab.pdf" title="Content-based, collaborative recommendation">Fab</a>,
+“adaptive filtering”是一种通过user的浏览记录不断提升精度的content profile构建方式</p>
+
+<h4 id="section-4">协同过滤推荐</h4>
+<p>是大家最为熟悉的推荐算法。算法只涉及到user-item的交互矩阵，推荐方式是Heuristic-based(memory-based)方法（item-based和user-based）和
+model-based的方法，后面发展的一批改进协同过滤算法的策略，比如：</p>
+
+<ol>
+  <li>Default Voting;
+    <ul>
+      <li>Inverse User Frequency;</li>
+      <li>Case Amplification;</li>
+      <li>Weighted-majority Prediction
+当然其他的协同过滤算法也非常多，下次讨论协同过滤算法的时候在仔细探讨</li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="section-5">混合方法，主要是混合基于内容和协同过滤的方法。变种非常多，这里暂不讨论</h4>
+
+<h3 id="section-6">第二代推荐系统</h3>
+
+<ol>
+  <li>model-based的一些变化。谈到第二代，论文提供了一些扩展，比如：model-based方法，通常是基于统计和机器学习的方法，
+后面有演化出一些基于数学近似的方法，我理解的数学近似方法其实很简单，
+就像我们在高中学习的展开式，或者泰勒公式等等，用无穷多的弱项组合成一个误差最小的结果。</li>
+  <li>多维度的推荐。其实目前多数的推荐是单维度的，就是对user进行item的推荐，但是有些应用场景，比如：对住在北京的男性用户进行品牌推荐，
+或者在妇女节给女性用户推荐优惠商品。这些场景下需要推荐从对个维度上考虑问题，所以在多维的推荐系统中需要一个受众定向的功能。</li>
+  <li>多准则的推荐。一般情况下，我们即需要推荐的准确，多样性，惊喜度，时效性，覆盖率等等指标；有时候，我们需要保证推荐的推荐的品质，
+比如高端的品牌推荐，不能给用户推荐一些低质量的品牌商。</li>
+  <li>不打扰。很多系统为了搜集用户的兴趣，有时候会强迫用户给商品打分，这样会干扰用户的行为。
+怎么在用打扰用户的情况下，搜集潜在的用户反馈；对新用户怎么增量的用户信息量最大item，也是快速构建用户profile的一种方式。</li>
+</ol>
+
+<p>当然还有很多推荐系统应该解决的问题和扩展，
+但是，就这样还不能是二代推荐系统的特征, 推荐系统的发展永远是围绕着“用户体验”来做的。</p>
+
+<h3 id="section-7">参考文献</h3>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,33 @@
+[
+
+{
+    "title":"Pegasos算法", 
+    "url":"http://wxwidget.github.io/blog/2013/11/14/svm-pegasos/", 
+    "date":"2013-11-14"
+}
+,
+{
+    "title":"ADMM and Large Scale Regression", 
+    "url":"http://wxwidget.github.io/blog/2013/11/08/admm-and-large-scale-regression/", 
+    "date":"2013-11-08"
+}
+,
+{
+    "title":"Predictability and Information Theory", 
+    "url":"http://wxwidget.github.io/blog/2013/11/06/predictability-and-information-theory/", 
+    "date":"2013-11-06"
+}
+,
+{
+    "title":"selecting contentbased features", 
+    "url":"http://wxwidget.github.io/blog/2013/10/21/selecting_contentbased_features/", 
+    "date":"2013-10-21"
+}
+,
+{
+    "title":"pairwise learning", 
+    "url":"http://wxwidget.github.io/blog/2013/10/17/pair-wise-learning/", 
+    "date":"2013-10-17"
+}
+
+]

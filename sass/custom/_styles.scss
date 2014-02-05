@@ -334,3 +334,221 @@ div.sharing{
 }
 
 ul.toggle-box { &, ul { margin-left: 2em; }}
+
+
+/*
+Theorem-like Environments
+http://drz.ac/2013/01/17/latex-theorem-like-environments-for-the-web/
+*/
+
+/* div style */
+.alert-theorem {
+	color: black;
+	padding-right: 14px;
+}
+/** label anchor 
+<div class="label-anchor">
+    <a class="label-anchor">
+    <span> def:1</span>
+    </a>
+</div>
+**/
+
+div.label-anchor {
+	position: relative;
+}
+a.label-anchor {
+	position: absolute;
+	display: block;
+	text-align: right;
+	width: 200px;
+	left: -210px;
+    top: 5px;
+	font-family: 'PT Sans', sans-serif;
+}
+a.label-anchor:target span {
+    background-color: #b94a48;
+}
+a.label-anchor:hover {
+	text-decoration: none;
+}
+a.label-anchor span {
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 14px;
+	color: #ffffff;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+	white-space: nowrap;
+	vertical-align: baseline;
+	background-color: #666;
+	padding: 1px 4px 2px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+div.mark{
+	position: relative;
+	width: 40px;
+    top: 40px;
+	left: -50px;
+	display: block;
+	text-align: right;
+	font-family: 'PT Sans', sans-serif;
+    background-color: #b94a48;
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 14px;
+	color: #ffffff;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+	white-space: nowrap;
+	vertical-align: baseline;
+	background-color: #666;
+	padding: 1px 4px 2px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+a.inline-ref {
+	border-bottom: dotted 1px #333;
+	color: black;
+}
+a.inline-ref:hover {
+	text-decoration: none;
+	border-bottom: solid 1px #000;
+}
+
+/**
+<div class="label-block">
+<h3>
+    <span>定义: </span>
+    我们称一个online算法是不是no-regret，或者说online learnable的，意味着:
+</h3>
+<p>
+</p>
+</div>
+**/
+
+div.label-block{
+    color: #000;
+    padding-right: 14px;
+    background-color: #DFFFD8;
+    border-color: #D6E9C6;
+
+    padding: 5px 14px 5px 14px;
+    margin-bottom: 22px;
+    -webkit-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.3);
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+
+    font-family: "PT Sans","Helvetica Neue",Helvetica,Arial,"Microsoft YaHei",sans-serif;
+    font-size: 15px;
+    line-height: 25px;
+    border-radius: 8px;
+}
+
+div.label-block h3{
+    display: block;
+    font-size: 14px;
+    margin: 1px;
+    font-family: inherit;
+    font-weight: bold;
+    color: inherit;
+    text-rendering: optimizelegibility;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+}
+div.label-block h3 span{
+    padding: 1px 4px 2px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #333;
+    font-size: 12.69px;
+    font-weight: bold;
+    line-height: 14px;
+    color: #FFF;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    white-space: nowrap;
+    vertical-align: baseline;
+}
+
+
+.theorem {
+    display: block;
+    margin: 12px 0;
+    font-style: italic;
+}
+.theorem:before {
+    content: "Theorem.";
+    font-weight: bold;
+    font-style: normal;
+}
+
+.lemma {
+    display: block;
+    margin: 12px 0;
+    font-style: italic;
+}
+.lemma:before {
+    content: "Lemma.";
+    font-weight: bold;
+    font-style: normal;
+}
+
+.proof {
+    display: block;
+    margin: 12px 0;
+    font-style: normal;
+}
+.proof:before {
+    content: "Proof.";
+    font-style: italic;
+}
+.proof:after {
+    content: "\25FC";
+    float:right;
+}
+
+.definition {
+    display: block;
+    margin: 12px 0;
+    font-style: normal;
+    font-weight: bold;
+    /**/
+    color: #000;
+    padding-right: 14px;
+    background-color: #DFFFD8;
+    border-color: #D6E9C6;
+
+    padding: 5px 14px 5px 14px;
+    margin-bottom: 22px;
+    -webkit-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.3);
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+
+    font-family: "PT Sans","Helvetica Neue",Helvetica,Arial,"Microsoft YaHei",sans-serif;
+    font-size: 15px;
+    line-height: 25px;
+    border-radius: 8px;
+}
+.definition:before {
+    content: "Definition.";
+    font-style: normal;
+
+    padding: 1px 4px 2px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #333;
+    font-size: 12.69px;
+    font-weight: bold;
+    line-height: 14px;
+    color: #FFF;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    white-space: nowrap;
+    vertical-align: baseline;
+}
+

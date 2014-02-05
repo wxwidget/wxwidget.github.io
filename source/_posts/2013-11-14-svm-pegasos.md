@@ -3,7 +3,7 @@ layout: post
 title: "Pegasos算法"
 date: 2013-11-14 11:49
 comments: true
-categories: Machine&nbsp;Learning
+categories: "Online&nbspLearning Machine&nbspLearning"
 math: true 
 abstract: 本文介绍了svm的一种online learning算法pegasos，并基于pegasoso算法实现了一个数字手写识别脚本。
 ---
@@ -30,7 +30,7 @@ Online learning的算法结构是非常简单的，下面的描述是监督的on
 
 <!-- more -->
 
-首先来看svm的经验合页损失函数：
+首先来看svm的经验损失函数：
 
 $$
 \begin{array}{l}
@@ -60,7 +60,7 @@ $$
 {w_{t + 1}} = \min \{ 1,\frac{1}{ {\sqrt \lambda  \left\| { {w_{t + \frac{1}{2} } } } \right\|}}\} {w_{t + \frac{1}{2}}}
 $$
 
-为什么需要讲新的模型投射到以$\frac{1}{ {\sqrt \lambda  } }$为半径的超球面上呢？论文证明了svm的最优解是在下面这个集合中的：
+为什么需要将新的模型投射到以$\frac{1}{ {\sqrt \lambda  } }$为半径的超球面上呢？论文证明了svm的最优解是在下面这个集合中的：
 
 $$
 B = \{ w:\left\| w \right\| \le \frac{1}{ {\sqrt \lambda  } }\} 

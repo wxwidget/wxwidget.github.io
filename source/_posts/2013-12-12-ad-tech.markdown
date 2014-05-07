@@ -6,6 +6,7 @@ comments: true
 categories: "广告技术"
 abstract: 涉及精准广告投放的基础知识，比如：定向技术，基础模型等。会不断补充。
 ---
+<!--more-->
 ### 技术层面
 
 1. Paper

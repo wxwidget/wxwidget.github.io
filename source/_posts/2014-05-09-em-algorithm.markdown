@@ -1,6 +1,6 @@
 ---
 layout: post
-title: ""em-algorithm""
+title: "em-algorithm"
 date: 2014-05-09 10:15
 comments: true
 categories: 

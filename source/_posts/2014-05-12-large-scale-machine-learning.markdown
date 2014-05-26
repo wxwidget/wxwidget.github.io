@@ -1,6 +1,6 @@
 ---
 layout: post
-title: ""large-scale-machine-learning""
+title: "large-scale-machine-learning"
 date: 2014-05-12 12:49
 comments: true
 categories: 

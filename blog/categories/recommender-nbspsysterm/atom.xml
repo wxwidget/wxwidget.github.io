@@ -4,7 +4,7 @@
   <title><![CDATA[分类: Recommender&nbspSysterm | Yang Cheng]]></title>
   <link href="http://wxwidget.github.io/blog/categories/recommender-nbspsysterm/atom.xml" rel="self"/>
   <link href="http://wxwidget.github.io/"/>
-  <updated>2014-08-18T20:23:40+08:00</updated>
+  <updated>2014-08-18T20:52:50+08:00</updated>
   <id>http://wxwidget.github.io/</id>
   <author>
     <name><![CDATA[杨程]]></name>
@@ -205,22 +205,21 @@ w = \arg {\max _w}P(Y|X;w) = \arg {\max _w}\prod\limits_{i = 1}^N {P({y_i}|{x_i}
     <link href="http://wxwidget.github.io/blog/2013/11/22/ctr-prediction-v3/"/>
     <updated>2013-11-22T10:47:00+08:00</updated>
     <id>http://wxwidget.github.io/blog/2013/11/22/ctr-prediction-v3</id>
-    <content type="html"><![CDATA[<h2 id="section">现状</h2>
+    <content type="html"><![CDATA[<!---
+## 现状
 
-<ul>
-  <li>1.0的版本解决了离线算法融合的问题，所用的特征全部是离线计算的特征，和用户没有任何关系。在“i2i”场景中，得到充分的利用；</li>
-  <li>2.0的版本解决了部分在线预估的问题,除了离线用户无关特征外，加入了用户画像特征，在线的用户意图分析和实时场景预测</li>
-</ul>
+- 1.0的版本解决了离线算法融合的问题，所用的特征全部是离线计算的特征，和用户没有任何关系。在“i2i"场景中，得到充分的利用；
+- 2.0的版本解决了部分在线预估的问题,除了离线用户无关特征外，加入了用户画像特征，在线的用户意图分析和实时场景预测
 
 <!--more-->
 
-<h2 id="section-1">算法模型</h2>
+<h2 id="section">算法模型</h2>
 
 <p>算法上采用LR直接预测用户对候选商品的点击可能性(或者rating)</p>
 
-<h3 id="section-2">特征列表</h3>
+<h3 id="section-1">特征列表</h3>
 
-<h4 id="section-3">相似特征</h4>
+<h4 id="section-2">相似特征</h4>
 
 <p>相似推荐中涉及到两个相似的实体：A，B。因此计算考虑点击特征的时候会使用商品的相似特征, 这些特征从单一维度上都可以作为
 推荐排序来使用，把这些特征合并在一起同时也起到了模型融合的作用。
@@ -238,7 +237,7 @@ w = \arg {\max _w}P(Y|X;w) = \arg {\max _w}\prod\limits_{i = 1}^N {P({y_i}|{x_i}
 
 <p>说明：数值类特征采用截断分位数后的归一化，(x-min)/(max-min); log后还未用转换为类目相对销量的方式</p>
 
-<h4 id="section-4">商品特征</h4>
+<h4 id="section-3">商品特征</h4>
 
 <ol>
   <li>人气分： 属于销量预测模型，同时也是搜索的一个重要排序因子</li>
@@ -255,20 +254,20 @@ w = \arg {\max _w}P(Y|X;w) = \arg {\max _w}\prod\limits_{i = 1}^N {P({y_i}|{x_i}
   <li>log(1+月成交额)</li>
 </ol>
 
-<h4 id="section-5">用户特征</h4>
+<h4 id="section-4">用户特征</h4>
 
 <p>用户特征在这一期里还没有应用，后续其实可以加入更多的的用户画像、偏好、和意图的特征</p>
 
-<h4 id="section-6">场景特征</h4>
+<h4 id="section-5">场景特征</h4>
 
 <p>目前没有场景相关的特征，以后对页面的场景，比如在会场页，wap页、售后页，来源页等做适当特征分析
 时间、状态（wap和pc）、天气、地点</p>
 
-<h3 id="section-7">特征权重</h3>
+<h3 id="section-6">特征权重</h3>
 
 <p><img /></p>
 
-<h2 id="section-8">改进点</h2>
+<h2 id="section-7">改进点</h2>
 
 <p>有一些改进的方向：</p>
 
@@ -287,7 +286,8 @@ w = \arg {\max _w}P(Y|X;w) = \arg {\max _w}\prod\limits_{i = 1}^N {P({y_i}|{x_i}
   <li>L2R方法的探索：不需要准确预估值，直接预估偏好关系。(L2R方法比直接CTR的方法的优势不是特别明显，在什么业务场景适用L2R还需要进一步探索)</li>
 </ol>
 
-<h3 id="section-9">模型改进</h3>
+<h3 id="section-8">模型改进</h3>
+<p>–&gt;</p>
 
 ]]></content>
   </entry>

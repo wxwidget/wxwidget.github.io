@@ -4,7 +4,7 @@
   <title><![CDATA[分类: Machine&nbspLearning | Yang Cheng]]></title>
   <link href="http://wxwidget.github.io/blog/categories/machine-nbsplearning/atom.xml" rel="self"/>
   <link href="http://wxwidget.github.io/"/>
-  <updated>2014-08-18T20:23:40+08:00</updated>
+  <updated>2014-08-18T20:52:50+08:00</updated>
   <id>http://wxwidget.github.io/</id>
   <author>
     <name><![CDATA[杨程]]></name>
@@ -213,21 +213,20 @@ Adagrad方法本身不是为异步SGD的使用而设计的，并且该方法最�
     <id>http://wxwidget.github.io/blog/2014/07/27/product-schedule-problem</id>
     <content type="html"><![CDATA[<h2 id="section">问题定义</h2>
 
-<p>流量的全局优化是指同整体的角度看，通过控制流量在商品，类目，品牌，店铺的分配，提升用户的UV价值的方法。算法的链接的是用户的需求，和商家的供给，
-通过分流，定价等方式调节市场。在大规模的促销活动中，常常会看到供给和需求的极度不平衡，以加入购物车的量和库存比值为例, 大量的商品无人问津，少量的
-商品供不应求。借助广告中最优匹配算法工具，优化双11的流量调配机制。</p>
+<p>流量的全局优化是指同整体的角度看，通过控制流量在不同实体的分配，提升用户的UV价值的方法。算法的链接的是用户的需求，和供给，
+通过分流，定价等方式调节市场。在大规模的促销活动中，常常会看到供给和需求的极度不平衡，借助广告中最优匹配算法工具，优化活动中的流量调配机制。</p>
 
-<p>假设提供有m件商品,n位用户，以下信息是已知的</p>
+<p>假设提供有m件产品,n位用户，以下信息是已知的</p>
 
 <ul>
-  <li>$f_i$, 商品i的库存量</li>
-  <li>$v_i$, 用户i期望到达次数</li>
+  <li><script type="math/tex">f_i</script>, 产品的库存量或者广告主的预算</li>
+  <li><script type="math/tex">v_i</script>, 用户i期望到达次数</li>
 </ul>
 
 <p>同时我们通过预测方法，可以知道</p>
 
 <ul>
-  <li>$p_{ij}$用户i，对商品j可能的购买概率</li>
+  <li><script type="math/tex">p_{ij}</script>用户i，对产品的可能的购买概率</li>
 </ul>
 
 <!-- more -->

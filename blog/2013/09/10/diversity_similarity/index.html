@@ -1,0 +1,283 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en" xmlns:wb=“http://open.weibo.com/wb"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>推荐系统多样性的问题 - Yang Cheng</title>
+  <meta name="author" content="杨程">
+
+  
+  <meta name="description" content="">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wxwidget.github.io/blog/2013/09/10/diversity_similarity/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Yang Cheng" type="application/atom+xml">
+
+  <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
+
+  <link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <!--link href="/stylesheets/bootstrap.min.css" media="screen, projection" rel="stylesheet" type="text/css" /-->
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts 
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+
+
+
+
+  <!-- 
+ /-->
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <div style="float:left; width: 500px">
+    <h1><a href="/">Yang Cheng</a></h1>
+    
+      <h2>行万里路，读万卷书</h2>
+    
+  </div>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wxwidget.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">博客首页</a></li>
+  <li><a href="/blog/archives">文章列表</a></li>
+  <li><a href="/todo">ToDo</a></li>
+  <li><a href="/paper/">论文阅读</a></li>
+  <li><a href="/project/index.html">推荐项目</a></li>
+
+  <!--
+  <-li><a href="/categories">标签分类</a></li>
+
+  <li><a href="/about">关于</a></li>
+  --!>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">推荐系统多样性的问题</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-10T00:00:00+08:00" pubdate data-updated="true">Sep 10<span>th</span>, 2013</time>
+        
+		
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=推荐系统多样性的问题 - &amp;url=http://wxwidget.github.io/blog/2013/09/10/diversity_similarity/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=推荐系统多样性的问题 - &amp;url=http://wxwidget.github.io/blog/2013/09/10/diversity_similarity/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text= 推荐系统多样性的问题  - &amp;url=http://wxwidget.github.io/blog/2013/09/10/diversity_similarity/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+<div class="entry-content">
+    
+    <p>DIVERSITY方面的相关文章
+关于diversity方面的推荐系统论文，搜索了一下相关的文章，下面是一些比较著名的文章的列表</p>
+
+<ol>
+  <li>Similarity vs. Diversity</li>
+  <li>Avoiding monotony: improving the diversity of recommendation lists</li>
+  <li>Improving recommendation lists through topic diversification</li>
+  <li>
+    <p>Being accurate is not enough: how accuracy metrics have hurt recommender systems</p>
+
+    <p>其中第3篇是第一篇有关diversity的经典论文。第二篇是去年Resys08的一篇论文，主要贡献是用线性二次优化来找到整数二次优化问题的次优解。第4篇是一篇定性的文章，主要在于diversity背后哲学问题的讨论</p>
+  </li>
+</ol>
+
+<p>imrchen去年也整理过diversity方面的文章，因为他的博客大陆不能访问，不过可以访问他在CiteULike的链接：</p>
+
+<p>http://www.citeulike.org/user/imrchen/tag/diversity</p>
+
+<p>WI2009收录的两篇Diversity方面的论文
+1. Statistical Modeling of Diversity in Top-N Recommender Systems, Mi Zhang
+2. Novel Item Recommendation by User Profile Partitioning, Mi Zhang</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">杨程</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-10T00:00:00+08:00" pubdate data-updated="true">Sep 10<span>th</span>, 2013</time>
+      
+
+
+      <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=推荐系统多样性的问题 - &amp;url=http://wxwidget.github.io/blog/2013/09/10/diversity_similarity/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=推荐系统多样性的问题 - &amp;url=http://wxwidget.github.io/blog/2013/09/10/diversity_similarity/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text= 推荐系统多样性的问题  - &amp;url=http://wxwidget.github.io/blog/2013/09/10/diversity_similarity/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/09/10/challenge_of_recsys/" title="Previous Post: 推荐系统的挑战">&laquo; 推荐系统的挑战</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/10/14/cold_start_solution/" title="Next Post: 冷启动问题求解">冷启动问题求解 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>本人</h1>
+  <p><a href="/about/">更多介绍...</a></p>
+  <p>声明：本站使用的图片等，甚至部分文章都来自网络，原作者享有对著作的一切权利。</p>
+  <p>欢迎在新浪微博上关注我：<wb:follow-button uid="1797403463" type="gray_3" width="100%" height="24" ></wb:follow-button></p>
+</section>
+<section>
+  <h1>最新博文</h1>
+  <ul id="Recent Posts">
+    
+      <li class="post">
+        <a href="/blog/2014/08/17/large-scale-deep-network/">大规模分布式深度网络</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/07/27/product-schedule-problem/">流量分配和全局优化问题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/26/numeric-optimization/">机器学习的通用指南: 优化理论</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/23/painless-conjugate-gradient/">painless-conjugate-gradient</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/12/large-scale-machine-learning/">large-scale-machine-learning</a>
+      </li>
+    
+  </ul>
+</section>
+<section id="tag-clouds">
+  <h1>分类</h1>
+    <span class="tag-cloud"><a href='/blog/categories/ctr-nbspprediction' style='font-size: 112.0%'>CTR&nbspPrediction(1)</a> <a href='/blog/categories/machine-nbsp-learning' style='font-size: 112.0%'>Machine&nbsp;Learning(1)</a> <a href='/blog/categories/machine-nbsplearning' style='font-size: 160.0%'>Machine&nbspLearning(5)</a> <a href='/blog/categories/numeric-nbspoptimization' style='font-size: 136.0%'>Numeric&nbspOptimization(3)</a> <a href='/blog/categories/online-nbsplearning' style='font-size: 124.0%'>Online&nbspLearning(2)</a> <a href='/blog/categories/recommender-nbspsysterm' style='font-size: 160.0%'>Recommender&nbspSysterm(5)</a> <a href='/blog/categories/sgd' style='font-size: 112.0%'>SGD(1)</a> <a href='/blog/categories/广告技术' style='font-size: 124.0%'>广告技术(2)</a> <a href='/blog/categories/新技术' style='font-size: 112.0%'>新技术(1)</a> <a href='/blog/categories/机器学习' style='font-size: 112.0%'>机器学习(1)</a> </span>
+</section>
+<section>
+  <h1>友情链接</h1>
+  <ul id="friends-links">
+  </ul>
+</section>
+<section id="tag-clouds" style="text-decoration:none">
+<h1><a href="/recent-comment/">最新评论</a></h1>
+    <script type="text/javascript" src=""></script>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - 杨程 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  <span style="float:right">
+      <!- 
+      Statistics by <script type="text/javascript" src="/javascripts/baidu-tongji.js"></script>
+      -->
+  </span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

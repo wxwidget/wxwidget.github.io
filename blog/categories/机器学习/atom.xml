@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[分类: 机器学习 | Yang Cheng]]></title>
+  <link href="http://wxwidget.github.io/blog/categories/机器学习/atom.xml" rel="self"/>
+  <link href="http://wxwidget.github.io/"/>
+  <updated>2014-08-18T20:20:07+08:00</updated>
+  <id>http://wxwidget.github.io/</id>
+  <author>
+    <name><![CDATA[杨程]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Spare Classification RBM系统]]></title>
+    <link href="http://wxwidget.github.io/blog/2013/12/30/spare-classification-rbm/"/>
+    <updated>2013-12-30T11:21:00+08:00</updated>
+    <id>http://wxwidget.github.io/blog/2013/12/30/spare-classification-rbm</id>
+    <content type="html"><![CDATA[<h2 id="section">简介</h2>
+
+<p>该系统通过对检索查询的相关特征进行有监督的学习从而得到在线广告推荐业务
+的CTR预估模型。由于在线系统的训练数据量巨大（通常为数亿条），特征的维
+度高，所以必须要考虑构建分布式的训练系统以降低大规模训练所需要的时间。
+本文第二节介绍单进程Sparse Classification RBM的基本算法；第三节探讨采用
+DownPour优化算法做多进程RBM Training开发的思路；第四节讨论要训练更大规
+模的模型，进行优化的方向和基本实现方法；第四节讨论实现该系统所涉及到的
+工程技术，包括开发语言，开发库等等。
+TR预估模型。由于在线系统的训练数据量巨大（通常为数亿条），特征的维
+度高，所以必须要考虑构建分布式的训练系统以降低大规模训练所需要的时间。
+本文第二节介绍单进程Sparse Classification RBM的基本算法；第三节探讨采用
+DownPour优化算法做多进程RBM Training开发的思路；第四节讨论要训练更大规
+模的模型，进行优化的方向和基本实现方法；第四节讨论实现该系统所涉及到的
+工程技术，包括开发语言，开发库等等。</p>
+
+]]></content>
+  </entry>
+  
+</feed>

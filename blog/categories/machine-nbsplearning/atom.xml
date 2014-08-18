@@ -1,0 +1,1068 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[分类: Machine&nbspLearning | Yang Cheng]]></title>
+  <link href="http://wxwidget.github.io/blog/categories/machine-nbsplearning/atom.xml" rel="self"/>
+  <link href="http://wxwidget.github.io/"/>
+  <updated>2014-08-18T20:20:07+08:00</updated>
+  <id>http://wxwidget.github.io/</id>
+  <author>
+    <name><![CDATA[杨程]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[大规模分布式深度网络]]></title>
+    <link href="http://wxwidget.github.io/blog/2014/08/17/large-scale-deep-network/"/>
+    <updated>2014-08-17T17:12:00+08:00</updated>
+    <id>http://wxwidget.github.io/blog/2014/08/17/large-scale-deep-network</id>
+    <content type="html"><![CDATA[<h2 id="section">摘要</h2>
+
+<p>最近关于无监督特征学习（unsupervised feature learning）和深度学习（deep learning）的工作表明，具有训练大型模型能力的系统能够显著地提升深度神经网络的训练效果。在这篇文章中，我们针对的问题是利用多达10^4数量的CPU来训练一个具有10^9数量的参数（parameter）的深度网络。为了达到训练的目的，我们开发了称为DistBelief的软件框架，其利用具有上千节点（译者注：为了一致性，译文中的节点均指机器，即计算节点；而神经网络中的节点，均称为单元）的计算集群来训练大型模型。</p>
+
+<!--more-->
+
+<p>在该框架中，实现了两个算法用于大规模分布训练：</p>
+
+<ol>
+  <li>Downpour（译者注：猜测这里的Downpour主要是指并行地参数更新，就像倾盆大雨中，雨点从多处同时落下一样）SGD（stochastic gradient descent），一个支持大量模型副本的异步随机梯度下降过程。</li>
+  <li>Sandblaster（译者注：形容来自coordinator的命令像砂粒一样喷向集群其他节点），一个支持多种批量（batch）计算的分布优化方法，包含了L-BFGS的分布式实现，Downpour SGD和Sandblaster L-BFGS 都具有提升系统扩展能力和加速深度网络训练的能力。</li>
+</ol>
+
+<p>我们已经成功地利用DistBelief训练出一个比先前研究中提到的大30余倍的深度网络模型，并且获得了针对ImageNet（一个具有21K个分类和10M图像视觉识别任务）的最先进的训练效果。同时，我们还证明了，以上提及的技术能够显著地提升一个中等大小的，用作商用语音识别服务的深度网络的训练效果。尽管我们的这些技术主要用在大型神经网络的训练上，但是相关的算法同样适用于任何基于梯度的机器学习算法。</p>
+
+<h3 id="section-1">1.介绍</h3>
+
+<p>深度学习和无监督特征学习给许多实际应用带了新的巨大希望。它在包括语音识别[1, 2]、视觉物体识别[3, 4]和文本处理[5, 6]等不同领域上体现了最领先的性能优势和效果。
+先前研究已经证明，通过增加样本数量和模型参数数量等不同手段，可以显著地提升分类算法的最终精确度[3, 4, 7]。该结论掀起了研究可扩展的深度学习训练和推断算法和提高其适用性等优化方法的热潮[7, 9]。近年来，在中等大小深度网络的训练上，一个重要的进步是因GPU的使用，使其变得更加的实用[1, 2, 3, 8]。但GPU众所周知的缺陷是，当其内存（通常小于6G）无法存放下模型时，训练的提升效果变得不再明显。这时，为了有效地使用GPU，研究者往往通过减少样本或变量规模的途径使得CPU和GPU之间的数据交换不在成为瓶颈。虽然数据或变量的减少对小规模问题（如针对于声学模型的语音识别）有效，但对具有大量样本和高维度变量的问题（如高分辨率图像）将失去效果。</p>
+
+<p>在本文中，我们提出了一个替代的方法，使用大规模的计算集群来分布地对深度网络进行训练和推断。我们开发了一个既能提升节点内（通过多线程方式）又可提升节点间（通过消息传递）并行训练能力的软件框架，称为DistBelief。它管理了如并行计算、同步化和通信等底层的细节。除了支持模型并行，DistBelief同时还支持数据并行，通过单一模型的多个分布副本的方式来优化同一目标。在该框架中，我们设计并实现了两个用于大规模分布式训练的新方法：i)Downpuur SGD，一个利用自适应学习速率和支持大量模型副本的异步随机梯度下降过程；(ii)Sandblaster L-BFGS，L-BFGS过程的一个分布式实现，其利用了数据和模型的并行（原作者注：我们利用Sandblaster方法实现了L-BFGS，但是Sandblaster同样广泛适用于其他批量方法的优化）。两个方法相比较于常规的SGD或L-BFGS方法都获得了显著的速度提升。
+关于大规模非凸方法优化，我们的实验呈现了一些出人意料的结果。首先，异步梯度下降，一个很少被用到非凸问题的方法，尤其是与Adagrad[10]自适应学习速率结合时，用以训练深度网络的效果很好。其次，当计算资源充足时，L-BFGS方法能够和许多SGD的变种方法相匹敌，甚至优于后者。
+对于深度学习的特定应用，我们提出了两项发现：前面提及的分布式优化方法，不仅可以加速中等规模模型的训练，同时它也可以训练规模大于想象的模型。为了证明第一点，我们利用分布式集群来训练中等大小语音识别模型，获得了与GPU相同的分类精度，而耗时仅是后者的1/10。为了证明第二点，我们训练了一个具有1G数量参数的大型神经网络，并用训练结果把ImageNet（计算机视觉领域最大的数据库之一）判别分类结果提升到了最先进的水平。</p>
+
+<h3 id="section-2">2.前期工作</h3>
+
+<p>近年来，用于商业和学术的机器学习数据集呈空前增长的趋势。因此，一些研究者开始探索可扩展的机器学习算法来处理这些泛洪数据[11, 12, 13, 14, 15, 16, 17]。但大量的研究仍着眼于线性凸模型[11, 12, 17]。在凸模型中，分布式梯度计算自然是第一步，但是有时因为同步的问题会遭遇训练速度减慢。针对该问题，已经有一些有效果的工作，如异步随机梯度下降算法中的无锁参数更新（如Hogwild![19]）。不幸的是，将这些方法扩展到的非凸情况的研究，如处理训练深度网络中遇到的问题，还是一片未知的领域。特别地，在存在多个局部最小解的情况下，是否能够使用参数平均或者执行密集的异步参数更新方法，还是未知的问题。
+在深度学习范畴中，大多数工作仍然集中在利用单节点训练较小规模模型（如Theano[20]）上。关于向上扩展深度学习的一些有意思的建议是，利用GPU来训练多个小型模型，然后将分别的预测结果取平均[21]，或者修改标准的深度网络使其能够从本质上并行化。而与这些前期工作不同，我们关注于扩展深度网络用于训练具有10^9参数数量的超大模型，同时避免给模型形式引入限制。在分布式扩展方面，模型的并行，其思想和[23]类似，是一个主要的组成部分，同时其也必须和巧妙的分布优化方法相结合以利用数据的并行性。
+我们也考虑了用一些现有的大规模计算工具，如Mapreduce和GraphLab等来处理大规模深度学习。我们发现为数据并行处理而设计的Mapreduce，极其不适合深度网络训练中固有的迭代计算；而用于通用（通常是无结构的）图计算的GraphLab，同样没有利用深度网络中典型的分层图结构来提升计算效率。</p>
+
+<h3 id="section-3">3.模型并行</h3>
+
+<p>为了使超大规模深度网络的训练变得容易，我们开发了软件框架——DistBelief，用以支持神经网络的并行计算和分层图形模型。用户只需定义发生在每个单元上的计算过程以单元在向上传递和向下传递（原作者注：对于神经网络而言，“向上”和“向下”指的是“前馈”和“反向传播”，而对于隐式Markov模型，它们与“前向”和“后向”意思更相近）时需发送的消息。对于大型模型，用户可能会将模型加以划分（如图1所示），使得不同节点的计算任务被分配到了不同机器上。DistBelief自动地利用CPU资源将节点内计算并行化，同时它还管理了底层通信、同步化和在训练和推断时的机器间数据传输。
+将深度网络分布到多个机器上所带来的性能提升主要取决于模型的连通结构和计算需求。具有大量参数或高计算需求的模型通过增加CPU和内存数量通常可以提升训练速度，直到增加到通信开销成为系统的瓶颈。我们已成功地在144个划分（机器）上运行DistBelief框架，且获得了显著的性能提升，同时在8或16个划分上运行的一个中等大小模型，也获得了很好的效果（请参考第5节中模型并行化基准测试中的实验结果）。显然地，局部连通的网络模型，因为需要更少的网络通信，所以比全连通网络模型更易于分布化。导致性能退化的一个主要原因是因不同机器上处理时间的不同，导致大量的机器在等待一个或单个节点完成本阶段任务（译者注：和MapReduce中Map阶段的长尾问题类似）。尽管如此，对于我们最大的模型来讲，我们仍可以高效地用总共有512核CPU 的32台机器（每台机器平均使用16核CPU的计算资源）来训练单个神经网络。当和下一节中讲到的利用模型多副本方法的分布式优化算法相结合时，将使得在多达10K的CPU数量上训练单个网络成为可能，从而进一步减少总的训练时间。</p>
+
+<h3 id="section-4">4.分布式优化算法</h3>
+
+<p>DistBelief框架中的并行计算方法使我们能够部署和运行比前期工作中提到的大得多的神经网络模型。但是为了在合理时间内训练如此规模的模型，这就要求我们不仅需实现单个DistBelief实例内的并行，而且需要将训练任务分发到多个DistBelief实例。在本节中，我们将具体阐述这第二级的并行，即采用多个DistBelief模型的实例（或副本），同时来达到一个优化目标。</p>
+
+<p><img src="/images/large_scale.png" alt="算法示意图" /></p>
+
+<ul>
+  <li>左：Downpour SGD，模型的副本采用异步方式从参数服务器（Parameter Server）中获取参数w和上传<script type="math/tex">\Delta w</script>到参数服务器。</li>
+  <li>右：Sandblaster L-BFGS：单个协调器（Coordinator）实例发送简短消息（message）到模型副本和参数服务器以协调批量优化过程。</li>
+</ul>
+
+<p>下面我们来对这两个分布优化方法做比较：Downpour SGD是在线方法，而L-BFGS是批量方法。两方法中模型副本都利用了中心分割化服务器组的概念来共享参数，也都利用了每个模型副本中DistBelief的并行性。但更重要的是，对不同副本的处理时间的不同，甚至整个模型副本的失效、移除和重启等情况都在两方法的考虑范围之内。</p>
+
+<h4 id="downpour-sgd">4.1 Downpour SGD</h4>
+
+<p>随机梯度下降（SGD）方法，应该是最常用的训练深度神经网络的优化方法[26, 27, 3]。但不幸的是，传统SGD方法本质上的顺序性，使得在大型数据集下变得不再适用，因为这种完全串行方式所需要的机器间数据移动是非常耗时的。</p>
+
+<p>为了将SGD应用到大数据集上，我们提出了Downpour SGD，一个使用单个DistBelief模型的多个分布副本的异步随机梯度下降变种。它的基本方法如下：将训练集划分若干子集，并对每个子集运行一个单独的模型副本。模型副本之间的通信均通过中心参数服务器组，该参数服务器组维护了模型参数的当前状态，并分割到多台机器上（例如，如果我们参数服务器组有10个节点，那么每个节点将负责存储和更新模型参数的1/10，如图1所示）。该方法在两个方面体现异步性：</p>
+
+<ol>
+  <li>模型副本之间运行独立</li>
+  <li>参数服务器组各节点之间同样是独立的。</li>
+</ol>
+
+<p>考虑Downpour SGD的一个最简单的实现，在处理每个mini-batch（译者注：小型批量）之前，模型副本都会向参数服务器请求最新的模型参数。因为DistBelief框架也是分布在多台机器上，所以其框架的每个节点只需和参数服务器组中包含和该节点有关的模型参数的那部分节点进行通信。在DistBelief副本获得更新后的模型参数后，运行一次mini-batch样本来计算参数的梯度，并推送到参数服务器，以用于更新当前的模型参数值</p>
+
+<p>可以通过设定每<script type="math/tex">n_{fetch}</script> 次mini-batch操作向参数服务器获取一次更新后的参数和每<script type="math/tex">n_{push}</script>次mini-batch操作推送一次梯度更新到参数服务器（这里<script type="math/tex">n_{fetch}</script>不一定和<script type="math/tex">n_{push}</script>相等）。事实上，获取参数，推送梯度和处理训练样本三种操作，可以以三个采用弱同步的线程实现（参见附录中的伪代码）。为了简单起见，同时也是为了和传统SGD方法相比较，在下面的实验中，我们设定: <script type="math/tex">n_{fetch}=n_{push}=1</script></p>
+
+<p>在处理机器失效方面，Downpour SGD比标准（同步）SGD要鲁棒。对于同步SGD来讲，如果一台机器失效，整个训练过程将会延时；但是对于异步SGD来讲，如果某个模型副本的一台机器失效，其他模型副本仍然继续处理样本并更新参数服务器中的模型参数。另一方面，Downpour SGD带来的多种异步处理形式给优化过程带来了进一步的随机性。这里面最显而易见的是，模型实例最可能是使用一个稍微过时的参数来计算梯度，因为这时其他的副本可能已经更新了参数服务器上的参数。但是，除此之外还有其他随机的来源：因为参数服务器组的每台机器是行为独立的，所以无法保证在给定时间点上，每个节点的参数被更新的次数相同，或者以同样的顺序被更新。更进一步的，因为模型副本使用不同的线程来获取参数和推送梯度值，故在同一时间戳上，单个副本内的参数将有额外的稍微不一致的现象。尽管对于非凸问题的这些操作的安全性缺乏理论基础，但是在实践中，我们发现放松一致性要求的做法是相当有效的。</p>
+
+<p>我们发现，另外一项能极大提高Downpour SGD鲁棒性的技术是使用Adagrad[10]自适应学习速率方法。与使用固定的值作为学习速率的方式不同，Adagrad的每个参数使用单独的自适应学习速率。假设是<script type="math/tex">$\eta_{i,k}</script>第i个参数在第k次迭代时的学习速率,<script type="math/tex">\Delta g_{i,k}</script>是其梯度值，那么：</p>
+
+<script type="math/tex; mode=display">
+\eta_{i,k} = \frac{\gamma}{\sqrt{\sum_{j=1}^{k} g_{i,j}}}
+</script>
+
+<p>可以看出，因为学习速率的计算仅与参数历史梯度值的平方和有关，所以Adagrad易于在每个参数服务器节点上单独实现。所有学习速率共享的缩放常量因子γ，通常大于（可能有一个数量级）不使用Adagrad情况下，采用固定学习速率的最优值。Adagrad的使用能够增加并发训练的模型副本数量，同时，采用“热启动”（即在启动其他副本之前，用单个模型来训练参数）的模型训练方法，几乎消除了在Downpour SGD中可能会出现的稳定性问题.</p>
+
+<p><img src="/images/downpour.jpeg" alt="算法1" /></p>
+
+<h4 id="sandblaster-l-bfgs">4.2 Sandblaster L-BFGS</h4>
+
+<p>已经证实批量处方法在小型深度网络的训练上效果很好[7]。为了将这些方法运用到大型模型和大型数据集上，我们引入了Sandblaster批量优化框架，同时讨论了L-BFGS在该框架的一个实现。
+Sandblaster的主要思路是将参数的存储和操作分布化，算法（如L-BFGS）的核心位于协调器（coordinator）中。该协调器并不直接获取模型参数，相反地，它发出一系列命令（如内积，向量缩放，系数相关加法，乘法）到参数服务器节点，并且这些命令能在节点范围内执行。一些额外的信息，如L-BFGS的历史数据缓存，同样保存在计算出它的参数服务器节点上。这使得运行大型模型（10亿级参数）成为现实，而且不会因传输参数和梯度过度集中在一个节点上而导致性能下降。
+在典型的L-BFGS的并行实现中，数据被分布到许多机器上，每个机器负责对样本数据的一个特定的子集计算梯度，而后梯度值被传输回中心服务器（或者通过树形结构来聚合[16]）。因为许多方法都需要等待最慢的机器处理完毕，所以它并不能很好地扩展到大型共享集群中。为了解决该（扩展性）问题，我们采用了如下的负载均衡的方案：协调器分配给这N个模型副本一小部分的任务量，并且该计算任务远小于总批量，每当副本完成计算处于闲置状态时，立即给其分配新的计算任务，如此下去。为了在整个批量计算的最后阶段进一步优化慢速副本的任务处理，协调器调度最快结束的副本同时计算未完成的任务，从最先结束的副本处取得计算结果。该方案和MapReduce中的“备份任务”的使用相类似[24]。数据预取方式和通过将顺序数据传输到同一生产者以提高数据亲和性的方法一道，使得数据的获取不再是问题。和Downpour SGD中和参数服务器之间的高频率，高吞吐参数同步方式相反，Sandblaster中的计算者仅仅需在每次批处理的开始阶段获取参数，并且只需在极少的结束部分（用以免遭备份失效和重启）处需要传输梯度到参数服务器。</p>
+
+<p><img src="/images/sandblaster.jpeg" alt="算法2" /></p>
+
+<h4 id="section-5">5.实验</h4>
+
+<h4 id="section-6">6.结论</h4>
+<p>在这篇文章中，我们介绍了DistBelief，一个深度网络的分布并行训练的框架，并在该框架中发现了一些有效的分布优化策略。我们提出了Downpour SGD，一个高度异步的SGD变种算法，用以训练非凸的深度学习模型，其结果出乎意料的好。Sandblaster L-BFGS， L-BFGS的分布式实现，其与SGD相比具有竞争力。同时，对网络带宽的高效利用，使得其能够扩展到更大数量的并发线程来训练同一模型。这就是说，当具有2000数量CPU或更少时，Downpour SGD和Adagrad自适应学习速率方法的结合是最有效的方法。
+Adagrad方法本身不是为异步SGD的使用而设计的，并且该方法最典型的应用也不是在非凸问题上。但是，在高度非线性的深度网络中，两者的结合的效果却如此的好。我们推测，在面对剧烈的异步更新时，Adagrad自动地对不稳定参数起到了稳定的效果，并且很自然地根据不同的深度网络层数的变化来调整学习速率。
+实验结果表明，即使在中等规模的模型训练上，使用我们的大规模（分布式）方法，集群方法也比GPU要快，并且没有GPU对模型规模的限制。为了证明其训练更大模型的能力，我们通过训练一个超过10^9数量参数的模型，在ImageNet物体识别上获得了比先前最优的更好的精度水平。</p>
+
+<h4 id="references">References</h4>
+
+<ol>
+  <li>
+    <p>G.  Dahl, D.  Yu, L.  Deng, and A.  Acero.  Context-dependent pre-trained deep neural networks for large vocabulary speech recognition.  IEEE Transactions on Audio, Speech, and Language Processing, 2012. </p>
+  </li>
+  <li>
+    <p>G.  Hinton, L.  Deng, D.  Yu, G.  Dahl, A.  Mohamed, N.  Jaitly, A.  Senior, V.  Vanhoucke, P.  Nguyen, T.  Sainath, and B.  Kingsbury.  Deep neural networks for acoustic modeling in speech recognition.  IEEE Signal Processing Magazine, 2012. </p>
+  </li>
+  <li>
+    <p>D.  C.  Ciresan, U.  Meier, L.  M.  Gambardella, and J.  Schmidhuber.  Deep big simple neural nets excel on handwritten digit recognition.  CoRR, 2010. </p>
+  </li>
+  <li>
+    <p>A.  Coates, H.  Lee, and A.  Y.  Ng.  An analysis of single-layer networks in unsupervised feature learning.  In AISTATS 14, 2011. </p>
+  </li>
+  <li>
+    <p>Y.  Bengio, R.  Ducharme, P.  Vincent, and C.  Jauvin.  A neural probabilistic language model.  Journal of Machine Learning Research, 3:1137–1155, 2003. </p>
+  </li>
+  <li>
+    <p>R.  Collobert and J.  Weston.  A unified architecture for natural language processing: Deep neural networks with multitask learning.  In ICML, 2008. </p>
+  </li>
+  <li>
+    <p>Q. V.  Le, J.  Ngiam, A.  Coates, A.  Lahiri, B.  Prochnow, and A. Y.  Ng.  On optimization methods for deep learning.  In ICML, 2011. </p>
+  </li>
+  <li>
+    <p>R.  Raina, A.  Madhavan, and A.  Y.  Ng.  Large-scale deep unsupervised learning using graphics processors.  In ICML, 2009. </p>
+  </li>
+  <li>
+    <p>J.  Martens.  Deep learning via hessian-free optimization.  In ICML, 2010. </p>
+  </li>
+  <li>
+    <p>J.  C.  Duchi, E.  Hazan, and Y.  Singer.  Adaptive subgradient methods for online learning and stochastic optimization.  Journal of Machine Learning Research, 12:2121–2159, 2011. </p>
+  </li>
+  <li>
+    <p>Q.  Shi, J.  Petterson, G.  Dror, J.  Langford, A.  Smola, A.  Strehl, and V.  Vishwanathan.  Hash kernels.  In AISTATS, 2009. </p>
+  </li>
+  <li>
+    <p>J.  Langford, A.  Smola, and M.  Zinkevich.  Slow learners are fast.  In NIPS, 2009. </p>
+  </li>
+  <li>
+    <p>G.  Mann, R.  McDonald, M.  Mohri, N.  Silberman, and D.  Walker.  Efficient large-scale distributed training of conditional maximum entropy models.  In NIPS, 2009. </p>
+  </li>
+  <li>
+    <p>R.  McDonald, K.  Hall, and G.  Mann.  Distributed training strategies for the structured perceptron.  In NAACL, 2010. </p>
+  </li>
+  <li>
+    <p>M.  Zinkevich, M.  Weimer, A.  Smola, and L.  Li.  Parallelized stochastic gradient descent.  In NIPS, 2010. </p>
+  </li>
+  <li>
+    <p>A.  Agarwal, O.  Chapelle, M.  Dudik, and J.  Langford.  A reliable effective terascale linear learning system.  In AISTATS, 2011. </p>
+  </li>
+  <li>
+    <p>A.  Agarwal and J.  Duchi.  Distributed delayed stochastic optimization.  In NIPS, 2011. </p>
+  </li>
+  <li>
+    <p>C.  H.  Teo, Q.  V.  Le, A.  J.  Smola, and S.  V.  N.  Vishwanathan.  A scalable modular convex solver for regularized risk minimization.  In KDD, 2007. </p>
+  </li>
+  <li>
+    <p>F.  Niu, B.  Retcht, C.  Re, and S.  J.  Wright.  Hogwild! A lock-free approach to parallelizing stochastic gradient descent.  In NIPS, 2011. </p>
+  </li>
+  <li>
+    <p>J.  Bergstra, O.  Breuleux, F.  Bastien, P.  Lamblin, R.  Pascanu, G.  Desjardins, J.  Turian, D.  Warde-Farley, and Y.  Bengio.  Theano: a CPU and GPU math expression compiler.  In SciPy, 2010. </p>
+  </li>
+  <li>
+    <p>D.  Ciresan, U.  Meier, and J.  Schmidhuber.  Multi-column deep neural networks for image classification.  Technical report, IDSIA, 2012. </p>
+  </li>
+  <li>
+    <p>L.  Deng, D.  Yu, and J.  Platt.  Scalable stacking and learning for building deep architectures.  In ICASSP, 2012. </p>
+  </li>
+  <li>
+    <p>A.  Krizhevsky.  Learning multiple layers of features from tiny images.  Technical report, U.  Toronto, 2009. </p>
+  </li>
+  <li>
+    <p>J.  Dean and S.  Ghemawat.  Map-Reduce: simplified data processing on large clusters.  CACM, 2008. </p>
+  </li>
+  <li>
+    <p>Y.  Low, J.  Gonzalez, A.  Kyrola, D.  Bickson, C.  Guestrin, and J.  Hellerstein.  Distributed GraphLab: A framework for machine learning in the cloud.  In VLDB, 2012. </p>
+  </li>
+  <li>
+    <p>L.  Bottou.  Stochastic gradient learning in neural networks.  In Proceedings of Neuro-Nˆımes 91, 1991. </p>
+  </li>
+  <li>
+    <p>Y.  LeCun, L.  Bottou, G.  Orr, and K.  Muller.  Efficient backprop.  In Neural Networks: Tricks of the trade.  Springer, 1998. </p>
+  </li>
+  <li>
+    <p>V.  Vanhoucke, A.  Senior, and M.  Z.  Mao.  Improving the speed of neural networks on cpus.  In Deep Learning and Unsupervised Feature Learning Workshop, NIPS 2011, 2011. </p>
+  </li>
+  <li>
+    <p>J.  Deng, W.  Dong, R.  Socher, L. -J.  Li, K.  Li, and L.  Fei-Fei.  ImageNet: A Large-Scale Hierarchical</p>
+  </li>
+</ol>
+
+<p>Image Database.  In CVPR, 2009. 
+30.  Q. V.  Le, M. A.  Ranzato, R.  Monga, M.  Devin, K.  Chen, G. S.  Corrado, J.  Dean, and A. Y.  Ng.  Building high-level features using large scale unsupervised learning.  In ICML, 2012. </p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[流量分配和全局优化问题]]></title>
+    <link href="http://wxwidget.github.io/blog/2014/07/27/product-schedule-problem/"/>
+    <updated>2014-07-27T12:18:00+08:00</updated>
+    <id>http://wxwidget.github.io/blog/2014/07/27/product-schedule-problem</id>
+    <content type="html"><![CDATA[<h2 id="section">问题定义</h2>
+
+<p>流量的全局优化是指同整体的角度看，通过控制流量在商品，类目，品牌，店铺的分配，提升用户的UV价值的方法。算法的链接的是用户的需求，和商家的供给，
+通过分流，定价等方式调节市场。在大规模的促销活动中，常常会看到供给和需求的极度不平衡，以加入购物车的量和库存比值为例, 大量的商品无人问津，少量的
+商品供不应求。借助广告中最优匹配算法工具，优化双11的流量调配机制。</p>
+
+<p>假设提供有m件商品,n位用户，以下信息是已知的</p>
+
+<ul>
+  <li>$f_i$, 商品i的库存量</li>
+  <li>$v_i$, 用户i期望到达次数</li>
+</ul>
+
+<p>同时我们通过预测方法，可以知道</p>
+
+<ul>
+  <li>$p_{ij}$用户i，对商品j可能的购买概率</li>
+</ul>
+
+<!-- more -->
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[机器学习的通用指南: 优化理论]]></title>
+    <link href="http://wxwidget.github.io/blog/2014/05/26/numeric-optimization/"/>
+    <updated>2014-05-26T11:18:00+08:00</updated>
+    <id>http://wxwidget.github.io/blog/2014/05/26/numeric-optimization</id>
+    <content type="html"><![CDATA[<p>通常我们会把机器学习过程分成两个阶段，建模阶段和求解阶段。在大数据的推动下，求解的问题慢慢大于建模的问题。比如，业界一般采用逻辑回归做CTR预估或者其他的预测模型，但是在数据规模非常大的条件下，如何在分布式的环境下，更快更准的求解模型就变得非常重要。精确的解析求解场景是非常少的，人们更多的去研究模型的数值求解过程，比如梯度下降法；近似求解，比如：蒙特卡洛法。这里我只想讨论下梯度下降法，该方法是一种非常神奇的通用的数学最优化方法。</p>
+
+<p>下面会分几个阶段去讲梯度法的基本原理，本文更多的是偏理解。</p>
+
+<ol>
+  <li>梯度下降法</li>
+  <li>牛顿法</li>
+  <li>拟牛顿法</li>
+  <li>共轭梯度法</li>
+</ol>
+
+<!-- more -->
+
+<h2 id="section">符号说明</h2>
+
+<ul>
+  <li>$x$表示自变量</li>
+  <li>$y$表示因变量，是自变量的函数$y(x)$</li>
+  <li>$\nabla$ 梯度算子</li>
+  <li>$\eta$ 学习率，大于0的数</li>
+  <li>g 或者$\nabla f$ 一阶梯度，</li>
+  <li>H 或者$\nabla^2 f$ 二阶梯度</li>
+</ul>
+
+<h2 id="section-1">梯度法</h2>
+
+<p>简单的无约束的优化问题是，找到使得f(x)取最小值时的x。迭代法的基本思路是找到一种迭代的方法, x变化导致y下降,用数学的方法表示就是。</p>
+
+<script type="math/tex; mode=display">
+x_{k+1} = x_k + p = x_k + \eta d
+</script>
+
+<p>其中p表示x的增加的部分，分解成大小$\eta$，和方向$d$</p>
+
+<p>我们先得知道函数的近似公式：</p>
+
+<div class="definition">
+    一阶泰勒展开公式: 
+    $$f(x_k+p) = f(x_k)+ \nabla f(x_k) p + O(p^2)$$
+    去掉无穷小部分:
+    $$f(x+p) = f(x)+ g^Tp  $$
+</div>
+
+<p>从一阶的泰勒展开公式我们可以知道要想使得更新后的函数$f(x+p) \leq f(x)$，必须使得 $g^T*p \leq 0$，我们又知道g和d都是向量,
+他们的向量表示法：</p>
+
+<script type="math/tex; mode=display">
+    g^Tp = |g|*|p|*cos \theta
+</script>
+
+<p>只要保证$theta$小于0，就可以保证 $g^Tp$小于0。使得$p = -\eta g$， 这就是传说中的最速梯度法了.</p>
+
+<div class="definition">
+    梯度下降法: 
+    $$p = -\eta * g,  满足 \eta \gt 0 $$
+    那么x写成迭代形式是
+    $$
+    x_{k+1} = x_k - \eta * g
+    $$
+</div>
+
+<p>通过梯度下降法，我们知道，我们确实有一种方法，能找到x的一种迭代方式，使得函数y不增加。$x_{k+1} = x_k + \eta *g $中我们只解决了方向的问题，
+还有一个学习率的问题没有解决。就是我们如何确定 $\eta$，有一种非常简单的方法是预设$\eta$为一个固定的值比如0.1；或者
+$\eta$是在一个区间了下降，比如从0.5下降到0.001；或者不同的x的分量有不同的学习率，等等。这些方法通常表现都不错</p>
+
+<h2 id="section-2">牛顿法</h2>
+
+<p>为了得到更快的收敛速度，挑选合适的学习速率也是一件比较困难的事情。回到泰勒展开公式，我们知道还有一个更加精确的二阶泰勒展开公式</p>
+
+<div class="definition">
+    二阶泰勒展开公式: 
+    $$f(x_k+p) = f(x_k)+ \nabla f(x_k) p + \frac{1}{2} p^T \nabla ^2 f(x_k) p $$
+    知道 $p = x - x_k$得到:
+    $$f(x) = f(x_k)+ \nabla f(x_k) (x-x_k) + \frac{1}{2} (x-x_k)^T \nabla ^2 f(x_k) (x-x_k) $$
+</div>
+
+<p>我们知道函数极值的条件是倒数为0,所以</p>
+
+<script type="math/tex; mode=display"> \frac{\partial f}{\partial x} = 0 </script>
+
+<p>求解得到</p>
+
+<script type="math/tex; mode=display"> x = {x_k} - \frac{\nabla f({x_k})}{\nabla ^2 f({x_k})} = {x_k} - {H^{ - 1}}g</script>
+
+<p>当然算法工程通常不会直接求H的逆，而是通过 $Hp ＝ －g$去计算p</p>
+
+<p>牛顿法的好处是对强二次型的函数效果收敛速度非常快，但是对非二次型的函数很有可能导致迭代过程中函数上升。</p>
+
+<h2 id="line-search">line search</h2>
+
+<p>为了避免此类问题，出现了line search方法：</p>
+
+<script type="math/tex; mode=display">
+ \eta_k = argmin \ f(x_k + \eta_k p_k) 
+  \\
+  x_{k+1}=x_k-\eta_k g_k
+</script>
+
+<p>我们知道要想使得函数f最小，满足
+$$
+\frac{\partial f(x_{k+1})} {\partial \eta}=0
+$$</p>
+
+<p>更加函数的求导数法则</p>
+
+<script type="math/tex; mode=display">
+\frac{\partial f(x_{k+1})} {\partial \eta} = 
+\frac{\partial f(x_{k+1})}{\partial x_{k+1}} \times \frac{\partial x_{k+1}}{\partial \eta_k} = g_{k+1} g_{k} = 0
+</script>
+
+<p>即为了满足line search的条件，需要将下一次的迭代方向和本次的迭代方向垂直。这就是衍生出共轭梯度法了。</p>
+
+<p>当然，<a href="http://en.wikipedia.org/wiki/Line_search">line search</a>其实有很多其他的启发式方法，比如最直观<a href="http://en.wikipedia.org/wiki/Backtracking_line_search">backtracing法</a></p>
+
+<h2 id="section-3">拟牛顿法</h2>
+
+<p>我们再回到牛顿法的Hession矩阵H和$H^{-1}$上，我们知道每一步如果都求解H或者$H^{-1}$是非常耗费时间的，拟牛顿法的思路是，通过近似的方法加迭代的思路求H。回到二阶的泰勒公式：</p>
+
+<script type="math/tex; mode=display">f(x) = f(x_k)+ \nabla f(x_k) (x-x_k) + \frac{1}{2} (x-x_k)^T \nabla ^2 f(x_k)</script>
+
+<p>对f(x)求导数：</p>
+
+<script type="math/tex; mode=display">
+ g(x) = g(x_k) + H_k(x-x_k)
+ </script>
+
+<p>另x为$x_{x+1}$,</p>
+
+<script type="math/tex; mode=display">
+ g(x_{k+1}) - g(x_k) = H_k(x_{k+1}-x_k)
+ </script>
+
+<p>再另<script type="math/tex">y_k=g(x_{k+1})-g(x_k), s_k=x_{k+1}-x_k</script>,可以简写为：</p>
+
+<p>$$
+ y_k = H_k s_k
+ $$
+ $$
+ s_k = H^{-1}_k y_k
+ $$</p>
+
+<p>这就是拟牛顿法的条件公式。</p>
+
+<h3 id="dfp">DFP算法</h3>
+
+<p>DFP是3个人名称的首字母，想看八卦可以参考<a href="http://en.wikipedia.org/wiki/Davidon%E2%80%93Fletcher%E2%80%93Powell_formula">DFP</a>,DFP的思想很直接，我们不是要求逆矩阵$H^{-1}$吗？是不是可以找到一直简单的迭代方式，比如：
+$$
+	H^{-1}_{k+1} = H^{-1}_k + \delta H^{-1}
+$$</p>
+
+<p>我们要求H是正定矩阵（原因以后解释），那么就假设一种简单的形式
+$$
+\delta H^{-1} = \alpha * w w^T + \beta * u u^T
+$$</p>
+
+<p>ok，到目前我们带入到拟牛顿条件公式  <script type="math/tex"> s_k = H^{-1}_k y_k </script>，</p>
+
+<script type="math/tex; mode=display">
+( H^{-1}_k  + \alpha * w w^T + \beta * u u^T) \times y_k = s_k
+</script>
+
+<p>注意到w，u和y都是向量，那么$w^Ty$,$u^Ty$都是表量。
+$$
+H^{-1}_k y_k + \alpha * w w^T y_k + \beta * u u^T y_k = s_k
+$$</p>
+
+<script type="math/tex; mode=display">
+(\alpha w^T y_k) * w + (\beta  u^T y_k) u = s_k － H^{-1}_k y_k  
+</script>
+
+<p>天啦，这个方程如何求解呢？但是，我们只需要找到一组可行的解就ok了，好吧，那么我们就另：</p>
+
+<p>$$
+\alpha w^T y_k = 1, =&gt; \alpha = \frac{1} {w^T y_k}
+$$
+$$
+\beta  u^T y_k = -1, =&gt; \beta = \frac{1} {u^T y_k}
+$$</p>
+
+<p>那么
+$$
+w - u = s_k － H^{-1}_k y_k<br />
+$$</p>
+
+<p>呵呵，还是不能解，能在简单点吗？行！
+$$
+w = s_k
+u = H^{-1}_k y_k<br />
+$$</p>
+
+<p>就这样我们得到:</p>
+
+<script type="math/tex; mode=display">
+\alpha = \frac{1} {s_k^T y_k}
+</script>
+
+<script type="math/tex; mode=display">
+\beta = \frac{1} {H^{-T}_k y_k}
+</script>
+
+<script type="math/tex; mode=display">
+H^{-1}_{k+1} = \alpha s_k s_k^T + \beta H^{-1}_k y_k y_k^T H^{-T}_k
+</script>
+
+<p>到这里DFP我们就完成了$H^{-1}$的迭代求解过程。</p>
+
+<h3 id="bfgs">BFGS</h3>
+
+<p>BFGS和DFP非常的类似，但是他利用拟牛顿条件公式，H（注意不是$H^{-1}$）做近似，然后在通过Sherman Morrison公式计算$H^{-1}$。是目前表现最好的拟牛顿算法。</p>
+
+<p>和DFP一样，我么只需要兑换s和y的位置就可以得到H的近似公式，然后在计算$H^{-1}$,这里我就不详细讨论了，直接拿结果吧
+$$
+H_{k+1} = \frac{y_k y_k^T} {y_k^T y_k} + \frac{ H_k s_k s_k^T H^T_k } {H^T_k s_k}
+$$</p>
+
+<div class="definition">
+BFGS Hession矩阵迭代方程：
+$$
+H^{-1}_{k+1} = (I - \frac{s_k y^T_k} {y^T_k s_k})H^{-1}_k(I-\frac{y_k s^T_k} {y^T_k s_k}) + \frac{s_k s^T_k} {y^T_k s_k}
+$$
+</div>
+<p>更多见<a href="http://en.wikipedia.org/wiki/Quasi-Newton_method">wiki</a></p>
+
+<h3 id="lbfgs">LBFGS算法</h3>
+
+<p>BFGS算法需要记录H，当问题的维度比较高的时候，说需要的存储空间是非常大的。LBFGS又成为Limited－Memory BFGS算法，它对内存进行了优化。</p>
+
+<p>我们从BFGS的公式知道 <script type="math/tex">H^{-1}_{k+1}</script>总是从(s<em>0,y</em>0),(s<em>1,y</em>1),…,(s_k,y_k)计算得到，因此我们完全不必要存储 $O(n^2)$内存，二存储 $O(k n)$ 具体的算法因为不设计到原理性的算法问题，这里就不讨论，如果想了解，可以参考<a href="http://en.wikipedia.org/wiki/Limited-memory_BFGS">LBFGS</a></p>
+
+<p>主要我们并不是要求出$H^{-1}$,而是 $H^{-1}g_k$</p>
+
+<p>当然LBFGS有很多变种，其中比较重要的是：</p>
+
+<ul>
+  <li>LBFGS-B：带条件约束的LBFGS</li>
+  <li>OWL-QN： LBFGS with L1</li>
+  <li>O-LBFGS： online learning版本</li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[在线学习]]></title>
+    <link href="http://wxwidget.github.io/blog/2014/01/24/online-learning-survey/"/>
+    <updated>2014-01-24T11:53:00+08:00</updated>
+    <id>http://wxwidget.github.io/blog/2014/01/24/online-learning-survey</id>
+    <content type="html"><![CDATA[<h2 id="section">故事</h2>
+
+<p>在现实的世界里，故事是另外一个版本：在网络的一头住着一挨踢男，另一头住着一小编。每天小编写一封垃圾邮件给挨踢男。苦命的挨踢男日日分析邮件设计过滤器来过滤小编的垃圾邮件。但聪明的小编如果一发现邮件没有成功的被寄送，那么就会在下一封里加上更多的甜言蜜语来忽悠挨踢男。较量一直进行下去，挨踢男是否能摆脱小编的骚扰呢？</p>
+
+<p>以上故事都属于博弈论里的重复游戏（repeated game），它是对在线学习（online learning）最贴切的刻画：数据不断前来，我们需根据当前所能得到的来调整自己的最优策略。</p>
+
+<p>熟悉机器学习的可能注意到了在线学习与离线学习的区别。前者认为数据的分布是可以任意的，甚至是为了破坏我们的策略而精心设计的，而后者则通常假定数据是服从独立同分布。这两种不同的假设带来不一样的设计理念和理论。</p>
+
+<!--more-->
+
+<p>统计学习考虑算法所求得到的模型与真实模型的差距。数据由真实模型产生，如果能有无限数据、并在包含有真实模型的空间里求解，也许我们能算出真是模型。但实际上我们只有有限的有噪音的数据，这又限制我们只能使用相对简单的模型。所以，理想的算法是能够用不多的数据来得到一个不错的模型。</p>
+
+<p>在线学习的一个主要限制是当前只能看到当前的和过去的数据，未来是未知，有可能完全颠覆现在的认知。因此，对在线学习而言，它追求的是知道所有数据时所能设计的最优策略。同这个最优策略的差异称之为后悔（regret）：后悔没能一开始就选定最优策略。我们的希望是，时间一久，数据一多，这个差异就会变得很小。因为不对数据做任何假设，最优策略是否完美我们不关心（例如回答正确所有问题）。我们追求的是，没有后悔（no-regret）。</p>
+
+<p>如果与统计学习一样对数据做独立同分布假设，那么在线学习里的最优策略就是在得知所有数据的离线学习所能得到最优解。因此在线学习可以看成是一种优化方法：随着对数据的不断访问来逐步逼近这个最优解。</p>
+
+<p>很早以前优化界都在追求收敛很快的优化算法，例如牛顿迭代法。而最近一些年，learning的人发现，这类算法虽然迭代几下就能迭出一个精度很高的解，但每一步都很贵，而且数据一大根本迭不动。而向来被优化界抛弃的在线学习、随机优化算法（例如stochastic gradient descent），虽然收敛不快，不过迭代代价很低，更考虑到learning算法的解的精度要求不高，所以在实际应用中这些方法通常比传统的优化算法快很多，而且可以处理非常大的数据。</p>
+
+<p>当然，相对于老地主online learning，stochastic绝对是新贵。我会接下来谈这类算法，以及他们动辄数页的convergence rate的证明</p>
+
+<p>下面是有公式的正文。</p>
+
+<h2 id="section-1">准确定义</h2>
+
+<p>我们把学生定义为Learning，老师定义为Environment。Online Learning的过程就是，learner不停的回答Environment提出的问题。
+在$t$时刻，learner接收到一个领域问题$x_t$，learner提供一个答案$h_t$，同时environment会给出正确答案 $y_t$。
+此时，learner就会有一个惩罚(loss) $l(h_t,y_t)$。当learner经过有无数这样的训练后，learner会学习到领域知识。
+过程如下：</p>
+
+<ol>
+  <li>enviroment提出问题$x_t$ </li>
+  <li>learner从策略集合$\mathcal{H}$中选着一个策略$h_t$,做出判断$h_t(x)$</li>
+  <li>learner根据$loss(h_t(x),y_t)$学习</li>
+  <li>repeat 1 如果有更多的问题</li>
+</ol>
+
+<p>那么如何衡量一个learner过程的好坏呢？这就引入了后悔值的概念：</p>
+
+<script type="math/tex; mode=display">
+\displaystyle R(T)=\sum_{t=1}^T\ell_t(h_t)-\min_{h\in\mathcal{H}}\sum_{t=1}^T\ell_t(h).
+</script>
+
+<p>h为最优策略</p>
+
+<p>learner的目标就是每次挑不错的<script type="math/tex">h_t</script>来使得<script type="math/tex">R(T)</script>最小。<script type="math/tex">R(T)</script>是可以小于0的。毕竟最优策略是要固定h，而如果我们每次都能选择很好的<script type="math/tex">h_t</script>来适应问题<script type="math/tex">(x_t,y_t)</script>，可能总损失会更小。但这非常难。因为我们是要定好策略<script type="math/tex">h_t</script>，才能知道正确答案<script type="math/tex">y_t</script>。如果这个问题和以前的很不一样，答案也匪夷所思，那么猜对它而且一直都猜对的概率很小。而对于最优策略来说，它能事先知道所有问题和答案，所以它选择的最优策略的总损失较小的可能性更大。所以，我们一般只是关心平均$regretR(T)/T$是不是随着T变大而变小。</p>
+
+<div class="mark">
+    mark:1
+</div>
+
+<div class="definition">
+    我们称一个online算法是不是no-regret，或者说online learnable的，意味着:
+    $$\displaystyle \lim_{T\rightarrow\infty}\frac{R(T)}{T}\rightarrow 0.$$
+</div>
+
+<h2 id="section-2">算法</h2>
+<p>摘录自libol</p>
+
+<p><img src="/images/online_learning_alg.png" alt="online_learner" /></p>
+
+<h3 id="plaperceptron-learning-algorithm">感知学习算法PLA(Perceptron Learning Algorithm)</h3>
+
+<p><a href="https://class.coursera.org/ntumlone-001/lecture">PLA</a>，可以简单理解成“知错就改”算法。当遇到一个错误的时候，
+就修正算法。
+当然PLA有很多限定条件:
+假设机器要回答的问题是yes/no，目标<script type="math/tex">y \in \{-1,+1\}</script>,策略<script type="math/tex">h_t</script>是线性模型：<script type="math/tex">h_t=w_t^tx</script>。</p>
+
+<p>PLA算法以如下两步不断循环：</p>
+
+<ol>
+  <li>
+    <p>find a <strong>misstake</strong> of <script type="math/tex">w_t</script> call <script type="math/tex">(x_{n(t)},y_{n(t)})</script></p>
+
+<script type="math/tex; mode=display">sign(w_t^T x_{n(t)}) \neq y_{n(t)}</script>
+  </li>
+  <li>
+    <p>(try to) correct the misstake by:</p>
+
+<script type="math/tex; mode=display">w_{t+1} = w_{t} + y_{n(t)} x_{n(t)}</script>
+  </li>
+</ol>
+
+<p>当问题是线性可分的时候，PLA可以保证算法收敛到一条合适的线,详细的证明可以参考video。当问题线性不可分时，需要对算法进行适当的修改，找到一条“合适”的曲线即可。</p>
+
+<p>直观上理解PLA：如果机器犯了错误，当$y$实际上是+1, 说明$w_t$ 和 $x$的夹角超过90度，偏大。需要讲$w_t$向x的方向移动一个角度。
+<script type="math/tex">w_{t+1}=w_t + x</script>, 反之$y$实际上是-1, 说明$w_t$ 和 $x$的夹角小于90度，偏小。需要讲$w_t$向x的反方向移动一个角度。 <script type="math/tex">w_{t+1}=w_t - x</script></p>
+
+<p>线性分类器，是一个利用超平面来进行二分类的分类器，每次利用新的数据实例，预测，比对，更新，来调整超平面的位置。
+相对于SVM，感知器不要每类数据与分类面的间隔最大化。</p>
+
+<h3 id="average-perceptron">平均感知器(Average Perceptron)</h3>
+
+<p>线性分类器，其学习的过程，与Perceptron感知器的基本相同，只不过，它将所有的训练过程中的权值都保留下来，然后，求均值。</p>
+
+<p>优点：克服由于学习速率过大，所引起的训练过程中出现的震荡现象。即超平面围着一个中心，忽左忽右之类.</p>
+
+<ol>
+  <li>For t = 1,2,…n
+    <ol>
+      <li>对<script type="math/tex">(x_t,y_t)</script>,如果<script type="math/tex">sign(w_t^T x_{t}) \neq y_{t}</script>，计算<script type="math/tex">w_{t+1} = w_{t} + y_{t} x_{t}</script></li>
+    </ol>
+  </li>
+  <li>输出 $\sum\limits_{i = 1}^n {\frac{w_i}{n}} $</li>
+</ol>
+
+<h3 id="passive-aggressive-perceptron">Passive Aggressive Perceptron:</h3>
+
+<p>修正权值时，增加了一个参数$T_t$，预测正确时，不需要调整权值，预测错误时，主动调整权值。并可以加入松弛变量的概念，形成其算法的变种。</p>
+
+<p>优点：能减少错误分类的数目，而且适用于不可分的噪声情况。</p>
+
+<ol>
+  <li>For t = 1,2,…n
+    <ul>
+      <li>对<script type="math/tex">(x_t,y_t)</script>,如果<script type="math/tex">sign(w_t^T x_{t}) \neq y_{t}</script></li>
+      <li>$l_t = max \{0,1-y_t(w_t x_t) \}$</li>
+      <li>计算<script type="math/tex">w_{t+1} = w_{t} + \tau_t y_{t} x_{t}</script></li>
+    </ul>
+  </li>
+  <li>输出$w_n$</li>
+</ol>
+
+<p>根据 <script type="math/tex">\tau_t</script>的不同PAP变种为：</p>
+
+<p>1.<script type="math/tex">\tau_t = \frac{l_t}{\|X_t\|^2}</script></p>
+
+<p>2.<script type="math/tex">\tau_t =  min\{C, l_t / \|X_t\|^2\}</script></p>
+
+<p>3.<script type="math/tex">\tau_t =  \frac{l_t}{\|X_t\|^2 + 1/(2C)}</script></p>
+
+<h3 id="voted-perceptron">Voted Perceptron:</h3>
+
+<p>存储和使用所有的错误的预测向量。</p>
+
+<p>优点：实现对高维数据的分类，克服训练过程中的震荡，训练时间比SVM要好。</p>
+
+<p>缺点：不能保证收敛</p>
+
+<p><img src="/images/VotedPerceptron.png" alt="vp" /></p>
+
+<h3 id="confidence-weight">Confidence Weight：</h3>
+
+<p>线性分类器，来之google ICML2008的论文.<a href="http://static.googleusercontent.com/media/research.google.com/zh-CN//pubs/archive/34667.pdf">Conﬁdence-Weighted Linear Classiﬁcation</a>,[videolectures]相关视频介绍(http://videolectures.net/icml08_pereira_cwl/)</p>
+
+<p>每个学习参数都有个信任度（概率），信任度小的参数更应该学习，所以会得到更频繁的修改机会。信任度，用参数向量的高斯分布表示。</p>
+
+<p>权值w符合高斯分布N(u, 离差阵)，而 由w*x的结果，可以预测其分类的结果。</p>
+
+<p>并对高斯分布（的参数）进行更新。
+<img src="/images/cw.png" alt="cw" /></p>
+
+<p>这种方法能提供分类的准确性，并加快学习速度。其理论依据在在于算法正确的预测概率不小于高斯分布的一个值。</p>
+
+<h3 id="arow-adaptive-regularition-of-weighted-vector">AROW： adaptive regularition of weighted vector</h3>
+
+<p>NIPS2009的论文<a href="http://books.nips.cc/papers/files/nips22/NIPS2009_0611.pdf">Adaptive Regularization of Weights</a>
+<a href="https://code.google.com/p/arowpp/">code</a></p>
+
+<p>具有的属性：大间隔训练large margin training，置信度权值confidence weight，处理不可分数据（噪声）non-separable</p>
+
+<p>相对于SOP(second of Perceptron)，PA, CW, 在噪声情况下，其效果会更好.</p>
+
+<p><img src="/images/arow.png" alt="arow" /></p>
+
+<h3 id="normal-herding">Normal herding：</h3>
+
+<p>线性分类器</p>
+
+<p>NHerd算法在计算全协方差阵和对角协方差阵时，比AROW更加的积极。</p>
+
+<p><img src="/images/nherd.png" alt="nherd" /></p>
+
+<h3 id="ogd-">OGD 梯度法</h3>
+<p><img src="/images/ogd.png" alt="OGD" /></p>
+
+<h3 id="weight-majority">Weight Majority:</h3>
+<p>每个维度都可以作为一个分类器，进行预测；然后，依据权值，综合所有结果，给出一个最终的预测。</p>
+
+<p>依据最终的预测和实际测量结果，调整各个维度的权值，即更新模型。</p>
+
+<p>易于实施，错误界比较小，可推导。</p>
+
+<p><img src="/images/wm.png" alt="wm" /></p>
+
+<h4 id="section-3">一点解释</h4>
+
+<p>no-regret是不是很难达到呢？事实证明很多简单的算法都是no-regret。举个最经典的例子，假设我们有m个专家，他们在每轮问题都会给出的答案，假设答案就两种。损失函数是0-1损失函数，答案正确损失为0，否则为1. 先考虑最简单的情况：假设至少有一个完美专家，她永远给出正确的答案。那么什么才是learner的好策略呢？最简单的很work：看多数专家怎么说罗。 learner在时刻t先挑出前t-1轮一直是给正确答案的专家们，然后采用他们中多数人给出的那个答案。</p>
+
+<p>记$C_t$是前t-1轮一直是给正确答案的专家们的集合，$|C_t|$是这些专家的个数。如果learner在时刻t给出了错误的答案，那么意味着$C_t$中大部分专家都给了错误答案，所以下一时刻learner参考的专家就会少一半。因为完美专家的存在，所以$|C_t|$不可能无限变小使得小于1，所以learner不能无限犯错。事实上，<script type="math/tex">C_t</script>至多有<script type="math/tex">\log_2(m)</script>次变小机会，所以learner最多有<script type="math/tex">\log_2(m)</script>的损失。另一方面，最优策略当然是一直选中一位完美专家，总损失为0，所以<script type="math/tex">R(T)\le \log_2(m)</script>，上界是个常数.</p>
+
+<p>现在考虑并没有传说中的完美专家存在的情况。这时维护<script type="math/tex">C_t</script>的做法就不行了，我们使用一个稍复杂些的策略。记第i个专家为<script type="math/tex">e^i</script> ，对其维护一个信任度<script type="math/tex">w^i\in[0,1]</script>，且使得满足<script type="math/tex">\sum_{i=1}^m w^i=1</script>。记t时刻这m个信任度组成的向量是<script type="math/tex">w_t</script>，可以将其看成是关于这m专家上的一个分布，于是learner可以按这个分布来随机挑选一个专家，并用她的答案来做作为t时刻的答案。这意味着信任度高的专家被挑中的概率越高。</p>
+
+<p>关键是在于如何调整<script type="math/tex">w_t</script>。直观上来说，对于在某一轮预测不正确的专家，我们需降低对她们的信任度，而对预测正确的，我们则可以更加的相信她们。一种常见的调整策略是基于指数的。我们先维护一个没有归一化（和不为1）的信任度u。一开始大家都为1，<script type="math/tex">u_0^i=1</script>. 在t时刻的一开始，我们根据i专家在上一轮的损失<script type="math/tex">\ell_{t-1}(e^i)</script>来做如下调整：</p>
+
+<script type="math/tex; mode=display">
+    u_{t}^i=u_{t-1}^i\exp(-\eta\ell_{t-1}(e^i))
+</script>
+
+<p><script type="math/tex">\eta</script>是学习率，越大则每次的调整幅度越大。然后再将<script type="math/tex">u_t</script>归一化来得到我们要的分布：<script type="math/tex">w_t^i=u_t^i/\sum_i u_t^i</script>。</p>
+
+<p>基于指数的调整的好处在于快速的收敛率（它是强凸的），以及分析的简单性。我们有如下结论：如果选择学习率<script type="math/tex">\eta=\sqrt{8\ln m/T}</script>，那么<script type="math/tex">R(T)\le \sqrt{T\ln m/2}</script>。</p>
+
+<p>一个值得讨论的问题是，设定最优学习率<script type="math/tex">\eta</script>需要知道数据的总个数T，而在实际的应用中也许不能知道样本到底会有多少。所以如果设定一个实际不错的参数很trick。在以后的算法中还会遇到这类需要上帝之手设定的参数，而如何使得算法对这类控制速率的参数不敏感，是当前研究的一个热点。这是后话了。</p>
+
+<p>另外一个值得注意的是，同前面存在完美专家的情况相比，平均regret的上界由<script type="math/tex">\frac{\log_2 m}{T}</script>增到了<script type="math/tex">\sqrt{\frac{\ln m}{2T}}</script>。 这两者在实际的应用中有着很大差别。例如我们的目标是要使得平均regret达到某个数值以下，假设前一种方法取1,000个样本（迭代1,000次）就能到了，那么后一种算法就可能需要1,000,000个样本和迭代。这样，在时间或样本的要求上，前者明显优于后者。类似的区别在后面还会更多的遇到，这类算法的一个主要研究热点就是如何降低regret，提高收敛速度。</p>
+
+<h2 id="section-4">在线凸优化</h2>
+
+<!--http://mli7.wordpress.com/2011/04/08/online_learning_2/ -->
+
+<h2 id="primal-dual">Primal-dual的观点</h2>
+
+<p>天地间都赋阴阳二气所生</p>
+
+<h2 id="section-5">算法举例</h2>
+
+<ul>
+  <li><a href="https://code.google.com/p/arowpp/">arowpp</a></li>
+  <li><a href="https://code.google.com/p/oll/">oll</a></li>
+  <li><a href="https://code.google.com/p/sofia-ml/">sofia-ml</a></li>
+  <li><a href="http://www.cais.ntu.edu.sg/~chhoi/libol/">libol</a></li>
+  <li><a href="https://github.com/jubatus/jubatus">jubatus</a></li>
+  <li><a href="http://moa.cms.waikato.ac.nz/">moa</a></li>
+</ul>
+
+<h2 id="section-6">参考文献：</h2>
+<ol>
+  <li>N. Cesa-Bianchi, A. Conconi, and C. Gentile. A second-order perceptron algorithm.
+SIAM J. Comput., 34(3):640–668, 2005</li>
+  <li>K. Crammer, O. Dekel, J. Keshet, S. Shalev-Shwartz, and Y. Singer. Online passiveaggressive
+algorithms. Journal of Machine Learning Research, 7:551–585, 2006.</li>
+  <li>K. Crammer, M. Dredze, and A. Kulesza. Multi-class confidence weighted algorithms.
+In EMNLP, pages 496–504, 2009.</li>
+  <li>K. Crammer, M. Dredze, and F. Pereira. Exact convex confidence-weighted learning.
+In NIPS, pages 345–352, 2008.</li>
+  <li>K. Crammer, A. Kulesza, and M. Dredze. Adaptive regularization of weight vectors.
+In NIPS, pages 414–422, 2009.</li>
+  <li>K. Crammer, A. Kulesza, and M. Dredze. Adaptive regularization of weight vectors.
+Machine Learning, 91(2):155–187, 2013.</li>
+  <li>K. Crammer and D. D. Lee. Learning via gaussian herding. In NIPS, pages 451–459,
+2010.</li>
+  <li>K. Crammer and Y. Singer. Ultraconservative online algorithms for multiclass problems.
+Journal of Machine Learning Research, 3:951–991, 2003.</li>
+  <li>M. Fink, S. Shalev-Shwartz, Y. Singer, and S. Ullman. Online multiclass learning by
+interclass hypothesis sharing. In Proceedings of the 25th International Conference
+on Machine learning (ICML’06), pages 313–320, 2006.</li>
+  <li>C. Gentile. A new approximate maximal margin classification algorithm. Journal
+of Machine Learning Research, 2:213–242, 2001.</li>
+  <li>Y. Li and P. M. Long. The relaxed online maximum margin algorithm. Machine
+Learning, 46(1-3):361–387, 2002.</li>
+  <li>F. Orabona and K. Crammer. New adaptive algorithms for online classification. In
+NIPS, pages 1840–1848, 2010.</li>
+  <li>F. Rosenblatt. The perceptron: A probabilistic model for information storage and
+organization in the brain. Psych. Rev., 7:551–585, 1958.</li>
+  <li>J. Wang, P. Zhao, and S. C. H. Hoi. Exact soft confidence-weighted learning. In
+ICML, 2012.</li>
+  <li>L. Yang, R. Jin, and J. Ye. Online learning by ellipsoid method. In ICML, page
+145, 2009.</li>
+  <li>P. Zhao, S. C. H. Hoi, and R. Jin. Double updating online learning. Journal of
+Machine Learning Research, 12:1587–1615, 2011.</li>
+  <li>P. Zhao, S. C. H. Hoi, R. Jin, and T. Yang. Online auc maximization. In ICML,
+pages 233–240, 2011.</li>
+  <li>M. Zinkevich. Online convex programming and generalized infinitesimal gradient
+ascent. In ICML, pages 928–936, 2003.</li>
+</ol>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Pegasos算法]]></title>
+    <link href="http://wxwidget.github.io/blog/2013/11/14/svm-pegasos/"/>
+    <updated>2013-11-14T11:49:00+08:00</updated>
+    <id>http://wxwidget.github.io/blog/2013/11/14/svm-pegasos</id>
+    <content type="html"><![CDATA[<p>本文参考了博文<a href="http://mark.reid.name/sap/online-learning-in-clojure.html">Online Learning in Clojure</a>和论文<a href="http://www.machinelearning.org/proceedings/icml2007/abstracts/587.htm">Pegasos: Primal Estimated sub-GrAdient SOlver for SVM</a>(<a href="http://www.machinelearning.org/proceedings/icml2007/papers/587.pdf">PDF</a>)</p>
+
+<h2 id="online-learning">online learning</h2>
+
+<p>Online learning的算法结构是非常简单的，下面的描述是监督的online learning算法框架，其中有经验损失函数$L$，样本流$S$，样本的格式为$(x,y)$:</p>
+
+<pre><code>Initialise a starting model w
+While there are more examples in S
+    Get the next feature vector x
+    Predict the label y' for x using the model w
+    Get the true label y for x and incur a penaly L(y,y')
+    Update the model w if y ≠ y'
+</code></pre>
+
+<p>一般来是，训练出来的模型都是一个与样本相同维度的向量。对应二分的分类器，往往涉及到的是计算内积$\langle w,x \rangle$，模型的更新是沿着损失函数的梯度下降方向的。</p>
+
+<h2 id="pegasos">Pegasos</h2>
+
+<p>论文<a href="http://www.machinelearning.org/proceedings/icml2007/abstracts/587.htm">Pegasos: Primal Estimated sub-GrAdient SOlver for SVM</a>是一种svm的online learning算法。</p>
+
+<!-- more -->
+
+<p>首先来看svm的经验损失函数：</p>
+
+<script type="math/tex; mode=display">
+\begin{array}{l}
+L(w,S) = \frac{\lambda }{2}{\left\| w \right\|^2} + \frac{1}{k}\sum\limits_{(x,y) \in S} {h(w;(x,y))} \\
+h(w;(x,y)) = \max \{ 0,1 - y \langle w,x \rangle \} 
+\end{array}
+</script>
+
+<p>上面式子中，$k$是训练集$S$的大小，$h()$是the hinge loss（合页损失函数），$\langle w, x\rangle$表示$w,x$的内积，$\lambda$是正则化项。</p>
+
+<p>在<a href="http://book.douban.com/subject/10590856/">《统计学习方法》</a>这本书的7.2.4证明了合页损失函数与引入松弛变量后的损失函数是等价的，并证明了$\lambda$与惩罚系数$C$是成反比的。引入松弛变量后的损失函数为:</p>
+
+<script type="math/tex; mode=display">
+\frac{1}{2}\left \| w \right \|^{2} + C\sum_{i=1}^{N}\xi _{i}
+</script>
+
+<p>训练过程中，如果遇到了一个预测错误的样本$(x,y)$, 对模型的更新方法如下：</p>
+
+<script type="math/tex; mode=display">
+{w_{t + \frac{1}{2}}} = (1 - \frac{1}{t}){w_t} + \frac{1} { {\lambda t} } yx
+</script>
+
+<p>其中$t$表示已经训练过的样本个数，$ {w_{t + \frac{1}{2}}}$表示训练过$t$个的样本后的模型，${w_{t + \frac{1}{2} }}$ 表示新模型。
+根据pegasos算法，新模型的$l_2$范数如果超出了以 $\frac{1}{ {\sqrt \lambda  } }$ 为半径的超球面，那么需要将新模型投射到这个超球面上。即：</p>
+
+<script type="math/tex; mode=display">
+{w_{t + 1}} = \min \{ 1,\frac{1}{ {\sqrt \lambda  \left\| { {w_{t + \frac{1}{2} } } } \right\|}}\} {w_{t + \frac{1}{2}}}
+</script>
+
+<p>为什么需要将新的模型投射到以$\frac{1}{ {\sqrt \lambda  } }$为半径的超球面上呢？论文证明了svm的最优解是在下面这个集合中的：</p>
+
+<script type="math/tex; mode=display">
+B = \{ w:\left\| w \right\| \le \frac{1}{ {\sqrt \lambda  } }\} 
+</script>
+
+<p>而且在pegasos算法的推导，以及模型初始化$w$的时候，都使用了条件</p>
+
+<script type="math/tex; mode=display">
+\left\| w \right\| \le \frac{1}{ {\sqrt \lambda  } }
+</script>
+
+<p>由上面模型的更新公式可以简单分析一下正则化参数$\lambda$的作用，它决定了训练过程中，后面出现的预测错误的样本，对应模型的修正程度。$\lambda$越大，修正程度越小，$\lambda$越小，修正程度越大。同时$\lambda$与惩罚系数$C$是成反比的，所以也可理解为，在训练过称中，出现预测错误样本时，对模型的惩罚程度。$\lambda$越大，惩罚越小，$\lambda$越小，惩罚越大。</p>
+
+<p>Pegasos的算法描述在论文”Pegasos: Primal Estimated sub-GrAdient SOlver for SVM”也是给出了的，可以参考。</p>
+
+<p>但实际上pegasos是一个线性的svm，而且还是一个没有bias的svm，训练出来的线性函数是$y=\langle w,x \rangle$，在上面的论文中的Extensions小节中也讲到了，目前pegasos还没有证明可应用于线性模型$y=\langle w,x \rangle + b$或者是非线性svm模型。</p>
+
+<h2 id="pegasos-1">Pegasos的实现例子</h2>
+
+<p>实现了一个基于SMO算法的svm，今天就来基于Pegasos实现数字手写识别。svm用于多分类，还是一对多的方式，手写数据还是来自<a href="http://www.manning.com/pharrington/">“Machine Learning in Action”</a>的第二章的数据。下面是实现代码</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>基于pegasos的数字手写识别  (pegasos.py)</span> <a href='/code/2013/pegasos/pegasos.py'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c">#!/usr/bin/env python</span>
+</span><span class='line'><span class="c"># -*- coding: utf-8 -*-</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># Pegasos implemented in Python</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">os</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">sys</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">math</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">G_WEIGHT</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">parse_image</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">img_map</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>    <span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fp</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">img_map</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">ch</span><span class="p">))</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">img_map</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">32</span><span class="o">*</span><span class="mi">32</span><span class="p">):</span>
+</span><span class='line'>        <span class="n">ret</span> <span class="o">+=</span> <span class="n">model</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">ret</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">train_one_model</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">sampleNum</span><span class="p">,</span> <span class="n">modelNum</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">pvalue</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">G_WEIGHT</span><span class="p">[</span><span class="n">modelNum</span><span class="p">],</span> <span class="n">data</span><span class="p">)</span>
+</span><span class='line'>    <span class="c"># the hinge loss</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">pvalue</span> <span class="o">*</span> <span class="n">label</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">return</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># update model</span>
+</span><span class='line'>    <span class="n">lambd</span> <span class="o">=</span> <span class="mf">0.5</span>
+</span><span class='line'>    <span class="n">new_weight</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">32</span><span class="o">*</span><span class="mi">32</span><span class="p">):</span>
+</span><span class='line'>        <span class="c"># pegasos</span>
+</span><span class='line'>        <span class="n">a</span> <span class="o">=</span> <span class="n">G_WEIGHT</span><span class="p">[</span><span class="n">modelNum</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span> <span class="mi">1</span> <span class="o">-</span> <span class="mf">1.0</span><span class="o">/</span><span class="n">sampleNum</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">lambd</span> <span class="o">*</span> <span class="n">sampleNum</span><span class="p">))</span><span class="o">*</span><span class="n">label</span><span class="o">*</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</span><span class='line'>        <span class="n">new_weight</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># projection</span>
+</span><span class='line'>    <span class="n">norm2</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">32</span><span class="o">*</span><span class="mi">32</span><span class="p">):</span>
+</span><span class='line'>        <span class="n">norm2</span> <span class="o">+=</span> <span class="n">math</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="n">new_weight</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">norm2</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">norm2</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">norm2</span> <span class="o">&gt;</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">lambd</span><span class="p">)):</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">32</span><span class="o">*</span><span class="mi">32</span><span class="p">):</span>
+</span><span class='line'>            <span class="n">G_WEIGHT</span><span class="p">[</span><span class="n">modelNum</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_weight</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="p">(</span><span class="n">norm2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">lambd</span><span class="p">))</span>
+</span><span class='line'>    <span class="k">else</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">G_WEIGHT</span><span class="p">[</span><span class="n">modelNum</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_weight</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">train_one_sample</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">sampleNum</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">modelNum</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+</span><span class='line'>        <span class="n">label</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">num</span> <span class="o">==</span> <span class="n">modelNum</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">label</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>        <span class="n">train_one_model</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">sampleNum</span><span class="p">,</span> <span class="n">modelNum</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="n">__name__</span><span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+</span><span class='line'>        <span class="n">G_WEIGHT</span><span class="o">.</span><span class="n">append</span><span class="p">([])</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">32</span> <span class="o">*</span> <span class="mi">32</span><span class="p">):</span>
+</span><span class='line'>            <span class="n">G_WEIGHT</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">dirpath</span> <span class="o">=</span> <span class="s">&quot;./trainingDigits/&quot;</span>
+</span><span class='line'>    <span class="n">files</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">dirpath</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">sampleNum</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">print</span> <span class="s">&quot;training:&quot;</span><span class="p">,</span> <span class="nb">file</span>
+</span><span class='line'>        <span class="n">data</span> <span class="o">=</span> <span class="n">parse_image</span><span class="p">(</span><span class="n">dirpath</span> <span class="o">+</span> <span class="nb">file</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">file</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</span><span class='line'>        <span class="n">sampleNum</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>        <span class="n">train_one_sample</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">sampleNum</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># test</span>
+</span><span class='line'>    <span class="n">testdir</span> <span class="o">=</span> <span class="s">&quot;./testDigits/&quot;</span>
+</span><span class='line'>    <span class="n">files</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">testdir</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">right</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="n">wrong</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="n">can_not_classify</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">total</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>        <span class="n">data</span> <span class="o">=</span> <span class="n">parse_image</span><span class="p">(</span><span class="n">testdir</span> <span class="o">+</span> <span class="nb">file</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">print</span> <span class="s">&quot;testing:&quot;</span><span class="p">,</span> <span class="nb">file</span>
+</span><span class='line'>        <span class="n">num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">file</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</span><span class='line'>        <span class="n">classify_failed</span> <span class="o">=</span> <span class="bp">True</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+</span><span class='line'>            <span class="n">pvalue</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">G_WEIGHT</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">data</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">pvalue</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+</span><span class='line'>                <span class="n">classify_failed</span> <span class="o">=</span> <span class="bp">False</span>
+</span><span class='line'>                <span class="k">print</span> <span class="n">i</span><span class="p">,</span> <span class="s">&quot;prdict:&quot;</span><span class="p">,</span> <span class="mi">1</span>
+</span><span class='line'>                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">num</span><span class="p">:</span>
+</span><span class='line'>                    <span class="n">right</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>                <span class="k">else</span><span class="p">:</span>
+</span><span class='line'>                    <span class="n">wrong</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>            <span class="k">else</span><span class="p">:</span>
+</span><span class='line'>                <span class="k">print</span> <span class="n">i</span><span class="p">,</span> <span class="s">&quot;prdict:&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">classify_failed</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">can_not_classify</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">print</span> <span class="s">&quot;right=&quot;</span><span class="p">,</span> <span class="n">right</span>
+</span><span class='line'>    <span class="k">print</span> <span class="s">&quot;wrong=&quot;</span><span class="p">,</span> <span class="n">wrong</span>
+</span><span class='line'>    <span class="k">print</span> <span class="s">&quot;can_not_classify=&quot;</span><span class="p">,</span> <span class="n">can_not_classify</span>
+</span><span class='line'>    <span class="k">print</span> <span class="s">&quot;total=&quot;</span><span class="p">,</span> <span class="n">total</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>训练出来的模型测试结果如下：</p>
+
+<p><pre class='sh-bash'><code>right= 849
+</code><code>wrong= 46
+</code><code>can_not_classify= 72
+</code><code>total= 946</code></pre></p>
+
+<p>一共有946个测试样本，其中46个分类错误，72个没有找到分类，849个正确分类，正确分类率89.7%。$\lambda$取值为0.5。我也没有仔细调整$\lambda$的取值，不过看来结果还是慢不错的。但比起SMO算法实现的svm效果要差一些。但是pegasos的优势是快啊，同样的1934个训练样本，基于SMO的svm，花了3、4个小时训练，而pegasos算法只用了30多秒，逆天了。</p>
+
+<p>实现例子的代码和数据可以<a href="https://github.com/liuhongjiang/blog_projects/tree/master/pegasos">在github上下载</a>。pegasos有两个版本，pegasos2.py是pegasos.py的升级版，用了numpy库，使得代码更精简好看，同时运行效率更高。这个目录下还包含了论文的pdf文档Pegasos.pdf。</p>
+
+<p>PS：发现numpy和scipy、matplotlib真是好东西啊，python数学运算离不开。另外发现了一个讲numpy/scipy文档翻译为中文的网站<a href="http://pyscin.appspot.com/html/index.html">用Python做科学计算</a>，好东西啊。</p>
+
+<p>还发现了一个和机器学习相关的网站<a href="http://hunch.net/">http://hunch.net/</a>，有很不多不错的学术方面的东西。</p>
+]]></content>
+  </entry>
+  
+</feed>

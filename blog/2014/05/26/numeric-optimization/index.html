@@ -1,0 +1,553 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en" xmlns:wb=“http://open.weibo.com/wb"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>机器学习的通用指南: 优化理论 - Yang Cheng</title>
+  <meta name="author" content="杨程">
+
+  
+  <meta name="description" content="摘要： 机器学习本质上是一种最优化问题，本文试图通过介绍求解最优化问题中最常见的梯度法，以窥见机器学习的通用学习策略。 通常我们会把机器学习过程分成两个阶段，建模阶段和求解阶段。在大数据的推动下，求解的问题慢慢大于建模的问题。比如，业界一般采用逻辑回归做CTR预估或者其他的预测模型， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wxwidget.github.io/blog/2014/05/26/numeric-optimization/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Yang Cheng" type="application/atom+xml">
+
+  <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
+
+  <link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <!--link href="/stylesheets/bootstrap.min.css" media="screen, projection" rel="stylesheet" type="text/css" /-->
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts 
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+
+<!--JS for show math symbols -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+  <!-- 
+ /-->
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <div style="float:left; width: 500px">
+    <h1><a href="/">Yang Cheng</a></h1>
+    
+      <h2>行万里路，读万卷书</h2>
+    
+  </div>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wxwidget.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">博客首页</a></li>
+  <li><a href="/blog/archives">文章列表</a></li>
+  <li><a href="/todo">ToDo</a></li>
+  <li><a href="/paper/">论文阅读</a></li>
+  <li><a href="/project/index.html">推荐项目</a></li>
+
+  <!--
+  <-li><a href="/categories">标签分类</a></li>
+
+  <li><a href="/about">关于</a></li>
+  --!>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">机器学习的通用指南: 优化理论</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-26T11:18:00+08:00" pubdate data-updated="true">May 26<span>th</span>, 2014</time>
+        
+		
+        
+        <span style="text-transform:none">
+		  | Tags: 
+          
+            <a class='category' href='/blog/categories/machine-nbsplearning/'>Machine&nbspLearning</a>, <a class='category' href='/blog/categories/numeric-nbspoptimization/'>Numeric&nbspOptimization</a>
+          
+        </span>
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=机器学习的通用指南: 优化理论 - &amp;url=http://wxwidget.github.io/blog/2014/05/26/numeric-optimization/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=机器学习的通用指南: 优化理论 - &amp;url=http://wxwidget.github.io/blog/2014/05/26/numeric-optimization/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text= 机器学习的通用指南: 优化理论  - &amp;url=http://wxwidget.github.io/blog/2014/05/26/numeric-optimization/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+<div class="entry-content">
+    
+    <div class="abstract">
+        <table>
+            <tr>
+                <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
+                <td>机器学习本质上是一种最优化问题，本文试图通过介绍求解最优化问题中最常见的梯度法，以窥见机器学习的通用学习策略。</td>
+            </tr>
+        </table>
+    </div>
+    
+    <p>通常我们会把机器学习过程分成两个阶段，建模阶段和求解阶段。在大数据的推动下，求解的问题慢慢大于建模的问题。比如，业界一般采用逻辑回归做CTR预估或者其他的预测模型，但是在数据规模非常大的条件下，如何在分布式的环境下，更快更准的求解模型就变得非常重要。精确的解析求解场景是非常少的，人们更多的去研究模型的数值求解过程，比如梯度下降法；近似求解，比如：蒙特卡洛法。这里我只想讨论下梯度下降法，该方法是一种非常神奇的通用的数学最优化方法。</p>
+
+<p>下面会分几个阶段去讲梯度法的基本原理，本文更多的是偏理解。</p>
+
+<ol>
+  <li>梯度下降法</li>
+  <li>牛顿法</li>
+  <li>拟牛顿法</li>
+  <li>共轭梯度法</li>
+</ol>
+
+<!-- more -->
+
+<h2 id="section">符号说明</h2>
+
+<ul>
+  <li>$x$表示自变量</li>
+  <li>$y$表示因变量，是自变量的函数$y(x)$</li>
+  <li>$\nabla$ 梯度算子</li>
+  <li>$\eta$ 学习率，大于0的数</li>
+  <li>g 或者$\nabla f$ 一阶梯度，</li>
+  <li>H 或者$\nabla^2 f$ 二阶梯度</li>
+</ul>
+
+<h2 id="section-1">梯度法</h2>
+
+<p>简单的无约束的优化问题是，找到使得f(x)取最小值时的x。迭代法的基本思路是找到一种迭代的方法, x变化导致y下降,用数学的方法表示就是。</p>
+
+<script type="math/tex; mode=display">
+x_{k+1} = x_k + p = x_k + \eta d
+</script>
+
+<p>其中p表示x的增加的部分，分解成大小$\eta$，和方向$d$</p>
+
+<p>我们先得知道函数的近似公式：</p>
+
+<div class="definition">
+    一阶泰勒展开公式: 
+    $$f(x_k+p) = f(x_k)+ \nabla f(x_k) p + O(p^2)$$
+    去掉无穷小部分:
+    $$f(x+p) = f(x)+ g^Tp  $$
+</div>
+
+<p>从一阶的泰勒展开公式我们可以知道要想使得更新后的函数$f(x+p) \leq f(x)$，必须使得 $g^T*p \leq 0$，我们又知道g和d都是向量,
+他们的向量表示法：</p>
+
+<script type="math/tex; mode=display">
+    g^Tp = |g|*|p|*cos \theta
+</script>
+
+<p>只要保证$theta$小于0，就可以保证 $g^Tp$小于0。使得$p = -\eta g$， 这就是传说中的最速梯度法了.</p>
+
+<div class="definition">
+    梯度下降法: 
+    $$p = -\eta * g,  满足 \eta \gt 0 $$
+    那么x写成迭代形式是
+    $$
+    x_{k+1} = x_k - \eta * g
+    $$
+</div>
+
+<p>通过梯度下降法，我们知道，我们确实有一种方法，能找到x的一种迭代方式，使得函数y不增加。$x_{k+1} = x_k + \eta *g $中我们只解决了方向的问题，
+还有一个学习率的问题没有解决。就是我们如何确定 $\eta$，有一种非常简单的方法是预设$\eta$为一个固定的值比如0.1；或者
+$\eta$是在一个区间了下降，比如从0.5下降到0.001；或者不同的x的分量有不同的学习率，等等。这些方法通常表现都不错</p>
+
+<h2 id="section-2">牛顿法</h2>
+
+<p>为了得到更快的收敛速度，挑选合适的学习速率也是一件比较困难的事情。回到泰勒展开公式，我们知道还有一个更加精确的二阶泰勒展开公式</p>
+
+<div class="definition">
+    二阶泰勒展开公式: 
+    $$f(x_k+p) = f(x_k)+ \nabla f(x_k) p + \frac{1}{2} p^T \nabla ^2 f(x_k) p $$
+    知道 $p = x - x_k$得到:
+    $$f(x) = f(x_k)+ \nabla f(x_k) (x-x_k) + \frac{1}{2} (x-x_k)^T \nabla ^2 f(x_k) (x-x_k) $$
+</div>
+
+<p>我们知道函数极值的条件是倒数为0,所以</p>
+
+<script type="math/tex; mode=display"> \frac{\partial f}{\partial x} = 0 </script>
+
+<p>求解得到</p>
+
+<script type="math/tex; mode=display"> x = {x_k} - \frac{\nabla f({x_k})}{\nabla ^2 f({x_k})} = {x_k} - {H^{ - 1}}g</script>
+
+<p>当然算法工程通常不会直接求H的逆，而是通过 $Hp ＝ －g$去计算p</p>
+
+<p>牛顿法的好处是对强二次型的函数效果收敛速度非常快，但是对非二次型的函数很有可能导致迭代过程中函数上升。</p>
+
+<h2 id="line-search">line search</h2>
+
+<p>为了避免此类问题，出现了line search方法：</p>
+
+<script type="math/tex; mode=display">
+ \eta_k = argmin \ f(x_k + \eta_k p_k) 
+  \\
+  x_{k+1}=x_k-\eta_k g_k
+</script>
+
+<p>我们知道要想使得函数f最小，满足
+$$
+\frac{\partial f(x_{k+1})} {\partial \eta}=0
+$$</p>
+
+<p>更加函数的求导数法则</p>
+
+<script type="math/tex; mode=display">
+\frac{\partial f(x_{k+1})} {\partial \eta} = 
+\frac{\partial f(x_{k+1})}{\partial x_{k+1}} \times \frac{\partial x_{k+1}}{\partial \eta_k} = g_{k+1} g_{k} = 0
+</script>
+
+<p>即为了满足line search的条件，需要将下一次的迭代方向和本次的迭代方向垂直。这就是衍生出共轭梯度法了。</p>
+
+<p>当然，<a href="http://en.wikipedia.org/wiki/Line_search">line search</a>其实有很多其他的启发式方法，比如最直观<a href="http://en.wikipedia.org/wiki/Backtracking_line_search">backtracing法</a></p>
+
+<h2 id="section-3">拟牛顿法</h2>
+
+<p>我们再回到牛顿法的Hession矩阵H和$H^{-1}$上，我们知道每一步如果都求解H或者$H^{-1}$是非常耗费时间的，拟牛顿法的思路是，通过近似的方法加迭代的思路求H。回到二阶的泰勒公式：</p>
+
+<script type="math/tex; mode=display">f(x) = f(x_k)+ \nabla f(x_k) (x-x_k) + \frac{1}{2} (x-x_k)^T \nabla ^2 f(x_k)</script>
+
+<p>对f(x)求导数：</p>
+
+<script type="math/tex; mode=display">
+ g(x) = g(x_k) + H_k(x-x_k)
+ </script>
+
+<p>另x为$x_{x+1}$,</p>
+
+<script type="math/tex; mode=display">
+ g(x_{k+1}) - g(x_k) = H_k(x_{k+1}-x_k)
+ </script>
+
+<p>再另<script type="math/tex">y_k=g(x_{k+1})-g(x_k), s_k=x_{k+1}-x_k</script>,可以简写为：</p>
+
+<p>$$
+ y_k = H_k s_k
+ $$
+ $$
+ s_k = H^{-1}_k y_k
+ $$</p>
+
+<p>这就是拟牛顿法的条件公式。</p>
+
+<h3 id="dfp">DFP算法</h3>
+
+<p>DFP是3个人名称的首字母，想看八卦可以参考<a href="http://en.wikipedia.org/wiki/Davidon%E2%80%93Fletcher%E2%80%93Powell_formula">DFP</a>,DFP的思想很直接，我们不是要求逆矩阵$H^{-1}$吗？是不是可以找到一直简单的迭代方式，比如：
+$$
+	H^{-1}_{k+1} = H^{-1}_k + \delta H^{-1}
+$$</p>
+
+<p>我们要求H是正定矩阵（原因以后解释），那么就假设一种简单的形式
+$$
+\delta H^{-1} = \alpha * w w^T + \beta * u u^T
+$$</p>
+
+<p>ok，到目前我们带入到拟牛顿条件公式  <script type="math/tex"> s_k = H^{-1}_k y_k </script>，</p>
+
+<script type="math/tex; mode=display">
+( H^{-1}_k  + \alpha * w w^T + \beta * u u^T) \times y_k = s_k
+</script>
+
+<p>注意到w，u和y都是向量，那么$w^Ty$,$u^Ty$都是表量。
+$$
+H^{-1}_k y_k + \alpha * w w^T y_k + \beta * u u^T y_k = s_k
+$$</p>
+
+<script type="math/tex; mode=display">
+(\alpha w^T y_k) * w + (\beta  u^T y_k) u = s_k － H^{-1}_k y_k  
+</script>
+
+<p>天啦，这个方程如何求解呢？但是，我们只需要找到一组可行的解就ok了，好吧，那么我们就另：</p>
+
+<p>$$
+\alpha w^T y_k = 1, =&gt; \alpha = \frac{1} {w^T y_k}
+$$
+$$
+\beta  u^T y_k = -1, =&gt; \beta = \frac{1} {u^T y_k}
+$$</p>
+
+<p>那么
+$$
+w - u = s_k － H^{-1}_k y_k<br />
+$$</p>
+
+<p>呵呵，还是不能解，能在简单点吗？行！
+$$
+w = s_k
+u = H^{-1}_k y_k<br />
+$$</p>
+
+<p>就这样我们得到:</p>
+
+<script type="math/tex; mode=display">
+\alpha = \frac{1} {s_k^T y_k}
+</script>
+
+<script type="math/tex; mode=display">
+\beta = \frac{1} {H^{-T}_k y_k}
+</script>
+
+<script type="math/tex; mode=display">
+H^{-1}_{k+1} = \alpha s_k s_k^T + \beta H^{-1}_k y_k y_k^T H^{-T}_k
+</script>
+
+<p>到这里DFP我们就完成了$H^{-1}$的迭代求解过程。</p>
+
+<h3 id="bfgs">BFGS</h3>
+
+<p>BFGS和DFP非常的类似，但是他利用拟牛顿条件公式，H（注意不是$H^{-1}$）做近似，然后在通过Sherman Morrison公式计算$H^{-1}$。是目前表现最好的拟牛顿算法。</p>
+
+<p>和DFP一样，我么只需要兑换s和y的位置就可以得到H的近似公式，然后在计算$H^{-1}$,这里我就不详细讨论了，直接拿结果吧
+$$
+H_{k+1} = \frac{y_k y_k^T} {y_k^T y_k} + \frac{ H_k s_k s_k^T H^T_k } {H^T_k s_k}
+$$</p>
+
+<div class="definition">
+BFGS Hession矩阵迭代方程：
+$$
+H^{-1}_{k+1} = (I - \frac{s_k y^T_k} {y^T_k s_k})H^{-1}_k(I-\frac{y_k s^T_k} {y^T_k s_k}) + \frac{s_k s^T_k} {y^T_k s_k}
+$$
+</div>
+<p>更多见<a href="http://en.wikipedia.org/wiki/Quasi-Newton_method">wiki</a></p>
+
+<h3 id="lbfgs">LBFGS算法</h3>
+
+<p>BFGS算法需要记录H，当问题的维度比较高的时候，说需要的存储空间是非常大的。LBFGS又成为Limited－Memory BFGS算法，它对内存进行了优化。</p>
+
+<p>我们从BFGS的公式知道 <script type="math/tex">H^{-1}_{k+1}</script>总是从(s<em>0,y</em>0),(s<em>1,y</em>1),…,(s_k,y_k)计算得到，因此我们完全不必要存储 $O(n^2)$内存，二存储 $O(k n)$ 具体的算法因为不设计到原理性的算法问题，这里就不讨论，如果想了解，可以参考<a href="http://en.wikipedia.org/wiki/Limited-memory_BFGS">LBFGS</a></p>
+
+<p>主要我们并不是要求出$H^{-1}$,而是 $H^{-1}g_k$</p>
+
+<p>当然LBFGS有很多变种，其中比较重要的是：</p>
+
+<ul>
+  <li>LBFGS-B：带条件约束的LBFGS</li>
+  <li>OWL-QN： LBFGS with L1</li>
+  <li>O-LBFGS： online learning版本</li>
+</ul>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">杨程</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-26T11:18:00+08:00" pubdate data-updated="true">May 26<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/machine-nbsplearning/'>Machine&nbspLearning</a>, <a class='category' href='/blog/categories/numeric-nbspoptimization/'>Numeric&nbspOptimization</a>
+  
+</span>
+
+
+      <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=机器学习的通用指南: 优化理论 - &amp;url=http://wxwidget.github.io/blog/2014/05/26/numeric-optimization/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=机器学习的通用指南: 优化理论 - &amp;url=http://wxwidget.github.io/blog/2014/05/26/numeric-optimization/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text= 机器学习的通用指南: 优化理论  - &amp;url=http://wxwidget.github.io/blog/2014/05/26/numeric-optimization/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/05/23/painless-conjugate-gradient/" title="Previous Post: painless-conjugate-gradient">&laquo; painless-conjugate-gradient</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/07/27/product-schedule-problem/" title="Next Post: 流量分配和全局优化问题">流量分配和全局优化问题 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>本人</h1>
+  <p><a href="/about/">更多介绍...</a></p>
+  <p>声明：本站使用的图片等，甚至部分文章都来自网络，原作者享有对著作的一切权利。</p>
+  <p>欢迎在新浪微博上关注我：<wb:follow-button uid="1797403463" type="gray_3" width="100%" height="24" ></wb:follow-button></p>
+</section>
+<section>
+  <h1>最新博文</h1>
+  <ul id="Recent Posts">
+    
+      <li class="post">
+        <a href="/blog/2014/08/17/large-scale-deep-network/">大规模分布式深度网络</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/07/27/product-schedule-problem/">流量分配和全局优化问题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/26/numeric-optimization/">机器学习的通用指南: 优化理论</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/23/painless-conjugate-gradient/">painless-conjugate-gradient</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/12/large-scale-machine-learning/">large-scale-machine-learning</a>
+      </li>
+    
+  </ul>
+</section>
+<section id="tag-clouds">
+  <h1>分类</h1>
+    <span class="tag-cloud"><a href='/blog/categories/ctr-nbspprediction' style='font-size: 112.0%'>CTR&nbspPrediction(1)</a> <a href='/blog/categories/machine-nbsp-learning' style='font-size: 112.0%'>Machine&nbsp;Learning(1)</a> <a href='/blog/categories/machine-nbsplearning' style='font-size: 160.0%'>Machine&nbspLearning(5)</a> <a href='/blog/categories/numeric-nbspoptimization' style='font-size: 136.0%'>Numeric&nbspOptimization(3)</a> <a href='/blog/categories/online-nbsplearning' style='font-size: 124.0%'>Online&nbspLearning(2)</a> <a href='/blog/categories/recommender-nbspsysterm' style='font-size: 160.0%'>Recommender&nbspSysterm(5)</a> <a href='/blog/categories/sgd' style='font-size: 112.0%'>SGD(1)</a> <a href='/blog/categories/广告技术' style='font-size: 124.0%'>广告技术(2)</a> <a href='/blog/categories/新技术' style='font-size: 112.0%'>新技术(1)</a> <a href='/blog/categories/机器学习' style='font-size: 112.0%'>机器学习(1)</a> </span>
+</section>
+<section>
+  <h1>友情链接</h1>
+  <ul id="friends-links">
+  </ul>
+</section>
+<section id="tag-clouds" style="text-decoration:none">
+<h1><a href="/recent-comment/">最新评论</a></h1>
+    <script type="text/javascript" src=""></script>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - 杨程 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  <span style="float:right">
+      <!- 
+      Statistics by <script type="text/javascript" src="/javascripts/baidu-tongji.js"></script>
+      -->
+  </span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

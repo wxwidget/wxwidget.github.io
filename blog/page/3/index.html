@@ -1,0 +1,896 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en" xmlns:wb=“http://open.weibo.com/wb"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Yang Cheng</title>
+  <meta name="author" content="杨程">
+
+  
+  <meta name="description" content=" 可预测性理论
+Predictability and Information Theory. Part I: Measures of Predictability 如何度量 ">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wxwidget.github.io/blog/page/3/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Yang Cheng" type="application/atom+xml">
+
+  <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
+
+  <link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <!--link href="/stylesheets/bootstrap.min.css" media="screen, projection" rel="stylesheet" type="text/css" /-->
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts 
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+
+<!--JS for show math symbols -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+  <!-- 
+ /-->
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <div style="float:left; width: 500px">
+    <h1><a href="/">Yang Cheng</a></h1>
+    
+      <h2>行万里路，读万卷书</h2>
+    
+  </div>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wxwidget.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">博客首页</a></li>
+  <li><a href="/blog/archives">文章列表</a></li>
+  <li><a href="/todo">ToDo</a></li>
+  <li><a href="/paper/">论文阅读</a></li>
+  <li><a href="/project/index.html">推荐项目</a></li>
+
+  <!--
+  <-li><a href="/categories">标签分类</a></li>
+
+  <li><a href="/about">关于</a></li>
+  --!>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/06/predictability-and-information-theory/">Predictability and Information Theory</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-06T00:00:00+08:00" pubdate data-updated="true">Nov 6<span>th</span>, 2013</time>
+        
+		
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=Predictability and Information Theory - &amp;url=http://wxwidget.github.io/blog/2013/11/06/predictability-and-information-theory/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=Predictability and Information Theory - &amp;url=http://wxwidget.github.io/blog/2013/11/06/predictability-and-information-theory/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=Predictability and Information Theory  - &amp;url=http://wxwidget.github.io/blog/2013/11/06/predictability-and-information-theory/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <h2 id="section">可预测性理论</h2>
+<p><a href="http://journals.ametsoc.org/doi/pdf/10.1175/1520-0469\(2004\)061%3C2425%3APAITPI%3E2.0.CO%3B2">Predictability and Information Theory. Part I: Measures of Predictability</a></p>
+
+<h3 id="section-1">如何度量</h3>
+
+    </div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/21/selecting_contentbased_features/">选择content-based的特征</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-21T00:00:00+08:00" pubdate data-updated="true">Oct 21<span>st</span>, 2013</time>
+        
+		
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=选择content-based的特征 - &amp;url=http://wxwidget.github.io/blog/2013/10/21/selecting_contentbased_features/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=选择content-based的特征 - &amp;url=http://wxwidget.github.io/blog/2013/10/21/selecting_contentbased_features/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=选择content-based的特征  - &amp;url=http://wxwidget.github.io/blog/2013/10/21/selecting_contentbased_features/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <h2 id="section">论文</h2>
+<p>recsys2013的poster[selection content-based features for collaborative filtering recommenders] [p1]</p>
+
+<h3 id="section-1">八卦</h3>
+<pre><code>作者是 [p1]: http://www.eng.tau.ac.il/~noamk/papers/feature_selection_recsys_2013.pdf
+</code></pre>
+
+    </div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/17/pair-wise-learning/">Pairwise Learning</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2013</time>
+        
+		
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=pairwise learning - &amp;url=http://wxwidget.github.io/blog/2013/10/17/pair-wise-learning/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=pairwise learning - &amp;url=http://wxwidget.github.io/blog/2013/10/17/pair-wise-learning/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=pairwise learning  - &amp;url=http://wxwidget.github.io/blog/2013/10/17/pair-wise-learning/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <h2 id="section">背景介绍</h2>
+
+<p><a href="http://www.slideshare.net/AmitSharma315/pairwise-learning-experiments-with-community-recommendation-on-linkedin">recsys2013 Linkedin pairwise learning的报告</a></p>
+
+<p><strong>观测数据</strong>：用户U产生行为Y(在linkedin场景行为是加入的社区)，形成一条数据(u,y)</p>
+
+<p><strong>推荐问题</strong>：给定一些（u，y）的元组，为一个用户u推荐用户可能产生的行为（加入社区），或者一个用户u是否会加入社区y</p>
+
+<p><strong>常用方法</strong>：收集用户的profile和偏好， 计算用户和社区的相似程度</p>
+
+<script type="math/tex; mode=display">
+\begin{aligned}
+Sim(u,y) = \sum_{i=1}^n(w_i f_u^i f_y^i)
+\end{aligned} 
+</script>
+
+<p>计算相识度的算法非常多，
+启发式方法: 利用启发式公式，计算用户和社区的相似程度。
+常用的计算相似度的方法包括：<a href="http://en.wikipedia.org/wiki/Jaccard_index">jaccard</a>，<a href="http://en.wikipedia.org/wiki/Cosine_similarity">余弦相似</a>, <a href="http://en.wikipedia.org/wiki/Euclidean_distance#Squared_Euclidean_distance">欧式距离</a>等:</p>
+
+<p>具体的方法和普通的协同过滤算法类似，定义了user * item的矩阵，计算
+item-base的方法是先把item表示成user的向量, </p>
+
+<pre><code>itemA : &lt;userA,userB,userC,userD&gt;
+itemB : &lt;userA,userB,userE,userF&gt;
+</code></pre>
+
+<p>用户以上的相似计算方法度量itemA和itemB的相似性，为了映射到itemA和user的相似性，把user表示成item的向量</p>
+
+<pre><code>userA: &lt;itemB, itemC, itemD&gt;
+</code></pre>
+
+<p>那么itemA和userA的相似性可以表示层：itemA和&lt;itemB,itemC,itemD&gt;的平均相似性,或者其他值</p>
+
+<p>基于模型的方法 直接通过数据特征和把目标，预测用户对目标的偏好程度，常见的机器学习方法比如<a href="http://en.wikipedia.org/wiki/Logistic_regression">Logistic Regression</a></p>
+
+<p><img src="http://upload.wikimedia.org/math/8/a/9/8a9c21e683de89ddb61f15262ee9fd3a.png" alt="LR" /></p>
+
+<p>这里的x指用户和社区的特征，比如用户的性别，年龄，兴趣，社区的主题，用户和社区的特征组合等等，而目标即用户是否加入社区</p>
+
+<h2 id="section-1">一些观察</h2>
+
+<p>通常pointwise的排序方法就够用了，但是很多场景下，我们很难度量用户对某个item的喜好程度，但是我们可以定义一些用户的偏好;
+另一方面，排序算法会利用点击日志来调整算法的效果，用户只能点击到我们投放给用户的item，用户行为表现更多的是偏向，而不是程度。</p>
+
+<p>比如：在搜索结果场景中，通常会给用户展示多个候选集合，用户浏览集合然后从中挑选出自己偏好的集合。这里的用户行为实际上表现了一些用户的喜好，
+pointwise的假设是用户的喜好是全局的，用户对候选的表现是独立，不会受到前后的影响。而实际情况确有不同，比如用户通常会对比候选，然后挑选出一个。
+因此用户的偏好常常是相对的，为了描述这种相对偏好，常常采用pairwise或者listwise的ranking方法。 </p>
+
+<p>对单次点击的pairwise样本:</p>
+
+<ul>
+  <li>Click &gt; Skip Above</li>
+  <li>Last Click &gt; Skip Above</li>
+  <li>Click &gt; Earlier Click</li>
+  <li>Last Click &gt; Skip Previous</li>
+  <li>Click &gt; No-Click Next</li>
+</ul>
+
+<h2 id="section-2">分析</h2>
+
+<p>如何结合整体点击率，在单次点击里抽样样本</p>
+
+<ul>
+  <li>同query下，每个item的统计CTR</li>
+  <li>可选择:消除position bias</li>
+  <li>选择CTR差值有一定置信度的Pair, 比如：A-&gt;B, E-&gt;C, C-&gt;E</li>
+  <li>对单次点击过滤掉行为噪音,满足购买&gt;点击&gt;无行为, 从每次pv中过滤掉不满足约束的Pair，剩下A-&gt;B, E-&gt;C</li>
+  <li>
+    <p>特征改进</p>
+
+    <ul>
+      <li>按照原始特征分布去筛选样本分布</li>
+      <li>没有区分度的特征通过样本选择的方式去改进</li>
+    </ul>
+  </li>
+  <li>负样本采样
+    <ul>
+      <li>没有最优的负样本采样策略</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="section-3">算法</h2>
+
+<ol>
+  <li><a href="http://www.cs.cornell.edu/people/tj/svm_light/svm_rank.html">rankSVM</a></li>
+  <li>PLSA</li>
+</ol>
+
+<h2 id="section-4">并行化</h2>
+
+<ol>
+  <li>GPU</li>
+  <li>并发</li>
+  <li>分布式
+    <ul>
+      <li>BSP on MPI:</li>
+      <li>Hadoop</li>
+      <li>Scala</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="section-5">结果</h2>
+
+<h2 id="section-6">参考</h2>
+
+<ul>
+  <li><a href="http://static.googleusercontent.com/external_content/untrusted_dlcp/research.google.com/zh-CN//pubs/archive/35662.pdf">Large Scale Learning to Rank at google</a></li>
+</ul>
+
+
+    </div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/14/cold_start_solution/">冷启动问题求解</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-14T10:49:00+08:00" pubdate data-updated="true">Oct 14<span>th</span>, 2013</time>
+        
+		
+        
+        <span style="text-transform:none">
+		  | Tags: 
+          
+            <a class='category' href='/blog/categories/recommender-nbspsysterm/'>Recommender&nbspSysterm</a>
+          
+        </span>
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=冷启动问题求解 - &amp;url=http://wxwidget.github.io/blog/2013/10/14/cold_start_solution/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=冷启动问题求解 - &amp;url=http://wxwidget.github.io/blog/2013/10/14/cold_start_solution/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=冷启动问题求解  - &amp;url=http://wxwidget.github.io/blog/2013/10/14/cold_start_solution/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <div class="abstract">
+            <table>
+                <tr>
+                    <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
+                    <td>本文介绍冷启动的问题以及常用的求解思路</td>
+                </tr>
+            </table>
+        </div>
+        
+        <h2 id="section">冷启动问题的解决</h2>
+
+<p>冷启动问题的分类：</p>
+
+<ol>
+  <li>用户冷启动（新用户来了）；</li>
+  <li>物品冷启动（新物品来了）；</li>
+  <li>系统冷启动（整个推荐系统都是新的，也可以认为，它和“用户冷启动”的区别是，所有用户对系统冷启动来讲都是新用户，都面临冷启动问题）</li>
+</ol>
+
+<p>冷启动是稀疏数据问题一种特殊形态。用户跟系统的交互非常少，导致可以利用的数据比较小,也很难为用户建立Profile和兴趣,因此会导致一般的推荐算法失效。</p>
+
+<p>冷启动问题的解决方案：说白了，就是尽可能利用信息给用户一个可以接受的物品列表，最常见的就是热门排行。</p>
+
+<p>有的是根据冷启动问题分类来的，有的是从解决方案（能利用用户什么类型信息）来的。</p>
+
+<h3 id="section-1">启发式方法</h3>
+
+<pre><code>Linear combination of regression and CF models
+Filterbot Add user features as psuedo users and do collaborative filtering
+Hybrid approaches Use content based to fill up entries, then use CF
+</code></pre>
+
+<p>http://grouplens.org/papers/pdf/filterbot-CSCW98.pdf</p>
+
+<h3 id="matrix-factorization">Matrix Factorization</h3>
+<p>Good performance on Netflix (Koren, 2009)</p>
+
+<h3 id="model-based-approaches">Model-based approaches</h3>
+
+<ul>
+  <li>Bilinear random-effects model (probabilistic matrix factorization)</li>
+  <li>Good on Netflix data [Ruslan et al ICML, 2009]</li>
+  <li>Add feature-based regression to matrix factorization 
+(Agarwal and Chen, 2009)</li>
+  <li>Add topic discovery (from textual items) to matrix factorization 
+(Agarwal and Chen, 2009; Chun and Blei, 2011)</li>
+</ul>
+
+
+    </div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/10/diversity_similarity/">推荐系统多样性的问题</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-10T00:00:00+08:00" pubdate data-updated="true">Sep 10<span>th</span>, 2013</time>
+        
+		
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=推荐系统多样性的问题 - &amp;url=http://wxwidget.github.io/blog/2013/09/10/diversity_similarity/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=推荐系统多样性的问题 - &amp;url=http://wxwidget.github.io/blog/2013/09/10/diversity_similarity/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=推荐系统多样性的问题  - &amp;url=http://wxwidget.github.io/blog/2013/09/10/diversity_similarity/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <p>DIVERSITY方面的相关文章
+关于diversity方面的推荐系统论文，搜索了一下相关的文章，下面是一些比较著名的文章的列表</p>
+
+<ol>
+  <li>Similarity vs. Diversity</li>
+  <li>Avoiding monotony: improving the diversity of recommendation lists</li>
+  <li>Improving recommendation lists through topic diversification</li>
+  <li>
+    <p>Being accurate is not enough: how accuracy metrics have hurt recommender systems</p>
+
+    <p>其中第3篇是第一篇有关diversity的经典论文。第二篇是去年Resys08的一篇论文，主要贡献是用线性二次优化来找到整数二次优化问题的次优解。第4篇是一篇定性的文章，主要在于diversity背后哲学问题的讨论</p>
+  </li>
+</ol>
+
+<p>imrchen去年也整理过diversity方面的文章，因为他的博客大陆不能访问，不过可以访问他在CiteULike的链接：</p>
+
+<p>http://www.citeulike.org/user/imrchen/tag/diversity</p>
+
+<p>WI2009收录的两篇Diversity方面的论文
+1. Statistical Modeling of Diversity in Top-N Recommender Systems, Mi Zhang
+2. Novel Item Recommendation by User Profile Partitioning, Mi Zhang</p>
+
+    </div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/10/challenge_of_recsys/">推荐系统的挑战</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-10T00:00:00+08:00" pubdate data-updated="true">Sep 10<span>th</span>, 2013</time>
+        
+		
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=推荐系统的挑战 - &amp;url=http://wxwidget.github.io/blog/2013/09/10/challenge_of_recsys/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=推荐系统的挑战 - &amp;url=http://wxwidget.github.io/blog/2013/09/10/challenge_of_recsys/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=推荐系统的挑战  - &amp;url=http://wxwidget.github.io/blog/2013/09/10/challenge_of_recsys/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        
+
+    </div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/29/google-ctr/">Google Ctr预估系统</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-29T00:00:00+08:00" pubdate data-updated="true">Aug 29<span>th</span>, 2013</time>
+        
+		
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=google ctr预估系统 - &amp;url=http://wxwidget.github.io/blog/2013/08/29/google-ctr/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=google ctr预估系统 - &amp;url=http://wxwidget.github.io/blog/2013/08/29/google-ctr/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=google ctr预估系统  - &amp;url=http://wxwidget.github.io/blog/2013/08/29/google-ctr/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <h2 id="section">简介</h2>
+<p>kdd2013 google的论文就像一枚重磅炸弹 Ad Click Prediction: a View from the Trenches</p>
+
+<h2 id="section-1">算法</h2>
+<p>##工程考虑
+##结语</p>
+
+    </div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/08/NextGenerationRecSys/">下一代推荐系统</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-08T10:47:00+08:00" pubdate data-updated="true">Aug 8<span>th</span>, 2013</time>
+        
+		
+        
+        <span style="text-transform:none">
+		  | Tags: 
+          
+            <a class='category' href='/blog/categories/recommender-nbspsysterm/'>Recommender&nbspSysterm</a>
+          
+        </span>
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=下一代推荐系统 - &amp;url=http://wxwidget.github.io/blog/2013/08/08/NextGenerationRecSys/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=下一代推荐系统 - &amp;url=http://wxwidget.github.io/blog/2013/08/08/NextGenerationRecSys/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=下一代推荐系统  - &amp;url=http://wxwidget.github.io/blog/2013/08/08/NextGenerationRecSys/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <div class="abstract">
+            <table>
+                <tr>
+                    <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
+                    <td>主要围绕Gediminas等的论文，讨论下一代推荐系统的形态</td>
+                </tr>
+            </table>
+        </div>
+        
+        <h2 id="section">前言</h2>
+
+<p>讨论祖先和子孙的问题一向是比较困难的事情，什么是上一代，他们有什么特点？下一代推荐系统到底是什么？前后代有什么不一样，是什么关键特征定义了下一代？
+本文的重点是，讨论一些论文观点，旨在回答以上的一些疑问
+从Gediminas Adomavicius和Alexander Tuzhilin的Towards the Next Generation of Recommender Systems:
+A Survey of the State-of-the-Art and Possible Extensions来看(这篇文章引用率非常高)，我的理解是：</p>
+
+<p>第一代推荐系统主分三类:</p>
+
+<ol>
+  <li>content-based,基于内容的推荐</li>
+  <li>collaborative,基于协同过滤的推荐</li>
+  <li>hybrid recommendation, 混合型推荐</li>
+</ol>
+
+<p>第二代推荐系统的主要特点是：</p>
+
+<ol>
+  <li>user和item的理解</li>
+  <li>结合上下文信息</li>
+  <li>支持多维度的评价指标</li>
+  <li>提供更加有弹性和更少打扰的结果</li>
+</ol>
+
+<h2 id="section-1">其人</h2>
+<p><a href="http://ids.csom.umn.edu/faculty/gedas/">Gediminas Adomavicius</a>在推荐系统方面有很多研究, 有兴趣可以看看<a href="http://ids.csom.umn.edu/faculty/gedas/NSFCareer/">CAREER: Next Generation Personalization Technologies</a>,研究主题包括：</p>
+
+<ol>
+  <li>多准则推荐系统</li>
+  <li>推荐查询语言</li>
+  <li>推荐的多样性</li>
+  <li>时效数据的聚类</li>
+  <li>上下文感知推荐</li>
+  <li>用户偏好对推荐的影响</li>
+  <li>推荐算法的稳定性</li>
+  <li>数据特性对推荐的影响</li>
+</ol>
+
+<h2 id="section-2">相关讨论</h2>
+
+<h3 id="section-3">第一代推荐系统</h3>
+
+<p>早期的推荐系统主要是“评分预测”和“TOPN”预测，不论是哪一种推荐方式，其核心的目标是找到最适合用户c的项集合s，从集合里挑选集合是一个非常复杂的问题优化方案，通常采用的方案是用贪婪的方式，而我们只需要定义一个的效用函数,选取TOPN。</p>
+
+<h4 id="section-4">基于内容的推荐</h4>
+<p>定义效用函数为：用户c和项s的内容上的”相似性”，比如商品推荐中，为了一个用户推荐一款合适的商品，会计算商品和用户历史上看过或者买过的某些特征上的相似性（比如：品牌的偏好，类目的偏好，商品的属性，商品标签等等）。很多推荐都会在有文本的实体上进行推荐，改进的主要思路是：</p>
+
+<ol>
+  <li>扩展实体的文本标记。比如：标签，语义树</li>
+  <li>用户的文本Profile。比如：taste，preferences,needs。</li>
+</ol>
+
+<p>因此，基于内容的推荐算法的关键问题是建立，item的content profile和user的content profile。
+对于有问题内容的推荐实体，一般的方法是利用关键词抽取技术，抽取item中最重要的或者最有信息量的一些text。
+第一个任务是选择什么的文本，构建的text从来源上可以分成几个，如果来之item本身的内容，通常称为keywords；
+如果来自用户的标记，通常称为tags；如果来之外部的query，通常称为intents。
+第二个任务是如何在候选词里做weighting和selection。selection的方式一般是用贪心方法，选出topn weighting的词。</p>
+
+<p>构建user的content profile是比较困难的。因为user本生是没有标记的，通常是通过user从前看过的item和当前看过的item做
+标记。从时间的维度上，user的content profile可以分成历史和实时部分，历史部分通常是通过挖掘获取，而实时部分通常是
+通过巧妙的”average”或者model-based的方法发现用户content profile, 比较出名的content-based推荐系统是<a href="https://www.ischool.utexas.edu/~i385q-dt/readings/Balabanovic_Shoham-1997-Fab.pdf" title="Content-based, collaborative recommendation">Fab</a>,
+“adaptive filtering”是一种通过user的浏览记录不断提升精度的content profile构建方式</p>
+
+<h4 id="section-5">协同过滤推荐</h4>
+<p>是大家最为熟悉的推荐算法。算法只涉及到user-item的交互矩阵，推荐方式是Heuristic-based(memory-based)方法（item-based和user-based）和
+model-based的方法，后面发展的一批改进协同过滤算法的策略，比如：</p>
+
+<ol>
+  <li>Default Voting;</li>
+  <li>Inverse User Frequency;</li>
+  <li>Case Amplification;</li>
+  <li>Weighted-majority Prediction
+当然其他的协同过滤算法也非常多，下次讨论协同过滤算法的时候在仔细探讨</li>
+</ol>
+
+<h4 id="section-6">混合方法，主要是混合基于内容和协同过滤的方法。变种非常多，这里暂不讨论</h4>
+
+<h3 id="section-7">第二代推荐系统</h3>
+
+<ol>
+  <li>model-based的一些变化。谈到第二代，论文提供了一些扩展，比如：model-based方法，通常是基于统计和机器学习的方法，
+后面有演化出一些基于数学近似的方法，我理解的数学近似方法其实很简单，
+就像我们在高中学习的展开式，或者泰勒公式等等，用无穷多的弱项组合成一个误差最小的结果。</li>
+  <li>多维度的推荐。其实目前多数的推荐是单维度的，就是对user进行item的推荐，但是有些应用场景，比如：对住在北京的男性用户进行品牌推荐，
+或者在妇女节给女性用户推荐优惠商品。这些场景下需要推荐从对个维度上考虑问题，所以在多维的推荐系统中需要一个受众定向的功能。</li>
+  <li>多准则的推荐。一般情况下，我们即需要推荐的准确，多样性，惊喜度，时效性，覆盖率等等指标；有时候，我们需要保证推荐的推荐的品质，
+比如高端的品牌推荐，不能给用户推荐一些低质量的品牌商。</li>
+  <li>不打扰。很多系统为了搜集用户的兴趣，有时候会强迫用户给商品打分，这样会干扰用户的行为。
+怎么在用打扰用户的情况下，搜集潜在的用户反馈；对新用户怎么增量的用户信息量最大item，也是快速构建用户profile的一种方式。</li>
+</ol>
+
+<p>当然还有很多推荐系统应该解决的问题和扩展，
+但是，就这样还不能是二代推荐系统的特征, 推荐系统的发展永远是围绕着“用户体验”来做的。</p>
+
+<h3 id="section-8">参考文献</h3>
+
+    </div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/2/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>本人</h1>
+  <p><a href="/about/">更多介绍&#8230;</a></p>
+  <p>声明：本站使用的图片等，甚至部分文章都来自网络，原作者享有对著作的一切权利。</p>
+  <p>欢迎在新浪微博上关注我：<wb:follow-button uid="1797403463" type="gray_3" width="100%" height="24" ></wb:follow-button></p>
+</section>
+<section>
+  <h1>最新博文</h1>
+  <ul id="Recent Posts">
+    
+      <li class="post">
+        <a href="/blog/2014/08/17/large-scale-deep-network/">大规模分布式深度网络</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/07/27/product-schedule-problem/">流量分配和全局优化问题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/26/numeric-optimization/">机器学习的通用指南: 优化理论</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/23/painless-conjugate-gradient/">painless-conjugate-gradient</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/12/large-scale-machine-learning/">large-scale-machine-learning</a>
+      </li>
+    
+  </ul>
+</section>
+<section id="tag-clouds">
+  <h1>分类</h1>
+    <span class="tag-cloud"><a href='/blog/categories/ctr-nbspprediction' style='font-size: 112.0%'>CTR&nbspPrediction(1)</a> <a href='/blog/categories/machine-nbsp-learning' style='font-size: 112.0%'>Machine&nbsp;Learning(1)</a> <a href='/blog/categories/machine-nbsplearning' style='font-size: 160.0%'>Machine&nbspLearning(5)</a> <a href='/blog/categories/numeric-nbspoptimization' style='font-size: 136.0%'>Numeric&nbspOptimization(3)</a> <a href='/blog/categories/online-nbsplearning' style='font-size: 124.0%'>Online&nbspLearning(2)</a> <a href='/blog/categories/recommender-nbspsysterm' style='font-size: 160.0%'>Recommender&nbspSysterm(5)</a> <a href='/blog/categories/sgd' style='font-size: 112.0%'>SGD(1)</a> <a href='/blog/categories/广告技术' style='font-size: 124.0%'>广告技术(2)</a> <a href='/blog/categories/新技术' style='font-size: 112.0%'>新技术(1)</a> <a href='/blog/categories/机器学习' style='font-size: 112.0%'>机器学习(1)</a> </span>
+</section>
+<section>
+  <h1>友情链接</h1>
+  <ul id="friends-links">
+  </ul>
+</section>
+<section id="tag-clouds" style="text-decoration:none">
+<h1><a href="/recent-comment/">最新评论</a></h1>
+    <script type="text/javascript" src=""></script>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - 杨程 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  <span style="float:right">
+      <!- 
+      Statistics by <script type="text/javascript" src="/javascripts/baidu-tongji.js"></script>
+      -->
+  </span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

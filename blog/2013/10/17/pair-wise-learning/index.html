@@ -1,0 +1,405 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en" xmlns:wb=“http://open.weibo.com/wb"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>pairwise learning - Yang Cheng</title>
+  <meta name="author" content="杨程">
+
+  
+  <meta name="description" content="">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wxwidget.github.io/blog/2013/10/17/pair-wise-learning/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Yang Cheng" type="application/atom+xml">
+
+  <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
+
+  <link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <!--link href="/stylesheets/bootstrap.min.css" media="screen, projection" rel="stylesheet" type="text/css" /-->
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts 
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+
+<!--JS for show math symbols -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+  <!-- 
+ /-->
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <div style="float:left; width: 500px">
+    <h1><a href="/">Yang Cheng</a></h1>
+    
+      <h2>行万里路，读万卷书</h2>
+    
+  </div>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wxwidget.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">博客首页</a></li>
+  <li><a href="/blog/archives">文章列表</a></li>
+  <li><a href="/todo">ToDo</a></li>
+  <li><a href="/paper/">论文阅读</a></li>
+  <li><a href="/project/index.html">推荐项目</a></li>
+
+  <!--
+  <-li><a href="/categories">标签分类</a></li>
+
+  <li><a href="/about">关于</a></li>
+  --!>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Pairwise Learning</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2013</time>
+        
+		
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=pairwise learning - &amp;url=http://wxwidget.github.io/blog/2013/10/17/pair-wise-learning/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=pairwise learning - &amp;url=http://wxwidget.github.io/blog/2013/10/17/pair-wise-learning/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text= pairwise learning  - &amp;url=http://wxwidget.github.io/blog/2013/10/17/pair-wise-learning/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+<div class="entry-content">
+    
+    <h2 id="section">背景介绍</h2>
+
+<p><a href="http://www.slideshare.net/AmitSharma315/pairwise-learning-experiments-with-community-recommendation-on-linkedin">recsys2013 Linkedin pairwise learning的报告</a></p>
+
+<p><strong>观测数据</strong>：用户U产生行为Y(在linkedin场景行为是加入的社区)，形成一条数据(u,y)</p>
+
+<p><strong>推荐问题</strong>：给定一些（u，y）的元组，为一个用户u推荐用户可能产生的行为（加入社区），或者一个用户u是否会加入社区y</p>
+
+<p><strong>常用方法</strong>：收集用户的profile和偏好， 计算用户和社区的相似程度</p>
+
+<script type="math/tex; mode=display">
+\begin{aligned}
+Sim(u,y) = \sum_{i=1}^n(w_i f_u^i f_y^i)
+\end{aligned} 
+</script>
+
+<p>计算相识度的算法非常多，
+启发式方法: 利用启发式公式，计算用户和社区的相似程度。
+常用的计算相似度的方法包括：<a href="http://en.wikipedia.org/wiki/Jaccard_index">jaccard</a>，<a href="http://en.wikipedia.org/wiki/Cosine_similarity">余弦相似</a>, <a href="http://en.wikipedia.org/wiki/Euclidean_distance#Squared_Euclidean_distance">欧式距离</a>等:</p>
+
+<p>具体的方法和普通的协同过滤算法类似，定义了user * item的矩阵，计算
+item-base的方法是先把item表示成user的向量, </p>
+
+<pre><code>itemA : &lt;userA,userB,userC,userD&gt;
+itemB : &lt;userA,userB,userE,userF&gt;
+</code></pre>
+
+<p>用户以上的相似计算方法度量itemA和itemB的相似性，为了映射到itemA和user的相似性，把user表示成item的向量</p>
+
+<pre><code>userA: &lt;itemB, itemC, itemD&gt;
+</code></pre>
+
+<p>那么itemA和userA的相似性可以表示层：itemA和&lt;itemB,itemC,itemD&gt;的平均相似性,或者其他值</p>
+
+<p>基于模型的方法 直接通过数据特征和把目标，预测用户对目标的偏好程度，常见的机器学习方法比如<a href="http://en.wikipedia.org/wiki/Logistic_regression">Logistic Regression</a></p>
+
+<p><img src="http://upload.wikimedia.org/math/8/a/9/8a9c21e683de89ddb61f15262ee9fd3a.png" alt="LR" /></p>
+
+<p>这里的x指用户和社区的特征，比如用户的性别，年龄，兴趣，社区的主题，用户和社区的特征组合等等，而目标即用户是否加入社区</p>
+
+<h2 id="section-1">一些观察</h2>
+
+<p>通常pointwise的排序方法就够用了，但是很多场景下，我们很难度量用户对某个item的喜好程度，但是我们可以定义一些用户的偏好;
+另一方面，排序算法会利用点击日志来调整算法的效果，用户只能点击到我们投放给用户的item，用户行为表现更多的是偏向，而不是程度。</p>
+
+<p>比如：在搜索结果场景中，通常会给用户展示多个候选集合，用户浏览集合然后从中挑选出自己偏好的集合。这里的用户行为实际上表现了一些用户的喜好，
+pointwise的假设是用户的喜好是全局的，用户对候选的表现是独立，不会受到前后的影响。而实际情况确有不同，比如用户通常会对比候选，然后挑选出一个。
+因此用户的偏好常常是相对的，为了描述这种相对偏好，常常采用pairwise或者listwise的ranking方法。 </p>
+
+<p>对单次点击的pairwise样本:</p>
+
+<ul>
+  <li>Click &gt; Skip Above</li>
+  <li>Last Click &gt; Skip Above</li>
+  <li>Click &gt; Earlier Click</li>
+  <li>Last Click &gt; Skip Previous</li>
+  <li>Click &gt; No-Click Next</li>
+</ul>
+
+<h2 id="section-2">分析</h2>
+
+<p>如何结合整体点击率，在单次点击里抽样样本</p>
+
+<ul>
+  <li>同query下，每个item的统计CTR</li>
+  <li>可选择:消除position bias</li>
+  <li>选择CTR差值有一定置信度的Pair, 比如：A-&gt;B, E-&gt;C, C-&gt;E</li>
+  <li>对单次点击过滤掉行为噪音,满足购买&gt;点击&gt;无行为, 从每次pv中过滤掉不满足约束的Pair，剩下A-&gt;B, E-&gt;C</li>
+  <li>
+    <p>特征改进</p>
+
+    <ul>
+      <li>按照原始特征分布去筛选样本分布</li>
+      <li>没有区分度的特征通过样本选择的方式去改进</li>
+    </ul>
+  </li>
+  <li>负样本采样
+    <ul>
+      <li>没有最优的负样本采样策略</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="section-3">算法</h2>
+
+<ol>
+  <li><a href="http://www.cs.cornell.edu/people/tj/svm_light/svm_rank.html">rankSVM</a></li>
+  <li>PLSA</li>
+</ol>
+
+<h2 id="section-4">并行化</h2>
+
+<ol>
+  <li>GPU</li>
+  <li>并发</li>
+  <li>分布式
+    <ul>
+      <li>BSP on MPI:</li>
+      <li>Hadoop</li>
+      <li>Scala</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="section-5">结果</h2>
+
+<h2 id="section-6">参考</h2>
+
+<ul>
+  <li><a href="http://static.googleusercontent.com/external_content/untrusted_dlcp/research.google.com/zh-CN//pubs/archive/35662.pdf">Large Scale Learning to Rank at google</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">杨程</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-17T00:00:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2013</time>
+      
+
+
+      <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=pairwise learning - &amp;url=http://wxwidget.github.io/blog/2013/10/17/pair-wise-learning/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=pairwise learning - &amp;url=http://wxwidget.github.io/blog/2013/10/17/pair-wise-learning/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text= pairwise learning  - &amp;url=http://wxwidget.github.io/blog/2013/10/17/pair-wise-learning/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/10/14/cold_start_solution/" title="Previous Post: 冷启动问题求解">&laquo; 冷启动问题求解</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/10/21/selecting_contentbased_features/" title="Next Post: 选择content-based的特征">选择content-based的特征 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>本人</h1>
+  <p><a href="/about/">更多介绍...</a></p>
+  <p>声明：本站使用的图片等，甚至部分文章都来自网络，原作者享有对著作的一切权利。</p>
+  <p>欢迎在新浪微博上关注我：<wb:follow-button uid="1797403463" type="gray_3" width="100%" height="24" ></wb:follow-button></p>
+</section>
+<section>
+  <h1>最新博文</h1>
+  <ul id="Recent Posts">
+    
+      <li class="post">
+        <a href="/blog/2014/08/17/large-scale-deep-network/">大规模分布式深度网络</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/07/27/product-schedule-problem/">流量分配和全局优化问题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/26/numeric-optimization/">机器学习的通用指南: 优化理论</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/23/painless-conjugate-gradient/">painless-conjugate-gradient</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/12/large-scale-machine-learning/">large-scale-machine-learning</a>
+      </li>
+    
+  </ul>
+</section>
+<section id="tag-clouds">
+  <h1>分类</h1>
+    <span class="tag-cloud"><a href='/blog/categories/ctr-nbspprediction' style='font-size: 112.0%'>CTR&nbspPrediction(1)</a> <a href='/blog/categories/machine-nbsp-learning' style='font-size: 112.0%'>Machine&nbsp;Learning(1)</a> <a href='/blog/categories/machine-nbsplearning' style='font-size: 160.0%'>Machine&nbspLearning(5)</a> <a href='/blog/categories/numeric-nbspoptimization' style='font-size: 136.0%'>Numeric&nbspOptimization(3)</a> <a href='/blog/categories/online-nbsplearning' style='font-size: 124.0%'>Online&nbspLearning(2)</a> <a href='/blog/categories/recommender-nbspsysterm' style='font-size: 160.0%'>Recommender&nbspSysterm(5)</a> <a href='/blog/categories/sgd' style='font-size: 112.0%'>SGD(1)</a> <a href='/blog/categories/广告技术' style='font-size: 124.0%'>广告技术(2)</a> <a href='/blog/categories/新技术' style='font-size: 112.0%'>新技术(1)</a> <a href='/blog/categories/机器学习' style='font-size: 112.0%'>机器学习(1)</a> </span>
+</section>
+<section>
+  <h1>友情链接</h1>
+  <ul id="friends-links">
+  </ul>
+</section>
+<section id="tag-clouds" style="text-decoration:none">
+<h1><a href="/recent-comment/">最新评论</a></h1>
+    <script type="text/javascript" src=""></script>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - 杨程 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  <span style="float:right">
+      <!- 
+      Statistics by <script type="text/javascript" src="/javascripts/baidu-tongji.js"></script>
+      -->
+  </span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

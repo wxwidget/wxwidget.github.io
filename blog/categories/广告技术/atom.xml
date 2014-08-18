@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[分类: 广告技术 | Yang Cheng]]></title>
+  <link href="http://wxwidget.github.io/blog/categories/广告技术/atom.xml" rel="self"/>
+  <link href="http://wxwidget.github.io/"/>
+  <updated>2014-08-18T20:20:07+08:00</updated>
+  <id>http://wxwidget.github.io/</id>
+  <author>
+    <name><![CDATA[杨程]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[广告基础]]></title>
+    <link href="http://wxwidget.github.io/blog/2013/12/12/ad-tech/"/>
+    <updated>2013-12-12T14:20:00+08:00</updated>
+    <id>http://wxwidget.github.io/blog/2013/12/12/ad-tech</id>
+    <content type="html"><![CDATA[<!--more-->
+<p>### 技术层面</p>
+
+<ol>
+  <li>Paper
+    <ul>
+      <li>雅虎研究院的publication。</li>
+      <li>Google的publication： <a href="http://research.google.com/pubs/pub41159.html">Ad Click Prediction: a View from the Trenches</a>。该文探讨既有online训练特性，又能获得sparse模型的FTRL-Proximal算法。论文还阐述了很多实用技巧，包括给各个维度用上不同的学习率，用更少的bits去存储参数等。这个算法不单适用于对CTR问题的LR建模，也适合于其他使用online gradient descent方法的场景。</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="section">业务层面</h3>
+
+<ul>
+  <li>精准广告定向
+  一篇<a href="http://www.iamniu.com/2012/05/26/summary-internet-precise-ad-targeting-technology/?hmsr=top%20main%20content&amp;hmmd=&amp;hmpl=&amp;hmkw=&amp;hmci=">总结</a>，该文介绍了User-Agent、Cookie、各种定向技术和网络广告反作弊，并侧重在业务介绍。该文博主的<a href="http://www.iamniu.com/">首页</a></li>
+  <li>在线展示广告
+  在线展示广告的<a href="http://wayinwayout.com/%E5%9C%A8%E7%BA%BF%E5%B1%95%E7%A4%BA%E5%B9%BF%E5%91%8A%E7%9A%84%E8%BF%9B%E5%8C%96-evolution-online-display-advertising/">进化</a>，从Ad network谈到Ad Exchange（RTB）。</li>
+</ul>
+
+<h3 id="section-1">技术课程</h3>
+
+<ol>
+  <li><a href="http://study.163.com/course/courseMain.htm?courseId=321007#/courseMain">刘鹏计算广告学（video）</a></li>
+  <li><a href="https://www.stanford.edu/class/msande239/">斯坦福大学的计算广告学（slide）</a></li>
+  <li><a href="http://guanggaoxue.csdn.net/module/zone/baidu_data/index#video_course">百度的计算广告学（video）</a></li>
+  <li><a href="http://ctech.baidu.com/?r=courses/content&amp;c_id=203&amp;qq-pf-to=pcqq.c2c">百度在清华大学开的计算广告学（slide）</a></li>
+</ol>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[合约投放系统-介绍]]></title>
+    <link href="http://wxwidget.github.io/blog/2013/12/03/guaranteed-delivery/"/>
+    <updated>2013-12-03T17:28:00+08:00</updated>
+    <id>http://wxwidget.github.io/blog/2013/12/03/guaranteed-delivery</id>
+    <content type="html"><![CDATA[<h2 id="section">合约投放系统</h2>
+
+<h3 id="section-1">直接媒体购买</h3>
+
+<p>合约广告英文是Agreement-based Advertising，它是一种基于合约(Agreement)的商业模式，大家会看到它与Network和Exchange有相当大的不同，我们当前最主要的是把合约广告要解决的问题理解清楚，具体的技术可以再理解。</p>
+
+<p>传统的广告媒体购买方式是称之为直接媒体购买方式(Direct Media Buy)。
+它是一种简单的购买方式，比如一个杂志可能有几个广告位，比如封二页，封底页，广告主可以直接购买这些广告位，这种方式没有任何的技术元素。在这种方式的运作中，Supply有一个广告排期系统，广告排期系统比较简单，用于对购买了的广告位，以及相应的时间的广告排期。不提供受众定向，它在展示时将广告素材直接插入页面，这样广告作为静态资源加载，它的response time就会比较短，这样用户看到广告也越早，效果也就也越好。这种方式的代表公司是4A。需求方，即广告代理商要做的是两件事情：</p>
+
+<ol>
+  <li>帮助广告商策划和执行排期，</li>
+  <li>用经验和人工满足广告商的质和量的需求。</li>
+</ol>
+
+<p>比如宝马公司今年要reach多少用户，通过什么要的媒体reach，4A公司就会帮宝马公司把创意做好，并分析在哪些媒体，哪些位置上投放广告，能达到效果。因为没有技术元素，所以都是要依赖经验和人工的方式来完成的。但令人惊讶的是，中国很多品牌广告仍然是以为种方式进行的。</p>
+
+<!--more-->
+
+<h3 id="section-2">担保式投送</h3>
+
+<p>在线广告的一种主流做法是担保式投送（Guaranteed Delivery, GD），这种方法与广告位的直接购买不同的是：<em>从媒体角度是它卖的不是广告位，而是广告位上的流量</em>。从Yahoo!来看，它的逻辑是这样的：最早开放出一个广告位，每隔一段时间会提高这个广告位的售价，但涨到一定的售价后，就很难再涨了，它就将广告位的流量拆开，比如分为男性用户流量和女性用户流量，比如一个广告位整体出售可能价值1万元，但男性用户流量可能最高能卖7000元，女性用户流量假设价值6000元，那么总售价是13000，比整体出售的售价10000元的收益要高。为什么说它还是一个合约机制呢？是因为广告主和媒体所签的协议中还有明确的量的需求，我们在讨论品牌广告和效果广告时提到过，量（Quantity）和质（Quality）是广告主的两个根本需求，这两个需求是固有的，只是可能侧重点有时候会不同。在GD广告中，量是在合约中明确写明的，比如合约中如果写了要对加州男性的用户进行100万次的展示，如果没有完成这100万次的展示，是需要广告平台根据所未完成的量进行较多的赔偿。</p>
+
+<p>GD是一个量优先于质的销售方式，后面所讲的AdNetwork和AdExchange是质优先于量的销售方式，竞价系统的方式不同于GD，比如广告出0.5元买加州男性的用户流量，系统只会把当你的出价在所有竞争对手中是最高的时候，才分配给你，所以没有办法保证提供给你的流量。GD广告多采用千次展示付费（CPM）方式结算，多是品牌广告主使用GD，广告主的数量不多，Yahoo!也仅有1000～2000的广告主，但这些广告主的所签的都是大订单，它是合约广告最主要的市场形状。</p>
+
+<p>不同于前面所提到的静态插入页面的方式，GD广告是在广告投放机（Ad server）上决策展示某个广告。受众定向，CTR预测，流量预测是GD广告投放机的基础。GD系统往往希望帮助广告商做一些优化，比如有的广告商买了加州男性用户，有的广告商买的财经类型用户，比如一个用户是加州男性财经用户，这个用户在访问时，Ad server会决定这次展示出什么广告。Ad Server的准则是希望把每个用户在满足多个合约的时候投给合适的广告商，以使得每个广告商的效果最好，这里相比AdNetwork有一个难点是GD必须满足合约里签定的给广告主的流量 。</p>
+
+<h4 id="section-3">特点</h4>
+
+<ul>
+  <li>基于合约的广告机制，约定的量未完成需要向需求方补偿</li>
+  <li>量优于质的销售模型</li>
+  <li>多采用千次展示付费(Cost Per Mile, CPM)方式结算</li>
+</ul>
+
+<h4 id="section-4">投放机</h4>
+
+<ul>
+  <li>CPM方式收费必要要求投放在服务器端完成</li>
+  <li>受众定向，CTR预估和浏览预测是投放机的基础</li>
+  <li>GD合约下，投放机满足各合约的量，并且尽可能的优化需求方的质</li>
+</ul>
+
+<h3 id="section-5">系统结构</h3>
+
+<p><img src="/images/ad_gd.jpg" alt="GD" /></p>
+
+<p>它有retrieval部分，retrieval部分是各个系统都存在的。
+ranking的部分，它可能不是真正的ranking，有可能是做CTR预测。
+上图没有画出来的部分是离线的forecasting，它对实际的GD系统非常重要，它会与Online Allocation模板配合。
+反作弊和计价这是必须有的模块。而Real Time Index概念就不同了，合约广告系统中，它是用来对流量实时反馈。</p>
+
+<h2 id="section-6">算法</h2>
+
+<p><a href="/paper/high_water_mark算法.pdf">High_Water_Mark算法</a></p>
+
+]]></content>
+  </entry>
+  
+</feed>

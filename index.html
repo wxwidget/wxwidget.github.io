@@ -1,1 +1,840 @@
-My Octopress Page is coming soon &hellip;
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en" xmlns:wb=“http://open.weibo.com/wb"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Yang Cheng</title>
+  <meta name="author" content="杨程">
+
+  
+  <meta name="description" content="摘要： Large Scale Distributed Deep Networks，来自google Jeffery Dean 的一篇paper，后面也是想通过这篇paper讲清楚，如何实现大规模的并行分布式计算。 摘要 最近关于无监督特征学习（unsupervised feature &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wxwidget.github.io/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Yang Cheng" type="application/atom+xml">
+
+  <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
+
+  <link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <!--link href="/stylesheets/bootstrap.min.css" media="screen, projection" rel="stylesheet" type="text/css" /-->
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts 
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+
+<!--JS for show math symbols -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+  <!-- 
+ /-->
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <div style="float:left; width: 500px">
+    <h1><a href="/">Yang Cheng</a></h1>
+    
+      <h2>行万里路，读万卷书</h2>
+    
+  </div>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wxwidget.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">博客首页</a></li>
+  <li><a href="/blog/archives">文章列表</a></li>
+  <li><a href="/todo">ToDo</a></li>
+  <li><a href="/paper/">论文阅读</a></li>
+  <li><a href="/project/index.html">推荐项目</a></li>
+
+  <!--
+  <-li><a href="/categories">标签分类</a></li>
+
+  <li><a href="/about">关于</a></li>
+  --!>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/08/17/large-scale-deep-network/">大规模分布式深度网络</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-17T17:12:00+08:00" pubdate data-updated="true">Aug 17<span>th</span>, 2014</time>
+        
+		
+        
+        <span style="text-transform:none">
+		  | Tags: 
+          
+            <a class='category' href='/blog/categories/machine-nbsplearning/'>Machine&nbspLearning</a>, <a class='category' href='/blog/categories/numeric-nbspoptimization/'>Numeric&nbspOptimization</a>, <a class='category' href='/blog/categories/sgd/'>SGD</a>
+          
+        </span>
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=大规模分布式深度网络 - &amp;url=http://wxwidget.github.io/blog/2014/08/17/large-scale-deep-network/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=大规模分布式深度网络 - &amp;url=http://wxwidget.github.io/blog/2014/08/17/large-scale-deep-network/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=大规模分布式深度网络  - &amp;url=http://wxwidget.github.io/blog/2014/08/17/large-scale-deep-network/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <div class="abstract">
+            <table>
+                <tr>
+                    <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
+                    <td>Large Scale Distributed Deep Networks，来自google Jeffery Dean 的一篇paper，后面也是想通过这篇paper讲清楚，如何实现大规模的并行分布式计算。</td>
+                </tr>
+            </table>
+        </div>
+        
+        <h2 id="section">摘要</h2>
+
+<p>最近关于无监督特征学习（unsupervised feature learning）和深度学习（deep learning）的工作表明，具有训练大型模型能力的系统能够显著地提升深度神经网络的训练效果。在这篇文章中，我们针对的问题是利用多达10^4数量的CPU来训练一个具有10^9数量的参数（parameter）的深度网络。为了达到训练的目的，我们开发了称为DistBelief的软件框架，其利用具有上千节点（译者注：为了一致性，译文中的节点均指机器，即计算节点；而神经网络中的节点，均称为单元）的计算集群来训练大型模型。</p>
+
+
+    </div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/08/17/large-scale-deep-network/">阅读全文&rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/27/product-schedule-problem/">流量分配和全局优化问题</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-27T12:18:00+08:00" pubdate data-updated="true">Jul 27<span>th</span>, 2014</time>
+        
+		
+        
+        <span style="text-transform:none">
+		  | Tags: 
+          
+            <a class='category' href='/blog/categories/machine-nbsplearning/'>Machine&nbspLearning</a>, <a class='category' href='/blog/categories/numeric-nbspoptimization/'>Numeric&nbspOptimization</a>
+          
+        </span>
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=流量分配和全局优化问题 - &amp;url=http://wxwidget.github.io/blog/2014/07/27/product-schedule-problem/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=流量分配和全局优化问题 - &amp;url=http://wxwidget.github.io/blog/2014/07/27/product-schedule-problem/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=流量分配和全局优化问题  - &amp;url=http://wxwidget.github.io/blog/2014/07/27/product-schedule-problem/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <div class="abstract">
+            <table>
+                <tr>
+                    <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
+                    <td>电商领域的流量分配问题是比较常见的一个问题，本文试图通过形式化的方法描述在业务场景中的调度算法</td>
+                </tr>
+            </table>
+        </div>
+        
+        <h2 id="section">问题定义</h2>
+
+<p>流量的全局优化是指同整体的角度看，通过控制流量在商品，类目，品牌，店铺的分配，提升用户的UV价值的方法。算法的链接的是用户的需求，和商家的供给，
+通过分流，定价等方式调节市场。在大规模的促销活动中，常常会看到供给和需求的极度不平衡，以加入购物车的量和库存比值为例, 大量的商品无人问津，少量的
+商品供不应求。借助广告中最优匹配算法工具，优化双11的流量调配机制。</p>
+
+<p>假设提供有m件商品,n位用户，以下信息是已知的</p>
+
+<ul>
+  <li>$f_i$, 商品i的库存量</li>
+  <li>$v_i$, 用户i期望到达次数</li>
+</ul>
+
+<p>同时我们通过预测方法，可以知道</p>
+
+<ul>
+  <li>$p_{ij}$用户i，对商品j可能的购买概率</li>
+</ul>
+
+
+    </div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/07/27/product-schedule-problem/">阅读全文&rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/05/26/numeric-optimization/">机器学习的通用指南: 优化理论</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-26T11:18:00+08:00" pubdate data-updated="true">May 26<span>th</span>, 2014</time>
+        
+		
+        
+        <span style="text-transform:none">
+		  | Tags: 
+          
+            <a class='category' href='/blog/categories/machine-nbsplearning/'>Machine&nbspLearning</a>, <a class='category' href='/blog/categories/numeric-nbspoptimization/'>Numeric&nbspOptimization</a>
+          
+        </span>
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=机器学习的通用指南: 优化理论 - &amp;url=http://wxwidget.github.io/blog/2014/05/26/numeric-optimization/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=机器学习的通用指南: 优化理论 - &amp;url=http://wxwidget.github.io/blog/2014/05/26/numeric-optimization/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=机器学习的通用指南: 优化理论  - &amp;url=http://wxwidget.github.io/blog/2014/05/26/numeric-optimization/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <div class="abstract">
+            <table>
+                <tr>
+                    <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
+                    <td>机器学习本质上是一种最优化问题，本文试图通过介绍求解最优化问题中最常见的梯度法，以窥见机器学习的通用学习策略。</td>
+                </tr>
+            </table>
+        </div>
+        
+        <p>通常我们会把机器学习过程分成两个阶段，建模阶段和求解阶段。在大数据的推动下，求解的问题慢慢大于建模的问题。比如，业界一般采用逻辑回归做CTR预估或者其他的预测模型，但是在数据规模非常大的条件下，如何在分布式的环境下，更快更准的求解模型就变得非常重要。精确的解析求解场景是非常少的，人们更多的去研究模型的数值求解过程，比如梯度下降法；近似求解，比如：蒙特卡洛法。这里我只想讨论下梯度下降法，该方法是一种非常神奇的通用的数学最优化方法。</p>
+
+<p>下面会分几个阶段去讲梯度法的基本原理，本文更多的是偏理解。</p>
+
+<ol>
+  <li>梯度下降法</li>
+  <li>牛顿法</li>
+  <li>拟牛顿法</li>
+  <li>共轭梯度法</li>
+</ol>
+
+
+    </div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/05/26/numeric-optimization/">阅读全文&rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/05/23/painless-conjugate-gradient/">Painless-conjugate-gradient</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-23T12:55:00+08:00" pubdate data-updated="true">May 23<span>rd</span>, 2014</time>
+        
+		
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=painless-conjugate-gradient - &amp;url=http://wxwidget.github.io/blog/2014/05/23/painless-conjugate-gradient/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=painless-conjugate-gradient - &amp;url=http://wxwidget.github.io/blog/2014/05/23/painless-conjugate-gradient/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=painless-conjugate-gradient  - &amp;url=http://wxwidget.github.io/blog/2014/05/23/painless-conjugate-gradient/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <ul>
+  <li><a href="http://www.csie.ntu.edu.tw/~cjlin/papers/logistic.pdf">liblinear实现</a></li>
+  <li><a href="http://www.cs.cmu.edu/~quake-papers/painless-conjugate-gradient.pdf">简易教程</a></li>
+  <li><a href="http://research.microsoft.com/en-us/um/people/minka/papers/logreg/minka-logreg.pdf">logistic regression对比</a></li>
+</ul>
+
+    </div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/05/12/large-scale-machine-learning/">Large-scale-machine-learning</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-12T12:49:00+08:00" pubdate data-updated="true">May 12<span>th</span>, 2014</time>
+        
+		
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=large-scale-machine-learning - &amp;url=http://wxwidget.github.io/blog/2014/05/12/large-scale-machine-learning/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=large-scale-machine-learning - &amp;url=http://wxwidget.github.io/blog/2014/05/12/large-scale-machine-learning/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=large-scale-machine-learning  - &amp;url=http://wxwidget.github.io/blog/2014/05/12/large-scale-machine-learning/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <p><a href="http://www.cse.ust.hk/~kxmo/LargeML.html">link</a></p>
+
+    </div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/05/09/em-algorithm/">Em-algorithm</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-09T10:15:00+08:00" pubdate data-updated="true">May 9<span>th</span>, 2014</time>
+        
+		
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=em-algorithm - &amp;url=http://wxwidget.github.io/blog/2014/05/09/em-algorithm/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=em-algorithm - &amp;url=http://wxwidget.github.io/blog/2014/05/09/em-algorithm/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=em-algorithm  - &amp;url=http://wxwidget.github.io/blog/2014/05/09/em-algorithm/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <h2 id="links">links</h2>
+<p>-<a href="http://blog.tomtung.com/2011/10/em-algorithm/">写的不错</a></p>
+
+    </div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/06/expect-propagation/">Expect_propagation</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-06T16:44:00+08:00" pubdate data-updated="true">Feb 6<span>th</span>, 2014</time>
+        
+		
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=expect_propagation - &amp;url=http://wxwidget.github.io/blog/2014/02/06/expect-propagation/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=expect_propagation - &amp;url=http://wxwidget.github.io/blog/2014/02/06/expect-propagation/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=expect_propagation  - &amp;url=http://wxwidget.github.io/blog/2014/02/06/expect-propagation/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <h2 id="link">link</h2>
+<ul>
+  <li><a href="http://dongguo.me/blog/2014/01/01/expectation-propagation/">hulu</a></li>
+</ul>
+
+    </div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/06/sparsity-and-regularization/">Sparsity_and_regularization</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-06T16:36:00+08:00" pubdate data-updated="true">Feb 6<span>th</span>, 2014</time>
+        
+		
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=sparsity_and_regularization - &amp;url=http://wxwidget.github.io/blog/2014/02/06/sparsity-and-regularization/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=sparsity_and_regularization - &amp;url=http://wxwidget.github.io/blog/2014/02/06/sparsity-and-regularization/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=sparsity_and_regularization  - &amp;url=http://wxwidget.github.io/blog/2014/02/06/sparsity-and-regularization/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <h2 id="links">links</h2>
+<p>-<a href="http://freemind.pluskid.org/machine-learning/sparsity-and-some-basics-of-l1-regularization">证明</a></p>
+
+
+    </div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/01/24/online-learning-survey/">在线学习</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-24T11:53:00+08:00" pubdate data-updated="true">Jan 24<span>th</span>, 2014</time>
+        
+		
+        
+        <span style="text-transform:none">
+		  | Tags: 
+          
+            <a class='category' href='/blog/categories/machine-nbsplearning/'>Machine&nbspLearning</a>, <a class='category' href='/blog/categories/online-nbsplearning/'>Online&nbspLearning</a>
+          
+        </span>
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=在线学习 - &amp;url=http://wxwidget.github.io/blog/2014/01/24/online-learning-survey/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=在线学习 - &amp;url=http://wxwidget.github.io/blog/2014/01/24/online-learning-survey/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=在线学习  - &amp;url=http://wxwidget.github.io/blog/2014/01/24/online-learning-survey/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <div class="abstract">
+            <table>
+                <tr>
+                    <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
+                    <td>很久很久以前有一老师和一学生，每天老师让学生回答一个问题，然后老师告诉学生正确答案，学生则比较正确答案来更新自己的知识。就这样学生终成大师，与老师幸福的生活了下去。</td>
+                </tr>
+            </table>
+        </div>
+        
+        <h2 id="section">故事</h2>
+
+<p>在现实的世界里，故事是另外一个版本：在网络的一头住着一挨踢男，另一头住着一小编。每天小编写一封垃圾邮件给挨踢男。苦命的挨踢男日日分析邮件设计过滤器来过滤小编的垃圾邮件。但聪明的小编如果一发现邮件没有成功的被寄送，那么就会在下一封里加上更多的甜言蜜语来忽悠挨踢男。较量一直进行下去，挨踢男是否能摆脱小编的骚扰呢？</p>
+
+<p>以上故事都属于博弈论里的重复游戏（repeated game），它是对在线学习（online learning）最贴切的刻画：数据不断前来，我们需根据当前所能得到的来调整自己的最优策略。</p>
+
+<p>熟悉机器学习的可能注意到了在线学习与离线学习的区别。前者认为数据的分布是可以任意的，甚至是为了破坏我们的策略而精心设计的，而后者则通常假定数据是服从独立同分布。这两种不同的假设带来不一样的设计理念和理论。</p>
+
+
+    </div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/01/24/online-learning-survey/">阅读全文&rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/30/spare-classification-rbm/">Spare Classification RBM系统</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-30T11:21:00+08:00" pubdate data-updated="true">Dec 30<span>th</span>, 2013</time>
+        
+		
+        
+        <span style="text-transform:none">
+		  | Tags: 
+          
+            <a class='category' href='/blog/categories/机器学习/'>机器学习</a>
+          
+        </span>
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=Spare Classification RBM系统 - &amp;url=http://wxwidget.github.io/blog/2013/12/30/spare-classification-rbm/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=Spare Classification RBM系统 - &amp;url=http://wxwidget.github.io/blog/2013/12/30/spare-classification-rbm/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=Spare Classification RBM系统  - &amp;url=http://wxwidget.github.io/blog/2013/12/30/spare-classification-rbm/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <div class="abstract">
+            <table>
+                <tr>
+                    <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
+                    <td>本文的目标是设计一个可扩展的分布式Sparse Classification RBM</td>
+                </tr>
+            </table>
+        </div>
+        
+        <h2 id="section">简介</h2>
+
+<p>该系统通过对检索查询的相关特征进行有监督的学习从而得到在线广告推荐业务
+的CTR预估模型。由于在线系统的训练数据量巨大（通常为数亿条），特征的维
+度高，所以必须要考虑构建分布式的训练系统以降低大规模训练所需要的时间。
+本文第二节介绍单进程Sparse Classification RBM的基本算法；第三节探讨采用
+DownPour优化算法做多进程RBM Training开发的思路；第四节讨论要训练更大规
+模的模型，进行优化的方向和基本实现方法；第四节讨论实现该系统所涉及到的
+工程技术，包括开发语言，开发库等等。
+TR预估模型。由于在线系统的训练数据量巨大（通常为数亿条），特征的维
+度高，所以必须要考虑构建分布式的训练系统以降低大规模训练所需要的时间。
+本文第二节介绍单进程Sparse Classification RBM的基本算法；第三节探讨采用
+DownPour优化算法做多进程RBM Training开发的思路；第四节讨论要训练更大规
+模的模型，进行优化的方向和基本实现方法；第四节讨论实现该系统所涉及到的
+工程技术，包括开发语言，开发库等等。</p>
+
+
+    </div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/2/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>本人</h1>
+  <p><a href="/about/">更多介绍&#8230;</a></p>
+  <p>声明：本站使用的图片等，甚至部分文章都来自网络，原作者享有对著作的一切权利。</p>
+  <p>欢迎在新浪微博上关注我：<wb:follow-button uid="1797403463" type="gray_3" width="100%" height="24" ></wb:follow-button></p>
+</section>
+<section>
+  <h1>最新博文</h1>
+  <ul id="Recent Posts">
+    
+      <li class="post">
+        <a href="/blog/2014/08/17/large-scale-deep-network/">大规模分布式深度网络</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/07/27/product-schedule-problem/">流量分配和全局优化问题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/26/numeric-optimization/">机器学习的通用指南: 优化理论</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/23/painless-conjugate-gradient/">painless-conjugate-gradient</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/12/large-scale-machine-learning/">large-scale-machine-learning</a>
+      </li>
+    
+  </ul>
+</section>
+<section id="tag-clouds">
+  <h1>分类</h1>
+    <span class="tag-cloud"><a href='/blog/categories/ctr-nbspprediction' style='font-size: 112.0%'>CTR&nbspPrediction(1)</a> <a href='/blog/categories/machine-nbsp-learning' style='font-size: 112.0%'>Machine&nbsp;Learning(1)</a> <a href='/blog/categories/machine-nbsplearning' style='font-size: 160.0%'>Machine&nbspLearning(5)</a> <a href='/blog/categories/numeric-nbspoptimization' style='font-size: 136.0%'>Numeric&nbspOptimization(3)</a> <a href='/blog/categories/online-nbsplearning' style='font-size: 124.0%'>Online&nbspLearning(2)</a> <a href='/blog/categories/recommender-nbspsysterm' style='font-size: 160.0%'>Recommender&nbspSysterm(5)</a> <a href='/blog/categories/sgd' style='font-size: 112.0%'>SGD(1)</a> <a href='/blog/categories/广告技术' style='font-size: 124.0%'>广告技术(2)</a> <a href='/blog/categories/新技术' style='font-size: 112.0%'>新技术(1)</a> <a href='/blog/categories/机器学习' style='font-size: 112.0%'>机器学习(1)</a> </span>
+</section>
+<section>
+  <h1>友情链接</h1>
+  <ul id="friends-links">
+  </ul>
+</section>
+<section id="tag-clouds" style="text-decoration:none">
+<h1><a href="/recent-comment/">最新评论</a></h1>
+    <script type="text/javascript" src=""></script>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - 杨程 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  <span style="float:right">
+      <!- 
+      Statistics by <script type="text/javascript" src="/javascripts/baidu-tongji.js"></script>
+      -->
+  </span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

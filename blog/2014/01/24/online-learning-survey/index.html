@@ -1,0 +1,580 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en" xmlns:wb=“http://open.weibo.com/wb"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>在线学习 - Yang Cheng</title>
+  <meta name="author" content="杨程">
+
+  
+  <meta name="description" content="摘要： 很久很久以前有一老师和一学生，每天老师让学生回答一个问题，然后老师告诉学生正确答案，学生则比较正确答案来更新自己的知识。就这样学生终成大师，与老师幸福的生活了下去。 故事 在现实的世界里，故事是另外一个版本：在网络的一头住着一挨踢男，另一头住着一小编。每天小编写一封垃圾邮件给挨踢男。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wxwidget.github.io/blog/2014/01/24/online-learning-survey/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Yang Cheng" type="application/atom+xml">
+
+  <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
+
+  <link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <!--link href="/stylesheets/bootstrap.min.css" media="screen, projection" rel="stylesheet" type="text/css" /-->
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts 
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+
+<!--JS for show math symbols -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+  <!-- 
+ /-->
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <div style="float:left; width: 500px">
+    <h1><a href="/">Yang Cheng</a></h1>
+    
+      <h2>行万里路，读万卷书</h2>
+    
+  </div>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wxwidget.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">博客首页</a></li>
+  <li><a href="/blog/archives">文章列表</a></li>
+  <li><a href="/todo">ToDo</a></li>
+  <li><a href="/paper/">论文阅读</a></li>
+  <li><a href="/project/index.html">推荐项目</a></li>
+
+  <!--
+  <-li><a href="/categories">标签分类</a></li>
+
+  <li><a href="/about">关于</a></li>
+  --!>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">在线学习</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-24T11:53:00+08:00" pubdate data-updated="true">Jan 24<span>th</span>, 2014</time>
+        
+		
+        
+        <span style="text-transform:none">
+		  | Tags: 
+          
+            <a class='category' href='/blog/categories/machine-nbsplearning/'>Machine&nbspLearning</a>, <a class='category' href='/blog/categories/online-nbsplearning/'>Online&nbspLearning</a>
+          
+        </span>
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=在线学习 - &amp;url=http://wxwidget.github.io/blog/2014/01/24/online-learning-survey/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=在线学习 - &amp;url=http://wxwidget.github.io/blog/2014/01/24/online-learning-survey/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text= 在线学习  - &amp;url=http://wxwidget.github.io/blog/2014/01/24/online-learning-survey/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+<div class="entry-content">
+    
+    <div class="abstract">
+        <table>
+            <tr>
+                <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
+                <td>很久很久以前有一老师和一学生，每天老师让学生回答一个问题，然后老师告诉学生正确答案，学生则比较正确答案来更新自己的知识。就这样学生终成大师，与老师幸福的生活了下去。</td>
+            </tr>
+        </table>
+    </div>
+    
+    <h2 id="section">故事</h2>
+
+<p>在现实的世界里，故事是另外一个版本：在网络的一头住着一挨踢男，另一头住着一小编。每天小编写一封垃圾邮件给挨踢男。苦命的挨踢男日日分析邮件设计过滤器来过滤小编的垃圾邮件。但聪明的小编如果一发现邮件没有成功的被寄送，那么就会在下一封里加上更多的甜言蜜语来忽悠挨踢男。较量一直进行下去，挨踢男是否能摆脱小编的骚扰呢？</p>
+
+<p>以上故事都属于博弈论里的重复游戏（repeated game），它是对在线学习（online learning）最贴切的刻画：数据不断前来，我们需根据当前所能得到的来调整自己的最优策略。</p>
+
+<p>熟悉机器学习的可能注意到了在线学习与离线学习的区别。前者认为数据的分布是可以任意的，甚至是为了破坏我们的策略而精心设计的，而后者则通常假定数据是服从独立同分布。这两种不同的假设带来不一样的设计理念和理论。</p>
+
+<!--more-->
+
+<p>统计学习考虑算法所求得到的模型与真实模型的差距。数据由真实模型产生，如果能有无限数据、并在包含有真实模型的空间里求解，也许我们能算出真是模型。但实际上我们只有有限的有噪音的数据，这又限制我们只能使用相对简单的模型。所以，理想的算法是能够用不多的数据来得到一个不错的模型。</p>
+
+<p>在线学习的一个主要限制是当前只能看到当前的和过去的数据，未来是未知，有可能完全颠覆现在的认知。因此，对在线学习而言，它追求的是知道所有数据时所能设计的最优策略。同这个最优策略的差异称之为后悔（regret）：后悔没能一开始就选定最优策略。我们的希望是，时间一久，数据一多，这个差异就会变得很小。因为不对数据做任何假设，最优策略是否完美我们不关心（例如回答正确所有问题）。我们追求的是，没有后悔（no-regret）。</p>
+
+<p>如果与统计学习一样对数据做独立同分布假设，那么在线学习里的最优策略就是在得知所有数据的离线学习所能得到最优解。因此在线学习可以看成是一种优化方法：随着对数据的不断访问来逐步逼近这个最优解。</p>
+
+<p>很早以前优化界都在追求收敛很快的优化算法，例如牛顿迭代法。而最近一些年，learning的人发现，这类算法虽然迭代几下就能迭出一个精度很高的解，但每一步都很贵，而且数据一大根本迭不动。而向来被优化界抛弃的在线学习、随机优化算法（例如stochastic gradient descent），虽然收敛不快，不过迭代代价很低，更考虑到learning算法的解的精度要求不高，所以在实际应用中这些方法通常比传统的优化算法快很多，而且可以处理非常大的数据。</p>
+
+<p>当然，相对于老地主online learning，stochastic绝对是新贵。我会接下来谈这类算法，以及他们动辄数页的convergence rate的证明</p>
+
+<p>下面是有公式的正文。</p>
+
+<h2 id="section-1">准确定义</h2>
+
+<p>我们把学生定义为Learning，老师定义为Environment。Online Learning的过程就是，learner不停的回答Environment提出的问题。
+在$t$时刻，learner接收到一个领域问题$x_t$，learner提供一个答案$h_t$，同时environment会给出正确答案 $y_t$。
+此时，learner就会有一个惩罚(loss) $l(h_t,y_t)$。当learner经过有无数这样的训练后，learner会学习到领域知识。
+过程如下：</p>
+
+<ol>
+  <li>enviroment提出问题$x_t$ </li>
+  <li>learner从策略集合$\mathcal{H}$中选着一个策略$h_t$,做出判断$h_t(x)$</li>
+  <li>learner根据$loss(h_t(x),y_t)$学习</li>
+  <li>repeat 1 如果有更多的问题</li>
+</ol>
+
+<p>那么如何衡量一个learner过程的好坏呢？这就引入了后悔值的概念：</p>
+
+<script type="math/tex; mode=display">
+\displaystyle R(T)=\sum_{t=1}^T\ell_t(h_t)-\min_{h\in\mathcal{H}}\sum_{t=1}^T\ell_t(h).
+</script>
+
+<p>h为最优策略</p>
+
+<p>learner的目标就是每次挑不错的<script type="math/tex">h_t</script>来使得<script type="math/tex">R(T)</script>最小。<script type="math/tex">R(T)</script>是可以小于0的。毕竟最优策略是要固定h，而如果我们每次都能选择很好的<script type="math/tex">h_t</script>来适应问题<script type="math/tex">(x_t,y_t)</script>，可能总损失会更小。但这非常难。因为我们是要定好策略<script type="math/tex">h_t</script>，才能知道正确答案<script type="math/tex">y_t</script>。如果这个问题和以前的很不一样，答案也匪夷所思，那么猜对它而且一直都猜对的概率很小。而对于最优策略来说，它能事先知道所有问题和答案，所以它选择的最优策略的总损失较小的可能性更大。所以，我们一般只是关心平均$regretR(T)/T$是不是随着T变大而变小。</p>
+
+<div class="mark">
+    mark:1
+</div>
+
+<div class="definition">
+    我们称一个online算法是不是no-regret，或者说online learnable的，意味着:
+    $$\displaystyle \lim_{T\rightarrow\infty}\frac{R(T)}{T}\rightarrow 0.$$
+</div>
+
+<h2 id="section-2">算法</h2>
+<p>摘录自libol</p>
+
+<p><img src="/images/online_learning_alg.png" alt="online_learner" /></p>
+
+<h3 id="plaperceptron-learning-algorithm">感知学习算法PLA(Perceptron Learning Algorithm)</h3>
+
+<p><a href="https://class.coursera.org/ntumlone-001/lecture">PLA</a>，可以简单理解成“知错就改”算法。当遇到一个错误的时候，
+就修正算法。
+当然PLA有很多限定条件:
+假设机器要回答的问题是yes/no，目标<script type="math/tex">y \in \{-1,+1\}</script>,策略<script type="math/tex">h_t</script>是线性模型：<script type="math/tex">h_t=w_t^tx</script>。</p>
+
+<p>PLA算法以如下两步不断循环：</p>
+
+<ol>
+  <li>
+    <p>find a <strong>misstake</strong> of <script type="math/tex">w_t</script> call <script type="math/tex">(x_{n(t)},y_{n(t)})</script></p>
+
+<script type="math/tex; mode=display">sign(w_t^T x_{n(t)}) \neq y_{n(t)}</script>
+  </li>
+  <li>
+    <p>(try to) correct the misstake by:</p>
+
+<script type="math/tex; mode=display">w_{t+1} = w_{t} + y_{n(t)} x_{n(t)}</script>
+  </li>
+</ol>
+
+<p>当问题是线性可分的时候，PLA可以保证算法收敛到一条合适的线,详细的证明可以参考video。当问题线性不可分时，需要对算法进行适当的修改，找到一条“合适”的曲线即可。</p>
+
+<p>直观上理解PLA：如果机器犯了错误，当$y$实际上是+1, 说明$w_t$ 和 $x$的夹角超过90度，偏大。需要讲$w_t$向x的方向移动一个角度。
+<script type="math/tex">w_{t+1}=w_t + x</script>, 反之$y$实际上是-1, 说明$w_t$ 和 $x$的夹角小于90度，偏小。需要讲$w_t$向x的反方向移动一个角度。 <script type="math/tex">w_{t+1}=w_t - x</script></p>
+
+<p>线性分类器，是一个利用超平面来进行二分类的分类器，每次利用新的数据实例，预测，比对，更新，来调整超平面的位置。
+相对于SVM，感知器不要每类数据与分类面的间隔最大化。</p>
+
+<h3 id="average-perceptron">平均感知器(Average Perceptron)</h3>
+
+<p>线性分类器，其学习的过程，与Perceptron感知器的基本相同，只不过，它将所有的训练过程中的权值都保留下来，然后，求均值。</p>
+
+<p>优点：克服由于学习速率过大，所引起的训练过程中出现的震荡现象。即超平面围着一个中心，忽左忽右之类.</p>
+
+<ol>
+  <li>For t = 1,2,…n
+    <ol>
+      <li>对<script type="math/tex">(x_t,y_t)</script>,如果<script type="math/tex">sign(w_t^T x_{t}) \neq y_{t}</script>，计算<script type="math/tex">w_{t+1} = w_{t} + y_{t} x_{t}</script></li>
+    </ol>
+  </li>
+  <li>输出 $\sum\limits_{i = 1}^n {\frac{w_i}{n}} $</li>
+</ol>
+
+<h3 id="passive-aggressive-perceptron">Passive Aggressive Perceptron:</h3>
+
+<p>修正权值时，增加了一个参数$T_t$，预测正确时，不需要调整权值，预测错误时，主动调整权值。并可以加入松弛变量的概念，形成其算法的变种。</p>
+
+<p>优点：能减少错误分类的数目，而且适用于不可分的噪声情况。</p>
+
+<ol>
+  <li>For t = 1,2,…n
+    <ul>
+      <li>对<script type="math/tex">(x_t,y_t)</script>,如果<script type="math/tex">sign(w_t^T x_{t}) \neq y_{t}</script></li>
+      <li>$l_t = max \{0,1-y_t(w_t x_t) \}$</li>
+      <li>计算<script type="math/tex">w_{t+1} = w_{t} + \tau_t y_{t} x_{t}</script></li>
+    </ul>
+  </li>
+  <li>输出$w_n$</li>
+</ol>
+
+<p>根据 <script type="math/tex">\tau_t</script>的不同PAP变种为：</p>
+
+<p>1.<script type="math/tex">\tau_t = \frac{l_t}{\|X_t\|^2}</script></p>
+
+<p>2.<script type="math/tex">\tau_t =  min\{C, l_t / \|X_t\|^2\}</script></p>
+
+<p>3.<script type="math/tex">\tau_t =  \frac{l_t}{\|X_t\|^2 + 1/(2C)}</script></p>
+
+<h3 id="voted-perceptron">Voted Perceptron:</h3>
+
+<p>存储和使用所有的错误的预测向量。</p>
+
+<p>优点：实现对高维数据的分类，克服训练过程中的震荡，训练时间比SVM要好。</p>
+
+<p>缺点：不能保证收敛</p>
+
+<p><img src="/images/VotedPerceptron.png" alt="vp" /></p>
+
+<h3 id="confidence-weight">Confidence Weight：</h3>
+
+<p>线性分类器，来之google ICML2008的论文.<a href="http://static.googleusercontent.com/media/research.google.com/zh-CN//pubs/archive/34667.pdf">Conﬁdence-Weighted Linear Classiﬁcation</a>,[videolectures]相关视频介绍(http://videolectures.net/icml08_pereira_cwl/)</p>
+
+<p>每个学习参数都有个信任度（概率），信任度小的参数更应该学习，所以会得到更频繁的修改机会。信任度，用参数向量的高斯分布表示。</p>
+
+<p>权值w符合高斯分布N(u, 离差阵)，而 由w*x的结果，可以预测其分类的结果。</p>
+
+<p>并对高斯分布（的参数）进行更新。
+<img src="/images/cw.png" alt="cw" /></p>
+
+<p>这种方法能提供分类的准确性，并加快学习速度。其理论依据在在于算法正确的预测概率不小于高斯分布的一个值。</p>
+
+<h3 id="arow-adaptive-regularition-of-weighted-vector">AROW： adaptive regularition of weighted vector</h3>
+
+<p>NIPS2009的论文<a href="http://books.nips.cc/papers/files/nips22/NIPS2009_0611.pdf">Adaptive Regularization of Weights</a>
+<a href="https://code.google.com/p/arowpp/">code</a></p>
+
+<p>具有的属性：大间隔训练large margin training，置信度权值confidence weight，处理不可分数据（噪声）non-separable</p>
+
+<p>相对于SOP(second of Perceptron)，PA, CW, 在噪声情况下，其效果会更好.</p>
+
+<p><img src="/images/arow.png" alt="arow" /></p>
+
+<h3 id="normal-herding">Normal herding：</h3>
+
+<p>线性分类器</p>
+
+<p>NHerd算法在计算全协方差阵和对角协方差阵时，比AROW更加的积极。</p>
+
+<p><img src="/images/nherd.png" alt="nherd" /></p>
+
+<h3 id="ogd-">OGD 梯度法</h3>
+<p><img src="/images/ogd.png" alt="OGD" /></p>
+
+<h3 id="weight-majority">Weight Majority:</h3>
+<p>每个维度都可以作为一个分类器，进行预测；然后，依据权值，综合所有结果，给出一个最终的预测。</p>
+
+<p>依据最终的预测和实际测量结果，调整各个维度的权值，即更新模型。</p>
+
+<p>易于实施，错误界比较小，可推导。</p>
+
+<p><img src="/images/wm.png" alt="wm" /></p>
+
+<h4 id="section-3">一点解释</h4>
+
+<p>no-regret是不是很难达到呢？事实证明很多简单的算法都是no-regret。举个最经典的例子，假设我们有m个专家，他们在每轮问题都会给出的答案，假设答案就两种。损失函数是0-1损失函数，答案正确损失为0，否则为1. 先考虑最简单的情况：假设至少有一个完美专家，她永远给出正确的答案。那么什么才是learner的好策略呢？最简单的很work：看多数专家怎么说罗。 learner在时刻t先挑出前t-1轮一直是给正确答案的专家们，然后采用他们中多数人给出的那个答案。</p>
+
+<p>记$C_t$是前t-1轮一直是给正确答案的专家们的集合，$|C_t|$是这些专家的个数。如果learner在时刻t给出了错误的答案，那么意味着$C_t$中大部分专家都给了错误答案，所以下一时刻learner参考的专家就会少一半。因为完美专家的存在，所以$|C_t|$不可能无限变小使得小于1，所以learner不能无限犯错。事实上，<script type="math/tex">C_t</script>至多有<script type="math/tex">\log_2(m)</script>次变小机会，所以learner最多有<script type="math/tex">\log_2(m)</script>的损失。另一方面，最优策略当然是一直选中一位完美专家，总损失为0，所以<script type="math/tex">R(T)\le \log_2(m)</script>，上界是个常数.</p>
+
+<p>现在考虑并没有传说中的完美专家存在的情况。这时维护<script type="math/tex">C_t</script>的做法就不行了，我们使用一个稍复杂些的策略。记第i个专家为<script type="math/tex">e^i</script> ，对其维护一个信任度<script type="math/tex">w^i\in[0,1]</script>，且使得满足<script type="math/tex">\sum_{i=1}^m w^i=1</script>。记t时刻这m个信任度组成的向量是<script type="math/tex">w_t</script>，可以将其看成是关于这m专家上的一个分布，于是learner可以按这个分布来随机挑选一个专家，并用她的答案来做作为t时刻的答案。这意味着信任度高的专家被挑中的概率越高。</p>
+
+<p>关键是在于如何调整<script type="math/tex">w_t</script>。直观上来说，对于在某一轮预测不正确的专家，我们需降低对她们的信任度，而对预测正确的，我们则可以更加的相信她们。一种常见的调整策略是基于指数的。我们先维护一个没有归一化（和不为1）的信任度u。一开始大家都为1，<script type="math/tex">u_0^i=1</script>. 在t时刻的一开始，我们根据i专家在上一轮的损失<script type="math/tex">\ell_{t-1}(e^i)</script>来做如下调整：</p>
+
+<script type="math/tex; mode=display">
+    u_{t}^i=u_{t-1}^i\exp(-\eta\ell_{t-1}(e^i))
+</script>
+
+<p><script type="math/tex">\eta</script>是学习率，越大则每次的调整幅度越大。然后再将<script type="math/tex">u_t</script>归一化来得到我们要的分布：<script type="math/tex">w_t^i=u_t^i/\sum_i u_t^i</script>。</p>
+
+<p>基于指数的调整的好处在于快速的收敛率（它是强凸的），以及分析的简单性。我们有如下结论：如果选择学习率<script type="math/tex">\eta=\sqrt{8\ln m/T}</script>，那么<script type="math/tex">R(T)\le \sqrt{T\ln m/2}</script>。</p>
+
+<p>一个值得讨论的问题是，设定最优学习率<script type="math/tex">\eta</script>需要知道数据的总个数T，而在实际的应用中也许不能知道样本到底会有多少。所以如果设定一个实际不错的参数很trick。在以后的算法中还会遇到这类需要上帝之手设定的参数，而如何使得算法对这类控制速率的参数不敏感，是当前研究的一个热点。这是后话了。</p>
+
+<p>另外一个值得注意的是，同前面存在完美专家的情况相比，平均regret的上界由<script type="math/tex">\frac{\log_2 m}{T}</script>增到了<script type="math/tex">\sqrt{\frac{\ln m}{2T}}</script>。 这两者在实际的应用中有着很大差别。例如我们的目标是要使得平均regret达到某个数值以下，假设前一种方法取1,000个样本（迭代1,000次）就能到了，那么后一种算法就可能需要1,000,000个样本和迭代。这样，在时间或样本的要求上，前者明显优于后者。类似的区别在后面还会更多的遇到，这类算法的一个主要研究热点就是如何降低regret，提高收敛速度。</p>
+
+<h2 id="section-4">在线凸优化</h2>
+
+<!--http://mli7.wordpress.com/2011/04/08/online_learning_2/ -->
+
+<h2 id="primal-dual">Primal-dual的观点</h2>
+
+<p>天地间都赋阴阳二气所生</p>
+
+<h2 id="section-5">算法举例</h2>
+
+<ul>
+  <li><a href="https://code.google.com/p/arowpp/">arowpp</a></li>
+  <li><a href="https://code.google.com/p/oll/">oll</a></li>
+  <li><a href="https://code.google.com/p/sofia-ml/">sofia-ml</a></li>
+  <li><a href="http://www.cais.ntu.edu.sg/~chhoi/libol/">libol</a></li>
+  <li><a href="https://github.com/jubatus/jubatus">jubatus</a></li>
+  <li><a href="http://moa.cms.waikato.ac.nz/">moa</a></li>
+</ul>
+
+<h2 id="section-6">参考文献：</h2>
+<ol>
+  <li>N. Cesa-Bianchi, A. Conconi, and C. Gentile. A second-order perceptron algorithm.
+SIAM J. Comput., 34(3):640–668, 2005</li>
+  <li>K. Crammer, O. Dekel, J. Keshet, S. Shalev-Shwartz, and Y. Singer. Online passiveaggressive
+algorithms. Journal of Machine Learning Research, 7:551–585, 2006.</li>
+  <li>K. Crammer, M. Dredze, and A. Kulesza. Multi-class confidence weighted algorithms.
+In EMNLP, pages 496–504, 2009.</li>
+  <li>K. Crammer, M. Dredze, and F. Pereira. Exact convex confidence-weighted learning.
+In NIPS, pages 345–352, 2008.</li>
+  <li>K. Crammer, A. Kulesza, and M. Dredze. Adaptive regularization of weight vectors.
+In NIPS, pages 414–422, 2009.</li>
+  <li>K. Crammer, A. Kulesza, and M. Dredze. Adaptive regularization of weight vectors.
+Machine Learning, 91(2):155–187, 2013.</li>
+  <li>K. Crammer and D. D. Lee. Learning via gaussian herding. In NIPS, pages 451–459,
+2010.</li>
+  <li>K. Crammer and Y. Singer. Ultraconservative online algorithms for multiclass problems.
+Journal of Machine Learning Research, 3:951–991, 2003.</li>
+  <li>M. Fink, S. Shalev-Shwartz, Y. Singer, and S. Ullman. Online multiclass learning by
+interclass hypothesis sharing. In Proceedings of the 25th International Conference
+on Machine learning (ICML’06), pages 313–320, 2006.</li>
+  <li>C. Gentile. A new approximate maximal margin classification algorithm. Journal
+of Machine Learning Research, 2:213–242, 2001.</li>
+  <li>Y. Li and P. M. Long. The relaxed online maximum margin algorithm. Machine
+Learning, 46(1-3):361–387, 2002.</li>
+  <li>F. Orabona and K. Crammer. New adaptive algorithms for online classification. In
+NIPS, pages 1840–1848, 2010.</li>
+  <li>F. Rosenblatt. The perceptron: A probabilistic model for information storage and
+organization in the brain. Psych. Rev., 7:551–585, 1958.</li>
+  <li>J. Wang, P. Zhao, and S. C. H. Hoi. Exact soft confidence-weighted learning. In
+ICML, 2012.</li>
+  <li>L. Yang, R. Jin, and J. Ye. Online learning by ellipsoid method. In ICML, page
+145, 2009.</li>
+  <li>P. Zhao, S. C. H. Hoi, and R. Jin. Double updating online learning. Journal of
+Machine Learning Research, 12:1587–1615, 2011.</li>
+  <li>P. Zhao, S. C. H. Hoi, R. Jin, and T. Yang. Online auc maximization. In ICML,
+pages 233–240, 2011.</li>
+  <li>M. Zinkevich. Online convex programming and generalized infinitesimal gradient
+ascent. In ICML, pages 928–936, 2003.</li>
+</ol>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">杨程</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-24T11:53:00+08:00" pubdate data-updated="true">Jan 24<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/machine-nbsplearning/'>Machine&nbspLearning</a>, <a class='category' href='/blog/categories/online-nbsplearning/'>Online&nbspLearning</a>
+  
+</span>
+
+
+      <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=在线学习 - &amp;url=http://wxwidget.github.io/blog/2014/01/24/online-learning-survey/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=在线学习 - &amp;url=http://wxwidget.github.io/blog/2014/01/24/online-learning-survey/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text= 在线学习  - &amp;url=http://wxwidget.github.io/blog/2014/01/24/online-learning-survey/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/12/30/spare-classification-rbm/" title="Previous Post: Spare Classification RBM系统">&laquo; Spare Classification RBM系统</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/02/06/sparsity-and-regularization/" title="Next Post: sparsity_and_regularization">sparsity_and_regularization &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>本人</h1>
+  <p><a href="/about/">更多介绍...</a></p>
+  <p>声明：本站使用的图片等，甚至部分文章都来自网络，原作者享有对著作的一切权利。</p>
+  <p>欢迎在新浪微博上关注我：<wb:follow-button uid="1797403463" type="gray_3" width="100%" height="24" ></wb:follow-button></p>
+</section>
+<section>
+  <h1>最新博文</h1>
+  <ul id="Recent Posts">
+    
+      <li class="post">
+        <a href="/blog/2014/08/17/large-scale-deep-network/">大规模分布式深度网络</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/07/27/product-schedule-problem/">流量分配和全局优化问题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/26/numeric-optimization/">机器学习的通用指南: 优化理论</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/23/painless-conjugate-gradient/">painless-conjugate-gradient</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/12/large-scale-machine-learning/">large-scale-machine-learning</a>
+      </li>
+    
+  </ul>
+</section>
+<section id="tag-clouds">
+  <h1>分类</h1>
+    <span class="tag-cloud"><a href='/blog/categories/ctr-nbspprediction' style='font-size: 112.0%'>CTR&nbspPrediction(1)</a> <a href='/blog/categories/machine-nbsp-learning' style='font-size: 112.0%'>Machine&nbsp;Learning(1)</a> <a href='/blog/categories/machine-nbsplearning' style='font-size: 160.0%'>Machine&nbspLearning(5)</a> <a href='/blog/categories/numeric-nbspoptimization' style='font-size: 136.0%'>Numeric&nbspOptimization(3)</a> <a href='/blog/categories/online-nbsplearning' style='font-size: 124.0%'>Online&nbspLearning(2)</a> <a href='/blog/categories/recommender-nbspsysterm' style='font-size: 160.0%'>Recommender&nbspSysterm(5)</a> <a href='/blog/categories/sgd' style='font-size: 112.0%'>SGD(1)</a> <a href='/blog/categories/广告技术' style='font-size: 124.0%'>广告技术(2)</a> <a href='/blog/categories/新技术' style='font-size: 112.0%'>新技术(1)</a> <a href='/blog/categories/机器学习' style='font-size: 112.0%'>机器学习(1)</a> </span>
+</section>
+<section>
+  <h1>友情链接</h1>
+  <ul id="friends-links">
+  </ul>
+</section>
+<section id="tag-clouds" style="text-decoration:none">
+<h1><a href="/recent-comment/">最新评论</a></h1>
+    <script type="text/javascript" src=""></script>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - 杨程 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  <span style="float:right">
+      <!- 
+      Statistics by <script type="text/javascript" src="/javascripts/baidu-tongji.js"></script>
+      -->
+  </span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

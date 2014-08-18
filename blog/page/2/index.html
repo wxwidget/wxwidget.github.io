@@ -1,0 +1,975 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en" xmlns:wb=“http://open.weibo.com/wb"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Yang Cheng</title>
+  <meta name="author" content="杨程">
+
+  
+  <meta name="description" content=" 摘要： 涉及精准广告投放的基础知识，比如：定向技术，基础模型等。会不断补充。 ">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wxwidget.github.io/blog/page/2/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Yang Cheng" type="application/atom+xml">
+
+  <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
+
+  <link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <!--link href="/stylesheets/bootstrap.min.css" media="screen, projection" rel="stylesheet" type="text/css" /-->
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts 
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+
+<!--JS for show math symbols -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+  <!-- 
+ /-->
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <div style="float:left; width: 500px">
+    <h1><a href="/">Yang Cheng</a></h1>
+    
+      <h2>行万里路，读万卷书</h2>
+    
+  </div>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wxwidget.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">博客首页</a></li>
+  <li><a href="/blog/archives">文章列表</a></li>
+  <li><a href="/todo">ToDo</a></li>
+  <li><a href="/paper/">论文阅读</a></li>
+  <li><a href="/project/index.html">推荐项目</a></li>
+
+  <!--
+  <-li><a href="/categories">标签分类</a></li>
+
+  <li><a href="/about">关于</a></li>
+  --!>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/12/ad-tech/">广告基础</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-12T14:20:00+08:00" pubdate data-updated="true">Dec 12<span>th</span>, 2013</time>
+        
+		
+        
+        <span style="text-transform:none">
+		  | Tags: 
+          
+            <a class='category' href='/blog/categories/广告技术/'>广告技术</a>
+          
+        </span>
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=广告基础 - &amp;url=http://wxwidget.github.io/blog/2013/12/12/ad-tech/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=广告基础 - &amp;url=http://wxwidget.github.io/blog/2013/12/12/ad-tech/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=广告基础  - &amp;url=http://wxwidget.github.io/blog/2013/12/12/ad-tech/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <div class="abstract">
+            <table>
+                <tr>
+                    <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
+                    <td>涉及精准广告投放的基础知识，比如：定向技术，基础模型等。会不断补充。</td>
+                </tr>
+            </table>
+        </div>
+        
+        
+    </div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/12/12/ad-tech/">阅读全文&rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/04/learning-to-recommendation/">机器学习在个性化推荐中的应用</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-04T11:38:00+08:00" pubdate data-updated="true">Dec 4<span>th</span>, 2013</time>
+        
+		
+        
+        <span style="text-transform:none">
+		  | Tags: 
+          
+            <a class='category' href='/blog/categories/machine-nbsp-learning/'>Machine&nbsp;Learning</a>, <a class='category' href='/blog/categories/recommender-nbspsysterm/'>Recommender&nbspSysterm</a>
+          
+        </span>
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=机器学习在个性化推荐中的应用 - &amp;url=http://wxwidget.github.io/blog/2013/12/04/learning-to-recommendation/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=机器学习在个性化推荐中的应用 - &amp;url=http://wxwidget.github.io/blog/2013/12/04/learning-to-recommendation/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=机器学习在个性化推荐中的应用  - &amp;url=http://wxwidget.github.io/blog/2013/12/04/learning-to-recommendation/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <div class="abstract">
+            <table>
+                <tr>
+                    <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
+                    <td>以两个典型案例说明机器学习作为生产力, 如何适应需求, 推动业务发展</td>
+                </tr>
+            </table>
+        </div>
+        
+        <h2 id="section">引子</h2>
+
+<ul>
+  <li>受众: 技术杂志的读者，受过计算机教育但是领域比较泛。要求有简单的数学基础和机器学习的背景知识。</li>
+  <li>主题：不讲机器学习算法是什么,讲学习算法如何和应用场景结合的问题</li>
+  <li>逻辑: 发现问题-分析问题-解决问题</li>
+</ul>
+
+
+    </div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/12/04/learning-to-recommendation/">阅读全文&rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/03/guaranteed-delivery/">合约投放系统-介绍</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-03T17:28:00+08:00" pubdate data-updated="true">Dec 3<span>rd</span>, 2013</time>
+        
+		
+        
+        <span style="text-transform:none">
+		  | Tags: 
+          
+            <a class='category' href='/blog/categories/广告技术/'>广告技术</a>
+          
+        </span>
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=合约投放系统-介绍 - &amp;url=http://wxwidget.github.io/blog/2013/12/03/guaranteed-delivery/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=合约投放系统-介绍 - &amp;url=http://wxwidget.github.io/blog/2013/12/03/guaranteed-delivery/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=合约投放系统-介绍  - &amp;url=http://wxwidget.github.io/blog/2013/12/03/guaranteed-delivery/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <h2 id="section">合约投放系统</h2>
+
+<h3 id="section-1">直接媒体购买</h3>
+
+<p>合约广告英文是Agreement-based Advertising，它是一种基于合约(Agreement)的商业模式，大家会看到它与Network和Exchange有相当大的不同，我们当前最主要的是把合约广告要解决的问题理解清楚，具体的技术可以再理解。</p>
+
+<p>传统的广告媒体购买方式是称之为直接媒体购买方式(Direct Media Buy)。
+它是一种简单的购买方式，比如一个杂志可能有几个广告位，比如封二页，封底页，广告主可以直接购买这些广告位，这种方式没有任何的技术元素。在这种方式的运作中，Supply有一个广告排期系统，广告排期系统比较简单，用于对购买了的广告位，以及相应的时间的广告排期。不提供受众定向，它在展示时将广告素材直接插入页面，这样广告作为静态资源加载，它的response time就会比较短，这样用户看到广告也越早，效果也就也越好。这种方式的代表公司是4A。需求方，即广告代理商要做的是两件事情：</p>
+
+<ol>
+  <li>帮助广告商策划和执行排期，</li>
+  <li>用经验和人工满足广告商的质和量的需求。</li>
+</ol>
+
+<p>比如宝马公司今年要reach多少用户，通过什么要的媒体reach，4A公司就会帮宝马公司把创意做好，并分析在哪些媒体，哪些位置上投放广告，能达到效果。因为没有技术元素，所以都是要依赖经验和人工的方式来完成的。但令人惊讶的是，中国很多品牌广告仍然是以为种方式进行的。</p>
+
+
+    </div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/12/03/guaranteed-delivery/">阅读全文&rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/03/learning-30-technologies-in-30-days-a-developer-challenge/">30天学30种技术[转]</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-03T13:31:00+08:00" pubdate data-updated="true">Dec 3<span>rd</span>, 2013</time>
+        
+		
+        
+        <span style="text-transform:none">
+		  | Tags: 
+          
+            <a class='category' href='/blog/categories/新技术/'>新技术</a>
+          
+        </span>
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=30天学30种技术[转] - &amp;url=http://wxwidget.github.io/blog/2013/12/03/learning-30-technologies-in-30-days-a-developer-challenge/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=30天学30种技术[转] - &amp;url=http://wxwidget.github.io/blog/2013/12/03/learning-30-technologies-in-30-days-a-developer-challenge/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=30天学30种技术[转]  - &amp;url=http://wxwidget.github.io/blog/2013/12/03/learning-30-technologies-in-30-days-a-developer-challenge/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <h3 id="httpgeekcsdnnetnewsdetail3740"><a href="http://geek.csdn.net/news/detail/3740">30天学30种技术</a></h3>
+
+<p>RedHat负责OpenShift技术推广的Shekhar Gulati从2013年10月29日开始，立下心愿要在<a href="https://www.openshift.com/blogs/learning-30-technologies-in-30-days-a-developer-challenge">30天内学习30种技术</a></p>
+
+<p>现在，他完成了。他自己的头衔也编程了“30天学30种技术”博客作者，比Evangelist感觉的确强不少。这个系列当然也为OpenShift网站带来了不少流量和关注度。国内做技术营销的同学，学着点吧。</p>
+
+
+    </div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/12/03/learning-30-technologies-in-30-days-a-developer-challenge/">阅读全文&rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/28/mixture-of-expert/">Mixture-of-expert</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-28T16:59:00+08:00" pubdate data-updated="true">Nov 28<span>th</span>, 2013</time>
+        
+		
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=mixture-of-expert - &amp;url=http://wxwidget.github.io/blog/2013/11/28/mixture-of-expert/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=mixture-of-expert - &amp;url=http://wxwidget.github.io/blog/2013/11/28/mixture-of-expert/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=mixture-of-expert  - &amp;url=http://wxwidget.github.io/blog/2013/11/28/mixture-of-expert/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <div class="abstract">
+            <table>
+                <tr>
+                    <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
+                    <td>MOE是分片混合算法的集大成，阿里系所谓MLR并不是发明，而是取了MOE的一个特例，这里讨论MOE的博大精深</td>
+                </tr>
+            </table>
+        </div>
+        
+        <h2 id="section">算法描述</h2>
+
+<h2 id="section-1">应用场景</h2>
+
+<h2 id="section-2">优缺点</h2>
+
+    </div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/28/recommender-relevance-feedback/">相关性反馈-relevance Feedback</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-28T16:54:00+08:00" pubdate data-updated="true">Nov 28<span>th</span>, 2013</time>
+        
+		
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=相关性反馈-relevance feedback - &amp;url=http://wxwidget.github.io/blog/2013/11/28/recommender-relevance-feedback/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=相关性反馈-relevance feedback - &amp;url=http://wxwidget.github.io/blog/2013/11/28/recommender-relevance-feedback/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=相关性反馈-relevance feedback  - &amp;url=http://wxwidget.github.io/blog/2013/11/28/recommender-relevance-feedback/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <div class="abstract">
+            <table>
+                <tr>
+                    <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
+                    <td>主要讨论搜索相关性反馈的方法，以及在推荐场景中如何及时反馈用户的行为,从而提升推荐的效果</td>
+                </tr>
+            </table>
+        </div>
+        
+        <h2 id="section">问题</h2>
+
+<h3 id="section-1">场景</h3>
+
+<h2 id="section-2">相关反馈</h2>
+
+<h2 id="section-3">方法</h2>
+
+    </div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/22/ctr-prediction-v3/">CTR Prediction 3.0</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-22T10:47:00+08:00" pubdate data-updated="true">Nov 22<span>nd</span>, 2013</time>
+        
+		
+        
+        <span style="text-transform:none">
+		  | Tags: 
+          
+            <a class='category' href='/blog/categories/ctr-nbspprediction/'>CTR&nbspPrediction</a>, <a class='category' href='/blog/categories/recommender-nbspsysterm/'>Recommender&nbspSysterm</a>
+          
+        </span>
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=CTR Prediction 3.0 - &amp;url=http://wxwidget.github.io/blog/2013/11/22/ctr-prediction-v3/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=CTR Prediction 3.0 - &amp;url=http://wxwidget.github.io/blog/2013/11/22/ctr-prediction-v3/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=CTR Prediction 3.0  - &amp;url=http://wxwidget.github.io/blog/2013/11/22/ctr-prediction-v3/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <div class="abstract">
+            <table>
+                <tr>
+                    <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
+                    <td>点击预估现状分析和提升计划，目标是提供稳定的,统一的CTR预估服务</td>
+                </tr>
+            </table>
+        </div>
+        
+        <h2 id="section">现状</h2>
+
+<ul>
+  <li>1.0的版本解决了离线算法融合的问题，所用的特征全部是离线计算的特征，和用户没有任何关系。在“i2i”场景中，得到充分的利用；</li>
+  <li>2.0的版本解决了部分在线预估的问题,除了离线用户无关特征外，加入了用户画像特征，在线的用户意图分析和实时场景预测</li>
+</ul>
+
+
+    </div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/11/22/ctr-prediction-v3/">阅读全文&rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/18/realtime-recommender/">实时推荐</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-18T16:25:00+08:00" pubdate data-updated="true">Nov 18<span>th</span>, 2013</time>
+        
+		
+        
+        <span style="text-transform:none">
+		  | Tags: 
+          
+            <a class='category' href='/blog/categories/recommender-nbspsysterm/'>Recommender&nbspSysterm</a>
+          
+        </span>
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=实时推荐 - &amp;url=http://wxwidget.github.io/blog/2013/11/18/realtime-recommender/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=实时推荐 - &amp;url=http://wxwidget.github.io/blog/2013/11/18/realtime-recommender/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=实时推荐  - &amp;url=http://wxwidget.github.io/blog/2013/11/18/realtime-recommender/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <div class="abstract">
+            <table>
+                <tr>
+                    <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
+                    <td>介绍实时推荐系统在电商领域的价值和实现</td>
+                </tr>
+            </table>
+        </div>
+        
+        <h2 id="section">为什么要实时</h2>
+<ol>
+  <li>每天新发布</li>
+  <li>每天修改的商品</li>
+  <li>各种换季、打折、促销、新款、活动</li>
+  <li>突发事件</li>
+  <li>新增加用户</li>
+  <li>用户兴趣漂移</li>
+</ol>
+
+<p>长尾商品更多的曝光机会
+流量动态利用</p>
+
+<p>TIP: 提供一些数据支持，iPV/IPV</p>
+
+
+    </div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/11/18/realtime-recommender/">阅读全文&rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/14/svm-pegasos/">Pegasos算法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-14T11:49:00+08:00" pubdate data-updated="true">Nov 14<span>th</span>, 2013</time>
+        
+		
+        
+        <span style="text-transform:none">
+		  | Tags: 
+          
+            <a class='category' href='/blog/categories/machine-nbsplearning/'>Machine&nbspLearning</a>, <a class='category' href='/blog/categories/online-nbsplearning/'>Online&nbspLearning</a>
+          
+        </span>
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=Pegasos算法 - &amp;url=http://wxwidget.github.io/blog/2013/11/14/svm-pegasos/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=Pegasos算法 - &amp;url=http://wxwidget.github.io/blog/2013/11/14/svm-pegasos/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=Pegasos算法  - &amp;url=http://wxwidget.github.io/blog/2013/11/14/svm-pegasos/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <div class="abstract">
+            <table>
+                <tr>
+                    <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
+                    <td>本文介绍了svm的一种online learning算法pegasos，并基于pegasoso算法实现了一个数字手写识别脚本。</td>
+                </tr>
+            </table>
+        </div>
+        
+        <p>本文参考了博文<a href="http://mark.reid.name/sap/online-learning-in-clojure.html">Online Learning in Clojure</a>和论文<a href="http://www.machinelearning.org/proceedings/icml2007/abstracts/587.htm">Pegasos: Primal Estimated sub-GrAdient SOlver for SVM</a>(<a href="http://www.machinelearning.org/proceedings/icml2007/papers/587.pdf">PDF</a>)</p>
+
+<h2 id="online-learning">online learning</h2>
+
+<p>Online learning的算法结构是非常简单的，下面的描述是监督的online learning算法框架，其中有经验损失函数$L$，样本流$S$，样本的格式为$(x,y)$:</p>
+
+<pre><code>Initialise a starting model w
+While there are more examples in S
+    Get the next feature vector x
+    Predict the label y' for x using the model w
+    Get the true label y for x and incur a penaly L(y,y')
+    Update the model w if y ≠ y'
+</code></pre>
+
+<p>一般来是，训练出来的模型都是一个与样本相同维度的向量。对应二分的分类器，往往涉及到的是计算内积$\langle w,x \rangle$，模型的更新是沿着损失函数的梯度下降方向的。</p>
+
+<h2 id="pegasos">Pegasos</h2>
+
+<p>论文<a href="http://www.machinelearning.org/proceedings/icml2007/abstracts/587.htm">Pegasos: Primal Estimated sub-GrAdient SOlver for SVM</a>是一种svm的online learning算法。</p>
+
+
+    </div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/11/14/svm-pegasos/">阅读全文&rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/08/admm-and-large-scale-regression/">ADMM and Large Scale Regression</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-08T00:00:00+08:00" pubdate data-updated="true">Nov 8<span>th</span>, 2013</time>
+        
+		
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=ADMM and Large Scale Regression - &amp;url=http://wxwidget.github.io/blog/2013/11/08/admm-and-large-scale-regression/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=ADMM and Large Scale Regression - &amp;url=http://wxwidget.github.io/blog/2013/11/08/admm-and-large-scale-regression/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=ADMM and Large Scale Regression  - &amp;url=http://wxwidget.github.io/blog/2013/11/08/admm-and-large-scale-regression/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+    <div class="entry-content">
+        
+        <div class="abstract">
+            <table>
+                <tr>
+                    <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
+                    <td>简单的阐述ADMM的算法原理，并且结合具体的场景给出一些代码实现。</td>
+                </tr>
+            </table>
+        </div>
+        
+        <h2 id="section">预备知识</h2>
+
+<p>共轭函数，凸优化，对偶函数，对偶问题</p>
+
+<ol>
+  <li>对偶问题</li>
+</ol>
+
+<p>首先，以等价约束的凸优化问题为例：</p>
+
+<script type="math/tex; mode=display">
+\text{minimize} \; f(x)  \\\\
+\text{subject to} \; Ax = b 
+</script>
+
+<p>f(x)是凸函数, x是N维变量</p>
+
+<p>该问题的拉格朗日问题是：</p>
+
+<script type="math/tex; mode=display"> 
+L(x,y) = f(x) + y^t(Ax-b)
+</script>
+
+<p>对偶函数：
+$$
+g(y) = \inf_{x}{L(x,y)} = -f^\star(-A^Ty)-b^Ty
+$$</p>
+
+<p>y是对偶变量，$f^\star$是f的<a href="http://en.wikipedia.org/wiki/Convex_conjugate">凸共轭函数</a></p>
+
+<p>对偶问题</p>
+
+<script type="math/tex; mode=display">
+\text{maximize}\; g(y)
+</script>
+
+<p>ADMM的方法：先确定y，然后根据y得到x;交换顺序，确定x，计算y</p>
+
+<script type="math/tex; mode=display">
+x^{k+1} = argminL(x,y^k) \\
+y^{k+1} = y^k + \alpha^k (Ax^{k+1} - b)
+</script>
+
+<h2 id="section-1">相关资料</h2>
+
+<p>ADMM是一种通用的并行优化策略, 它可以非常方便的在分布式环境的迭代优化计算，ADMM的算法文档可参考:<a href="http://www.stanford.edu/~boyd/papers/pdf/admm_distr_stats.pdf">ADMM文档</a></p>
+
+<ul>
+  <li><a href="https://speakerdeck.com/pld/distributed-classification-with-admm">ADMM</a></li>
+  <li><a href="http://www.stanford.edu/~boyd/papers/admm/mpi/">MPI example for alternating direction method of multipliers</a></li>
+  <li><a href="http://www.stanford.edu/~boyd/papers/admm_distr_stats.html">Distributed Optimization and Statistical Learning via the Alternating Direction Method of Multipliers</a></li>
+</ul>
+
+<h2 id="section-2">算法</h2>
+<ol>
+  <li>paralled Dual-ADMM</li>
+  <li>FISTA</li>
+  <li>GRock</li>
+</ol>
+
+<h2 id="section-3">代码</h2>
+
+<ul>
+  <li><a href="https://github.com/intentmedia/admm">admm-hadoop</a></li>
+  <li><a href="https://github.com/brianmartin/admm-lasso-without-mpi">admm-lasso-without-mpi</a></li>
+  <li><a href="http://www.stanford.edu/~boyd/papers/admm/mpi/">admm-mpi</a></li>
+  <li><a href="http://www.caam.rice.edu/~optimization/disparse/">Parallel and Distributed Sparse Optimization</a></li>
+</ul>
+
+
+    </div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/3/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>本人</h1>
+  <p><a href="/about/">更多介绍&#8230;</a></p>
+  <p>声明：本站使用的图片等，甚至部分文章都来自网络，原作者享有对著作的一切权利。</p>
+  <p>欢迎在新浪微博上关注我：<wb:follow-button uid="1797403463" type="gray_3" width="100%" height="24" ></wb:follow-button></p>
+</section>
+<section>
+  <h1>最新博文</h1>
+  <ul id="Recent Posts">
+    
+      <li class="post">
+        <a href="/blog/2014/08/17/large-scale-deep-network/">大规模分布式深度网络</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/07/27/product-schedule-problem/">流量分配和全局优化问题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/26/numeric-optimization/">机器学习的通用指南: 优化理论</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/23/painless-conjugate-gradient/">painless-conjugate-gradient</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/12/large-scale-machine-learning/">large-scale-machine-learning</a>
+      </li>
+    
+  </ul>
+</section>
+<section id="tag-clouds">
+  <h1>分类</h1>
+    <span class="tag-cloud"><a href='/blog/categories/ctr-nbspprediction' style='font-size: 112.0%'>CTR&nbspPrediction(1)</a> <a href='/blog/categories/machine-nbsp-learning' style='font-size: 112.0%'>Machine&nbsp;Learning(1)</a> <a href='/blog/categories/machine-nbsplearning' style='font-size: 160.0%'>Machine&nbspLearning(5)</a> <a href='/blog/categories/numeric-nbspoptimization' style='font-size: 136.0%'>Numeric&nbspOptimization(3)</a> <a href='/blog/categories/online-nbsplearning' style='font-size: 124.0%'>Online&nbspLearning(2)</a> <a href='/blog/categories/recommender-nbspsysterm' style='font-size: 160.0%'>Recommender&nbspSysterm(5)</a> <a href='/blog/categories/sgd' style='font-size: 112.0%'>SGD(1)</a> <a href='/blog/categories/广告技术' style='font-size: 124.0%'>广告技术(2)</a> <a href='/blog/categories/新技术' style='font-size: 112.0%'>新技术(1)</a> <a href='/blog/categories/机器学习' style='font-size: 112.0%'>机器学习(1)</a> </span>
+</section>
+<section>
+  <h1>友情链接</h1>
+  <ul id="friends-links">
+  </ul>
+</section>
+<section id="tag-clouds" style="text-decoration:none">
+<h1><a href="/recent-comment/">最新评论</a></h1>
+    <script type="text/javascript" src=""></script>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - 杨程 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  <span style="float:right">
+      <!- 
+      Statistics by <script type="text/javascript" src="/javascripts/baidu-tongji.js"></script>
+      -->
+  </span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,33 @@
+[
+
+{
+    "title":"大规模分布式深度网络", 
+    "url":"http://wxwidget.github.io/blog/2014/08/17/large-scale-deep-network/", 
+    "date":"2014-08-17"
+}
+,
+{
+    "title":"流量分配和全局优化问题", 
+    "url":"http://wxwidget.github.io/blog/2014/07/27/product-schedule-problem/", 
+    "date":"2014-07-27"
+}
+,
+{
+    "title":"机器学习的通用指南: 优化理论", 
+    "url":"http://wxwidget.github.io/blog/2014/05/26/numeric-optimization/", 
+    "date":"2014-05-26"
+}
+,
+{
+    "title":"painless-conjugate-gradient", 
+    "url":"http://wxwidget.github.io/blog/2014/05/23/painless-conjugate-gradient/", 
+    "date":"2014-05-23"
+}
+,
+{
+    "title":"large-scale-machine-learning", 
+    "url":"http://wxwidget.github.io/blog/2014/05/12/large-scale-machine-learning/", 
+    "date":"2014-05-12"
+}
+
+]

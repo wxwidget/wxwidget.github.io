@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[分类: 新技术 | Yang Cheng]]></title>
+  <link href="http://wxwidget.github.io/blog/categories/新技术/atom.xml" rel="self"/>
+  <link href="http://wxwidget.github.io/"/>
+  <updated>2014-08-18T20:20:07+08:00</updated>
+  <id>http://wxwidget.github.io/</id>
+  <author>
+    <name><![CDATA[杨程]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[30天学30种技术[转]]]></title>
+    <link href="http://wxwidget.github.io/blog/2013/12/03/learning-30-technologies-in-30-days-a-developer-challenge/"/>
+    <updated>2013-12-03T13:31:00+08:00</updated>
+    <id>http://wxwidget.github.io/blog/2013/12/03/learning-30-technologies-in-30-days-a-developer-challenge</id>
+    <content type="html"><![CDATA[<h3 id="httpgeekcsdnnetnewsdetail3740"><a href="http://geek.csdn.net/news/detail/3740">30天学30种技术</a></h3>
+
+<p>RedHat负责OpenShift技术推广的Shekhar Gulati从2013年10月29日开始，立下心愿要在<a href="https://www.openshift.com/blogs/learning-30-technologies-in-30-days-a-developer-challenge">30天内学习30种技术</a></p>
+
+<p>现在，他完成了。他自己的头衔也编程了“30天学30种技术”博客作者，比Evangelist感觉的确强不少。这个系列当然也为OpenShift网站带来了不少流量和关注度。国内做技术营销的同学，学着点吧。</p>
+
+<!--more-->
+
+<p>这30天里，他学习了从前端到服务器，还有一些算法库。应该说，他对技术的选择眼光不错，其中除了少数是为OpenShift做宣传之外，多是现在值得关注的技术新贵。如果其中哪种技术属于你的领域，你还没听说过的话，应该看一看了。Gulati为每种技术都写下了一些学习心得，虽然不是大深入，但对粗略了解还是有价值的。</p>
+
+<h3 id="section">这30种技术分别是：</h3>
+
+<ul>
+  <li>Bower：客户端依赖管理工具，由Twitter开源。</li>
+  <li>AngularJS：来自Google的单页Web应用框架。</li>
+  <li>Flask：近年来非常火的Python Web微框架。</li>
+  <li>PredictionIO：基于Apache Mahout的开源机器学习服务器，用Scala开发。</li>
+  <li>GruntJS：JavaScript世界里的命令行构建工具，类似make或者ant。</li>
+  <li>Grails：这个不算新了，Groovy语言的Rails。</li>
+  <li>GruntJS LiveReload：GruntJS的更高级应用。</li>
+  <li>Harp：内置预处理的静态Web服务器，无需配置。</li>
+  <li>TextBlob：开源Python文本处理库。</li>
+  <li>PhoneGap——Mobile Development for the Dummies</li>
+  <li>AeroGear Push Server——Push Notifications Made Easy</li>
+  <li>OpenCV——Face Detection for Java Developers</li>
+  <li>DropWizard——The Awesome Java REST Server Stack</li>
+  <li>Stanford NER——How To Setup Your Own Name, Entity, and Recognition Server in the Cloud</li>
+  <li>Meteor——Building a Web App From Scratch in Meteor</li>
+  <li>Goose Extractor——An Article Extractor That Just Works</li>
+  <li>JBoss Forge——Build and Deploy Java EE 6 AngularJS Applications using JBoss Forge and OpenShift</li>
+  <li>BoilerPipe——Article Extraction for Java Developers</li>
+  <li>Ember——The Missing EmberJS Tutorial</li>
+  <li>Stanford CoreNLP——Performing Sentiment Analysis of Twitter using Java</li>
+  <li>Docker——The Missing Tutorial</li>
+  <li>Developing Single Page Applications with Spring, MongoDB, and AngularJS</li>
+  <li>TimelineJS —— Build Beautiful Timelines</li>
+  <li>Yeoman Ember——The Missing Tutorial</li>
+  <li>Tornado——Combining Tornado, MongoDB, and AngularJS to Build an App</li>
+  <li>TogetherJS——Let’s Code Together</li>
+  <li>Restify——Build Correct REST Web Services in Node.js</li>
+  <li>OpenShift Eclipse Integration for Java Developers</li>
+  <li>Yeoman Chrome Generator——Write Your First Google Chrome Extension</li>
+  <li>Play Framework——A Java Developer Dream Framework</li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

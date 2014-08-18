@@ -1,0 +1,371 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en" xmlns:wb=“http://open.weibo.com/wb"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>ADMM and Large Scale Regression - Yang Cheng</title>
+  <meta name="author" content="杨程">
+
+  
+  <meta name="description" content="">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wxwidget.github.io/blog/2013/11/08/admm-and-large-scale-regression/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Yang Cheng" type="application/atom+xml">
+
+  <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
+
+  <link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <!--link href="/stylesheets/bootstrap.min.css" media="screen, projection" rel="stylesheet" type="text/css" /-->
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts 
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+
+<!--JS for show math symbols -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+  <!-- 
+ /-->
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <div style="float:left; width: 500px">
+    <h1><a href="/">Yang Cheng</a></h1>
+    
+      <h2>行万里路，读万卷书</h2>
+    
+  </div>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wxwidget.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">博客首页</a></li>
+  <li><a href="/blog/archives">文章列表</a></li>
+  <li><a href="/todo">ToDo</a></li>
+  <li><a href="/paper/">论文阅读</a></li>
+  <li><a href="/project/index.html">推荐项目</a></li>
+
+  <!--
+  <-li><a href="/categories">标签分类</a></li>
+
+  <li><a href="/about">关于</a></li>
+  --!>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">ADMM and Large Scale Regression</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-08T00:00:00+08:00" pubdate data-updated="true">Nov 8<span>th</span>, 2013</time>
+        
+		
+        
+        <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=ADMM and Large Scale Regression - &amp;url=http://wxwidget.github.io/blog/2013/11/08/admm-and-large-scale-regression/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=ADMM and Large Scale Regression - &amp;url=http://wxwidget.github.io/blog/2013/11/08/admm-and-large-scale-regression/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text= ADMM and Large Scale Regression  - &amp;url=http://wxwidget.github.io/blog/2013/11/08/admm-and-large-scale-regression/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+ 
+      </p>
+    
+  </header>
+
+
+<div class="entry-content">
+    
+    <div class="abstract">
+        <table>
+            <tr>
+                <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
+                <td>简单的阐述ADMM的算法原理，并且结合具体的场景给出一些代码实现。</td>
+            </tr>
+        </table>
+    </div>
+    
+    <h2 id="section">预备知识</h2>
+
+<p>共轭函数，凸优化，对偶函数，对偶问题</p>
+
+<ol>
+  <li>对偶问题</li>
+</ol>
+
+<p>首先，以等价约束的凸优化问题为例：</p>
+
+<script type="math/tex; mode=display">
+\text{minimize} \; f(x)  \\\\
+\text{subject to} \; Ax = b 
+</script>
+
+<p>f(x)是凸函数, x是N维变量</p>
+
+<p>该问题的拉格朗日问题是：</p>
+
+<script type="math/tex; mode=display"> 
+L(x,y) = f(x) + y^t(Ax-b)
+</script>
+
+<p>对偶函数：
+$$
+g(y) = \inf_{x}{L(x,y)} = -f^\star(-A^Ty)-b^Ty
+$$</p>
+
+<p>y是对偶变量，$f^\star$是f的<a href="http://en.wikipedia.org/wiki/Convex_conjugate">凸共轭函数</a></p>
+
+<p>对偶问题</p>
+
+<script type="math/tex; mode=display">
+\text{maximize}\; g(y)
+</script>
+
+<p>ADMM的方法：先确定y，然后根据y得到x;交换顺序，确定x，计算y</p>
+
+<script type="math/tex; mode=display">
+x^{k+1} = argminL(x,y^k) \\
+y^{k+1} = y^k + \alpha^k (Ax^{k+1} - b)
+</script>
+
+<h2 id="section-1">相关资料</h2>
+
+<p>ADMM是一种通用的并行优化策略, 它可以非常方便的在分布式环境的迭代优化计算，ADMM的算法文档可参考:<a href="http://www.stanford.edu/~boyd/papers/pdf/admm_distr_stats.pdf">ADMM文档</a></p>
+
+<ul>
+  <li><a href="https://speakerdeck.com/pld/distributed-classification-with-admm">ADMM</a></li>
+  <li><a href="http://www.stanford.edu/~boyd/papers/admm/mpi/">MPI example for alternating direction method of multipliers</a></li>
+  <li><a href="http://www.stanford.edu/~boyd/papers/admm_distr_stats.html">Distributed Optimization and Statistical Learning via the Alternating Direction Method of Multipliers</a></li>
+</ul>
+
+<h2 id="section-2">算法</h2>
+<ol>
+  <li>paralled Dual-ADMM</li>
+  <li>FISTA</li>
+  <li>GRock</li>
+</ol>
+
+<h2 id="section-3">代码</h2>
+
+<ul>
+  <li><a href="https://github.com/intentmedia/admm">admm-hadoop</a></li>
+  <li><a href="https://github.com/brianmartin/admm-lasso-without-mpi">admm-lasso-without-mpi</a></li>
+  <li><a href="http://www.stanford.edu/~boyd/papers/admm/mpi/">admm-mpi</a></li>
+  <li><a href="http://www.caam.rice.edu/~optimization/disparse/">Parallel and Distributed Sparse Optimization</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">杨程</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-08T00:00:00+08:00" pubdate data-updated="true">Nov 8<span>th</span>, 2013</time>
+      
+
+
+      <span class="share-to-weibo">
+  <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=1479507984&amp;ralateUid=1462341965&amp;title=ADMM and Large Scale Regression - &amp;url=http://wxwidget.github.io/blog/2013/11/08/admm-and-large-scale-regression/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+  <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=ADMM and Large Scale Regression - &amp;url=http://wxwidget.github.io/blog/2013/11/08/admm-and-large-scale-regression/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+  <!-- a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text= ADMM and Large Scale Regression  - &amp;url=http://wxwidget.github.io/blog/2013/11/08/admm-and-large-scale-regression/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a -->
+</span>
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/11/06/predictability-and-information-theory/" title="Previous Post: Predictability and Information Theory">&laquo; Predictability and Information Theory</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/11/14/svm-pegasos/" title="Next Post: Pegasos算法">Pegasos算法 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>本人</h1>
+  <p><a href="/about/">更多介绍...</a></p>
+  <p>声明：本站使用的图片等，甚至部分文章都来自网络，原作者享有对著作的一切权利。</p>
+  <p>欢迎在新浪微博上关注我：<wb:follow-button uid="1797403463" type="gray_3" width="100%" height="24" ></wb:follow-button></p>
+</section>
+<section>
+  <h1>最新博文</h1>
+  <ul id="Recent Posts">
+    
+      <li class="post">
+        <a href="/blog/2014/08/17/large-scale-deep-network/">大规模分布式深度网络</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/07/27/product-schedule-problem/">流量分配和全局优化问题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/26/numeric-optimization/">机器学习的通用指南: 优化理论</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/23/painless-conjugate-gradient/">painless-conjugate-gradient</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/12/large-scale-machine-learning/">large-scale-machine-learning</a>
+      </li>
+    
+  </ul>
+</section>
+<section id="tag-clouds">
+  <h1>分类</h1>
+    <span class="tag-cloud"><a href='/blog/categories/ctr-nbspprediction' style='font-size: 112.0%'>CTR&nbspPrediction(1)</a> <a href='/blog/categories/machine-nbsp-learning' style='font-size: 112.0%'>Machine&nbsp;Learning(1)</a> <a href='/blog/categories/machine-nbsplearning' style='font-size: 160.0%'>Machine&nbspLearning(5)</a> <a href='/blog/categories/numeric-nbspoptimization' style='font-size: 136.0%'>Numeric&nbspOptimization(3)</a> <a href='/blog/categories/online-nbsplearning' style='font-size: 124.0%'>Online&nbspLearning(2)</a> <a href='/blog/categories/recommender-nbspsysterm' style='font-size: 160.0%'>Recommender&nbspSysterm(5)</a> <a href='/blog/categories/sgd' style='font-size: 112.0%'>SGD(1)</a> <a href='/blog/categories/广告技术' style='font-size: 124.0%'>广告技术(2)</a> <a href='/blog/categories/新技术' style='font-size: 112.0%'>新技术(1)</a> <a href='/blog/categories/机器学习' style='font-size: 112.0%'>机器学习(1)</a> </span>
+</section>
+<section>
+  <h1>友情链接</h1>
+  <ul id="friends-links">
+  </ul>
+</section>
+<section id="tag-clouds" style="text-decoration:none">
+<h1><a href="/recent-comment/">最新评论</a></h1>
+    <script type="text/javascript" src=""></script>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - 杨程 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  <span style="float:right">
+      <!- 
+      Statistics by <script type="text/javascript" src="/javascripts/baidu-tongji.js"></script>
+      -->
+  </span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

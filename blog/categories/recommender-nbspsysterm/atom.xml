@@ -4,7 +4,7 @@
   <title><![CDATA[分类: Recommender&nbspSysterm | Yang Cheng]]></title>
   <link href="http://wxwidget.github.io/blog/categories/recommender-nbspsysterm/atom.xml" rel="self"/>
   <link href="http://wxwidget.github.io/"/>
-  <updated>2014-08-18T20:52:50+08:00</updated>
+  <updated>2014-08-18T21:01:37+08:00</updated>
   <id>http://wxwidget.github.io/</id>
   <author>
     <name><![CDATA[杨程]]></name>
@@ -196,98 +196,6 @@ w = \arg {\max _w}P(Y|X;w) = \arg {\max _w}\prod\limits_{i = 1}^N {P({y_i}|{x_i}
   <li>规模上：面对的是不断增长的海量数据，亿级的特征，开发快速高效的大规模和伸缩性并发算法。</li>
   <li>工程上: 推荐系统是一个非常复杂的系统，机器学习算法需要结合复杂系统, 融入到系统中提供高效稳定的结果。</li>
 </ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[CTR Prediction 3.0]]></title>
-    <link href="http://wxwidget.github.io/blog/2013/11/22/ctr-prediction-v3/"/>
-    <updated>2013-11-22T10:47:00+08:00</updated>
-    <id>http://wxwidget.github.io/blog/2013/11/22/ctr-prediction-v3</id>
-    <content type="html"><![CDATA[<!---
-## 现状
-
-- 1.0的版本解决了离线算法融合的问题，所用的特征全部是离线计算的特征，和用户没有任何关系。在“i2i"场景中，得到充分的利用；
-- 2.0的版本解决了部分在线预估的问题,除了离线用户无关特征外，加入了用户画像特征，在线的用户意图分析和实时场景预测
-
-<!--more-->
-
-<h2 id="section">算法模型</h2>
-
-<p>算法上采用LR直接预测用户对候选商品的点击可能性(或者rating)</p>
-
-<h3 id="section-1">特征列表</h3>
-
-<h4 id="section-2">相似特征</h4>
-
-<p>相似推荐中涉及到两个相似的实体：A，B。因此计算考虑点击特征的时候会使用商品的相似特征, 这些特征从单一维度上都可以作为
-推荐排序来使用，把这些特征合并在一起同时也起到了模型融合的作用。
-同时，在特征中加入了rank特征，即用当前相似性排序时的排序位置。这样可以保证在加入额外特征的时候AUC指标不下降</p>
-
-<ol>
-  <li>jacard同店看了看相似度和rank:, rank最大为20,排在20以外的丢弃</li>
-  <li>jacard同店买了买相似度和rank:</li>
-  <li>cos同店同类看了看和rank:</li>
-  <li>cos同店同类买了买和rank:</li>
-  <li>同店同类看了买:v1,v2中使用</li>
-  <li>同店同类买了看:未使用</li>
-  <li>主商品和推荐商品是否为同类目商品</li>
-</ol>
-
-<p>说明：数值类特征采用截断分位数后的归一化，(x-min)/(max-min); log后还未用转换为类目相对销量的方式</p>
-
-<h4 id="section-3">商品特征</h4>
-
-<ol>
-  <li>人气分： 属于销量预测模型，同时也是搜索的一个重要排序因子</li>
-  <li>listctr：统计在list页上的点击率</li>
-  <li>cvr：统计的商品pv转化率</li>
-  <li>ixx: 行业id</li>
-  <li>lxx：叶子类目</li>
-  <li>sxx: 店铺id</li>
-  <li>归一化推荐商品价格</li>
-  <li>归一化推荐商品和主商品价格差</li>
-  <li>log(1+周销量) //其中的一种power law的非线性变化方式</li>
-  <li>log(1+周成交额)</li>
-  <li>log(1+月销量)</li>
-  <li>log(1+月成交额)</li>
-</ol>
-
-<h4 id="section-4">用户特征</h4>
-
-<p>用户特征在这一期里还没有应用，后续其实可以加入更多的的用户画像、偏好、和意图的特征</p>
-
-<h4 id="section-5">场景特征</h4>
-
-<p>目前没有场景相关的特征，以后对页面的场景，比如在会场页，wap页、售后页，来源页等做适当特征分析
-时间、状态（wap和pc）、天气、地点</p>
-
-<h3 id="section-6">特征权重</h3>
-
-<p><img /></p>
-
-<h2 id="section-7">改进点</h2>
-
-<p>有一些改进的方向：</p>
-
-<ol>
-  <li>新特征的引入：在常用的i2i场景中，引入人的因素，可以使得推荐的结果效果千人千面</li>
-  <li>特征的变换：目前的模型特征线性的部分居多，如何能把特征从线性特征变成非线性的特征，比如对数化，离散化等等。类似svm的特征非线性变换方式</li>
-  <li>新模型的探索：LR模型有其天然的局限性，对MOE(mixture of expert)的方法：比如MLR,Tree LR,DT,都可以尝试</li>
-  <li>外围分析的方法的建设：
-    <ol>
-      <li>比如特征权重的分析</li>
-      <li>特征重要度的分析</li>
-      <li>交叉模型的回归分析</li>
-      <li>可视化体验等等</li>
-    </ol>
-  </li>
-  <li>L2R方法的探索：不需要准确预估值，直接预估偏好关系。(L2R方法比直接CTR的方法的优势不是特别明显，在什么业务场景适用L2R还需要进一步探索)</li>
-</ol>
-
-<h3 id="section-8">模型改进</h3>
-<p>–&gt;</p>
 
 ]]></content>
   </entry>
